@@ -1,0 +1,8 @@
+{
+  "name": "WREN - Founder-Led GTM Engine",
+  "description": "The Founder-Led GTM Engine for B2B SaaS. We turn your expertise and presence into a repeatable GTM system.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

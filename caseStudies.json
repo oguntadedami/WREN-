@@ -1,0 +1,42 @@
+[
+  {
+    "slug": "mischief-makers",
+    "companyName": "Mischief Makers",
+    "tag": "Pre-Sale Content Engine",
+    "stat": "12",
+    "statLabel": "high-ticket buyers closed in one month",
+    "subStat": "3x faster, down from a three-month cycle",
+    "bodyParagraph1": "A high-ticket B2B program and done-for-you service whose cohorts took three months to fill.",
+    "bodyParagraph2": "A Pre-Sale Content Engine mapped every objection to the content that answered it before the call, so only warm, pre-qualified buyers reached a sales conversation. Same offer, same audience, same price."
+  },
+  {
+    "slug": "carril",
+    "companyName": "carril.",
+    "tag": "Founder OS + Pre-Sale Content Engine",
+    "stat": "+45%",
+    "statLabel": "lift in booked-call rate",
+    "subStat": "15+ qualified inbound leads in under 14 days",
+    "bodyParagraph1": "A digital marketing partner for founders whose own pipeline had gone quiet.",
+    "bodyParagraph2": "A founder-led presence pulled the right buyers in, and a pre-sale content system answered their objections before the call, so the same effort booked more calls and closed warmer ones."
+  },
+  {
+    "slug": "seamailer",
+    "companyName": "Seamailer",
+    "tag": "Go-To-Market & Growth",
+    "stat": "500+",
+    "statLabel": "signups, up from 40, in under 30 days",
+    "subStat": "#2 on Product Hunt · 30,000+ monthly visits and compounding",
+    "bodyParagraph1": "Email marketing software with a real product, a real edge, and almost no traffic.",
+    "bodyParagraph2": "A full go-to-market build and a content engine turned a launch spike into a curve, with monthly traffic that has kept climbing long after launch day."
+  },
+  {
+    "slug": "toolbus-ai",
+    "companyName": "ToolBus AI",
+    "tag": "SEO & Discovery",
+    "stat": "900K+",
+    "statLabel": "visits and 30,000 monthly users",
+    "subStat": "From unstable traffic to a compounding base",
+    "bodyParagraph1": "An AI tools directory with a strong catalogue of 100+ tools and traffic that would not hold.",
+    "bodyParagraph2": "An SEO and discovery system built around real search intent turned volatile traffic into a reliable monthly user base, and unpredictable ad revenue into steady income."
+  }
+]
