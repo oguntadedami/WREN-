@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { Button } from './Button';
+import { Highlight } from './ScrapbookAssets';
 import {
   LogoCarril,
   LogoMischiefMakers,
@@ -80,21 +81,7 @@ export const CaseStudyDetailPage: React.FC<CaseStudyDetailPageProps> = ({
     );
   }
 
-  const handleScrollToSystem = (e: React.MouseEvent) => {
-    e.preventDefault();
-    const el = document.getElementById('system-built');
-    if (el) {
-      const lenis = (window as unknown as { lenis?: { scrollTo: (target: Element | string, options?: { offset?: number; duration?: number }) => void } }).lenis;
-      if (lenis) {
-        lenis.scrollTo(el, { offset: -80, duration: 1.2 });
-      } else {
-        const top = el.getBoundingClientRect().top + window.pageYOffset - 80;
-        window.scrollTo({ top, behavior: 'smooth' });
-      }
-    }
-  };
-
-  // Helper to render headline text with highlightWord inside a solid Wattle highlight box
+  // Helper to render headline text with highlightWord using the authentic scrapbook Highlight component
   const renderWithHighlight = (text: string, highlightWord?: string, isDark: boolean = false) => {
     if (!highlightWord || !highlightWord.trim()) return text;
     const escaped = highlightWord.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&');
@@ -104,14 +91,14 @@ export const CaseStudyDetailPage: React.FC<CaseStudyDetailPageProps> = ({
         {parts.map((part, idx) => {
           if (part.toLowerCase() === highlightWord.toLowerCase()) {
             return (
-              <span
+              <Highlight
                 key={idx}
-                className={`inline-block bg-[#E2FD52] text-[#093624] px-2 sm:px-2.5 py-0.5 rounded-xs mx-1 sm:mx-1.5 shadow-xs border ${
-                  isDark ? 'border-[#093624]/30' : 'border-[#093624]/15'
-                } transform -rotate-1 font-bold select-none`}
+                color="wattle"
+                rotation="none"
+                className={`text-[#093624] font-bold ${isDark ? 'drop-shadow-xs' : ''}`}
               >
                 {part}
-              </span>
+              </Highlight>
             );
           }
           return part;
@@ -211,22 +198,16 @@ export const CaseStudyDetailPage: React.FC<CaseStudyDetailPageProps> = ({
             {data.subheading}
           </p>
 
-          {/* Two buttons: "Book a free audit call" and "See how it was built →" */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-5">
+          {/* Book a call CTA */}
+          <div className="flex items-center justify-center">
             <Button
               variant="primary"
               size="lg"
               onClick={onOpenBooking}
-              className="font-bold text-base px-7 py-3.5 shadow-md w-full sm:w-auto"
+              className="font-bold text-base px-8 py-3.5 shadow-md w-full sm:w-auto"
             >
-              Book a free audit call
+              Book a call
             </Button>
-            <button
-              onClick={handleScrollToSystem}
-              className="inline-flex items-center justify-center font-sans font-semibold text-base px-6 py-3.5 rounded-lg border-2 border-[#093624] text-[#093624] bg-white/80 hover:bg-[#FAF8E0] transition-colors shadow-xs w-full sm:w-auto cursor-pointer"
-            >
-              See how it was built →
-            </button>
           </div>
         </div>
       </section>
@@ -641,7 +622,7 @@ export const CaseStudyDetailPage: React.FC<CaseStudyDetailPageProps> = ({
               onClick={onOpenBooking}
               className="font-bold text-base sm:text-lg px-8 sm:px-10 shadow-md"
             >
-              Book a free audit call
+              Book a call
             </Button>
           </div>
         </div>

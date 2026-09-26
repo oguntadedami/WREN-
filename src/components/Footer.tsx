@@ -1,6 +1,7 @@
 import React from 'react';
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight, Check } from 'lucide-react';
 import wrenLogoCream from '../assets/images/wren-logo-(cream).png';
+import judithPortrait from '../assets/images/judith-linkedin-portrait.webp';
 import { Button } from './Button';
 import { FooterPhysicsBadges } from './FooterPhysicsBadges';
 
@@ -220,14 +221,40 @@ export const Footer: React.FC<FooterProps> = ({ onOpenBooking, onNavigate, curre
                 </button>
               </li>
               <li>
+                {/* Founder Contact Card */}
                 <a 
-                  href="https://www.linkedin.com/company/getwren" 
+                  href="https://www.linkedin.com/in/judithamarachi-founder-led-gtm-and-revenue-enablement-content/" 
                   target="_blank" 
-                  rel="noreferrer" 
-                  className="hover:text-white transition-colors inline-flex items-center gap-1 text-left"
+                  rel="noopener noreferrer" 
+                  className="group inline-flex items-center gap-3 text-left py-1 transition-all"
+                  aria-label="Judith Amarachi - Founder (LinkedIn profile)"
                 >
-                  <span>LinkedIn (connect with our founder)</span>
-                  <ArrowUpRight className="w-3 h-3 text-[#CBDA46] shrink-0" />
+                  {/* Photo with overlapping verified badge */}
+                  <div className="relative shrink-0">
+                    <img 
+                      src={judithPortrait} 
+                      alt="Judith Amarachi" 
+                      className="w-11 h-11 rounded-full object-cover border border-[#F7F4E9]/20 shadow-xs group-hover:border-[#CBDA46]/60 transition-colors"
+                    />
+                    <div 
+                      className="absolute -bottom-0.5 -right-0.5 w-4 h-4 rounded-full bg-[#15543D] border-[1.5px] border-[#CBDA46] flex items-center justify-center shadow-xs"
+                      title="Verified"
+                    >
+                      <Check className="w-2.5 h-2.5 text-white stroke-[3.5]" />
+                    </div>
+                  </div>
+
+                  {/* Name and Role */}
+                  <div className="flex flex-col justify-center min-w-0">
+                    <div className="flex items-center gap-1.5">
+                      <span className="font-sans font-semibold text-sm text-[#F7F4E9] group-hover:text-[#CBDA46] group-hover:underline underline-offset-2 transition-colors leading-tight">
+                        Judith Amarachi
+                      </span>
+                    </div>
+                    <span className="text-xs text-[#A3C2A3] font-sans leading-tight mt-0.5">
+                      Connect to our Founder
+                    </span>
+                  </div>
                 </a>
               </li>
               <li>

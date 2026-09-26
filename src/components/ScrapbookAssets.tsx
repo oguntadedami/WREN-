@@ -260,10 +260,11 @@ export const Highlight: React.FC<{
   const rotClass = 
     rotation === 'left' ? '-rotate-1' : 
     rotation === 'right' ? 'rotate-1' : 
+    rotation === 'none' ? 'rotate-0' :
     'rotate-[0.5deg]';
 
   return (
-    <span className={`relative inline-block px-1.5 py-0.5 mx-0.5 align-baseline ${rotClass} ${className}`}>
+    <span className={`relative inline-block isolate px-1.5 py-0.5 mx-0.5 align-baseline ${rotClass} ${className}`}>
       {/* Hand-dragged Marker Wash with Organic Ink Streaks & Wobbly Chisel Edge */}
       <svg
         className="absolute -inset-x-2.5 -inset-y-1 w-[calc(100%+20px)] h-[calc(100%+8px)] -z-10 overflow-visible pointer-events-none"
