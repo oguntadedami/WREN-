@@ -19,25 +19,113 @@ import { FAQ } from './components/FAQ';
 import { EasterEggAI } from './components/EasterEggAI';
 import { Footer } from './components/Footer';
 import { AboutPage } from './components/AboutPage';
+import { PodcastPage } from './components/PodcastPage';
+import { ForAIPage } from './components/ForAIPage';
+import { CommunityPage } from './components/CommunityPage';
+import { ContactPage } from './components/ContactPage';
+import { PrivacyPolicyPage } from './components/PrivacyPolicyPage';
+import { CaseStudiesPage } from './components/CaseStudiesPage';
+import { CaseStudyDetailPage } from './components/CaseStudyDetailPage';
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function App() {
   const lenisRef = useRef<Lenis | null>(null);
-  const [currentPage, setCurrentPage] = useState<'home' | 'about'>(() => {
+  const [currentCaseStudySlug, setCurrentCaseStudySlug] = useState<string>(() => {
     try {
-      return window.location.hash === '#about' ? 'about' : 'home';
+      const path = window.location.pathname;
+      const hash = window.location.hash;
+      if (path.startsWith('/case-studies/') && path !== '/case-studies/' && path !== '/case-studies') {
+        const slug = path.replace(/^\/case-studies\//, '').split('/')[0].split('#')[0].split('?')[0];
+        if (slug) return slug;
+      }
+      if (hash.startsWith('#case-study-') && hash !== '#case-studies') {
+        const slug = hash.replace('#case-study-', '');
+        if (slug) return slug;
+      }
+      if (hash === '#carril') return 'carril';
+      if (hash === '#mischief-makers') return 'mischief-makers';
+      if (hash === '#seamailer') return 'seamailer';
+      if (hash === '#toolbus-ai') return 'toolbus-ai';
+      return 'mischief-makers';
+    } catch {
+      return 'mischief-makers';
+    }
+  });
+
+  const [currentPage, setCurrentPage] = useState<'home' | 'about' | 'podcast' | 'for-ai' | 'community' | 'contact' | 'privacy-policy' | 'case-studies' | 'case-study-detail'>(() => {
+    try {
+      const path = window.location.pathname;
+      const hash = window.location.hash;
+      if (path === '/case-studies' || path === '/case-studies/' || hash === '#case-studies') return 'case-studies';
+      if (path.startsWith('/case-studies/') && path !== '/case-studies/' && path !== '/case-studies') {
+        return 'case-study-detail';
+      }
+      if (hash.startsWith('#case-study-detail') || (hash.startsWith('#case-study-') && hash !== '#case-studies' && !hash.startsWith('#case-studies-'))) return 'case-study-detail';
+      if (path.startsWith('/case-studies') || hash.startsWith('#case-studies-')) return 'case-studies';
+      if (path === '/privacy-policy' || hash === '#privacy-policy' || hash.startsWith('#who-we-are') || hash.startsWith('#privacy-')) return 'privacy-policy';
+      if (path === '/contact' || hash === '#contact') return 'contact';
+      if (path === '/community' || hash === '#community') return 'community';
+      if (path === '/for-ai' || hash === '#for-ai') return 'for-ai';
+      if (path === '/podcast' || hash === '#podcast') return 'podcast';
+      if (path === '/about' || hash === '#about') return 'about';
+      return 'home';
     } catch {
       return 'home';
     }
   });
 
   useEffect(() => {
-    const handleHashChange = () => {
+    const handleRouteChange = () => {
       try {
-        if (window.location.hash === '#about') {
+        const path = window.location.pathname;
+        const hash = window.location.hash;
+        if (path === '/case-studies' || path === '/case-studies/' || hash === '#case-studies') {
+          setCurrentPage('case-studies');
+        } else if (path.startsWith('/case-studies/') && path !== '/case-studies/' && path !== '/case-studies') {
+          const slug = path.replace(/^\/case-studies\//, '').split('/')[0].split('#')[0].split('?')[0];
+          if (slug) {
+            setCurrentCaseStudySlug(slug);
+            setCurrentPage('case-study-detail');
+          } else {
+            setCurrentPage('case-studies');
+          }
+        } else if (hash.startsWith('#case-study-') && !hash.startsWith('#case-studies')) {
+          const slug = hash.replace('#case-study-', '');
+          if (slug) {
+            setCurrentCaseStudySlug(slug);
+            setCurrentPage('case-study-detail');
+          }
+        } else if (path === '/privacy-policy' || hash === '#privacy-policy' || hash.startsWith('#who-we-are') || hash.startsWith('#privacy-')) {
+          setCurrentPage('privacy-policy');
+        } else if (path === '/contact' || hash === '#contact') {
+          setCurrentPage('contact');
+        } else if (path === '/community' || hash === '#community') {
+          setCurrentPage('community');
+        } else if (path === '/for-ai' || hash === '#for-ai') {
+          setCurrentPage('for-ai');
+        } else if (path === '/podcast' || hash === '#podcast') {
+          setCurrentPage('podcast');
+        } else if (path === '/about' || hash === '#about') {
           setCurrentPage('about');
-        } else if (currentPage === 'about' && window.location.hash !== '#about') {
+        } else if (
+          currentPage !== 'home' &&
+          !hash.startsWith('#about') &&
+          !hash.startsWith('#podcast') &&
+          !hash.startsWith('#for-ai') &&
+          !hash.startsWith('#community') &&
+          !hash.startsWith('#contact') &&
+          !hash.startsWith('#privacy-policy') &&
+          !hash.startsWith('#case-studies') &&
+          !hash.startsWith('#case-study-') &&
+          path !== '/about' &&
+          path !== '/podcast' &&
+          path !== '/for-ai' &&
+          path !== '/community' &&
+          path !== '/contact' &&
+          path !== '/privacy-policy' &&
+          !path.startsWith('/case-studies')
+        ) {
           setCurrentPage('home');
         }
       } catch {
@@ -45,8 +133,12 @@ export default function App() {
       }
     };
 
-    window.addEventListener('hashchange', handleHashChange);
-    return () => window.removeEventListener('hashchange', handleHashChange);
+    window.addEventListener('hashchange', handleRouteChange);
+    window.addEventListener('popstate', handleRouteChange);
+    return () => {
+      window.removeEventListener('hashchange', handleRouteChange);
+      window.removeEventListener('popstate', handleRouteChange);
+    };
   }, [currentPage]);
 
   useEffect(() => {
@@ -81,8 +173,60 @@ export default function App() {
     gsap.ticker.add(updateTicker);
     gsap.ticker.lagSmoothing(0);
 
-    // Global listener for smooth anchor navigation via Lenis
+    // Global listener for smooth anchor navigation and SPA routing
     const handleAnchorClick = (e: MouseEvent) => {
+      // Check for SPA route links
+      const caseStudiesItemTarget = (e.target as HTMLElement).closest('a[href^="/case-studies/"]');
+      if (caseStudiesItemTarget) {
+        const href = caseStudiesItemTarget.getAttribute('href');
+        if (href) {
+          const slug = href.replace('/case-studies/', '').split('/')[0].split('#')[0].split('?')[0];
+          e.preventDefault();
+          if (slug) {
+            handleNavigate('case-study-detail', slug);
+          } else {
+            handleNavigate('case-studies');
+          }
+          return;
+        }
+      }
+      const caseStudiesTarget = (e.target as HTMLElement).closest('a[href="/case-studies"]');
+      if (caseStudiesTarget) {
+        e.preventDefault();
+        handleNavigate('case-studies');
+        return;
+      }
+      const communityTarget = (e.target as HTMLElement).closest('a[href="/community"]');
+      if (communityTarget) {
+        e.preventDefault();
+        handleNavigate('community');
+        return;
+      }
+      const forAiTarget = (e.target as HTMLElement).closest('a[href="/for-ai"]');
+      if (forAiTarget) {
+        e.preventDefault();
+        handleNavigate('for-ai');
+        return;
+      }
+      const podcastTarget = (e.target as HTMLElement).closest('a[href="/podcast"]');
+      if (podcastTarget) {
+        e.preventDefault();
+        handleNavigate('podcast');
+        return;
+      }
+      const aboutTarget = (e.target as HTMLElement).closest('a[href="/about"]');
+      if (aboutTarget) {
+        e.preventDefault();
+        handleNavigate('about');
+        return;
+      }
+      const homeTarget = (e.target as HTMLElement).closest('a[href="/"]');
+      if (homeTarget) {
+        e.preventDefault();
+        handleNavigate('home');
+        return;
+      }
+
       const target = (e.target as HTMLElement).closest('a[href^="#"]');
       if (!target) return;
       const href = target.getAttribute('href');
@@ -115,21 +259,76 @@ export default function App() {
     };
   }, []);
 
-  const handleNavigate = (page: 'home' | 'about', sectionId?: string) => {
+  useEffect(() => {
+    // Scroll to top immediately when switching between distinct pages and recalculate ScrollTrigger
+    if (lenisRef.current) {
+      lenisRef.current.scrollTo(0, { immediate: true });
+    } else {
+      window.scrollTo(0, 0);
+    }
+    const timer = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 100);
+    return () => clearTimeout(timer);
+  }, [currentPage]);
+
+  const handleNavigate = (page: 'home' | 'about' | 'podcast' | 'for-ai' | 'community' | 'contact' | 'privacy-policy' | 'case-studies' | 'case-study-detail', sectionId?: string) => {
+    if (page === 'case-study-detail') {
+      const slug = sectionId || 'mischief-makers';
+      setCurrentCaseStudySlug(slug);
+      setCurrentPage('case-study-detail');
+      try {
+        window.history.pushState({}, '', `/case-studies/${slug}`);
+        window.location.hash = '';
+      } catch {}
+      return;
+    }
+
+    if (page === 'case-studies' && sectionId && sectionId !== 'case-studies') {
+      setCurrentCaseStudySlug(sectionId);
+      setCurrentPage('case-study-detail');
+      try {
+        window.history.pushState({}, '', `/case-studies/${sectionId}`);
+        window.location.hash = '';
+      } catch {}
+      return;
+    }
+
     setCurrentPage(page);
     try {
-      if (page === 'about') {
+      if (page === 'case-studies') {
+        window.history.pushState({}, '', '/case-studies');
+        window.location.hash = sectionId ? `#${sectionId}` : '#case-studies';
+      } else if (page === 'privacy-policy') {
+        window.history.pushState({}, '', '/privacy-policy');
+        window.location.hash = sectionId ? `#${sectionId}` : '#privacy-policy';
+      } else if (page === 'contact') {
+        window.history.pushState({}, '', '/contact');
+        window.location.hash = '#contact';
+      } else if (page === 'community') {
+        window.history.pushState({}, '', '/community');
+        window.location.hash = '#community';
+      } else if (page === 'for-ai') {
+        window.history.pushState({}, '', '/for-ai');
+        window.location.hash = '#for-ai';
+      } else if (page === 'podcast') {
+        window.history.pushState({}, '', '/podcast');
+        window.location.hash = '#podcast';
+      } else if (page === 'about') {
+        window.history.pushState({}, '', '/about');
         window.location.hash = '#about';
       } else if (sectionId) {
+        window.history.pushState({}, '', `/#${sectionId}`);
         window.location.hash = `#${sectionId}`;
       } else {
+        window.history.pushState({}, '', '/');
         window.location.hash = '';
       }
     } catch {
       // Ignore iframe restriction
     }
 
-    // Smooth scroll handling
+    // Scroll handling
     setTimeout(() => {
       if (page === 'home' && sectionId) {
         const el = document.getElementById(sectionId);
@@ -144,15 +343,15 @@ export default function App() {
       }
       // Otherwise scroll to top
       if (lenisRef.current) {
-        lenisRef.current.scrollTo(0, { duration: 1 });
+        lenisRef.current.scrollTo(0, { immediate: true });
       } else {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        window.scrollTo(0, 0);
       }
     }, 50);
   };
 
   const handleOpenBooking = () => {
-    if (currentPage === 'about') {
+    if (currentPage !== 'home') {
       handleNavigate('home', 'booking-section');
       return;
     }
@@ -182,6 +381,58 @@ export default function App() {
             onNavigateHome={(sectionId) => handleNavigate('home', sectionId)} 
           />
         </main>
+      ) : currentPage === 'podcast' ? (
+        <main>
+          <PodcastPage
+            onOpenBooking={handleOpenBooking}
+            onNavigateHome={(sectionId) => handleNavigate('home', sectionId)}
+            onNavigate={handleNavigate}
+          />
+        </main>
+      ) : currentPage === 'for-ai' ? (
+        <main>
+          <ForAIPage
+            onOpenBooking={handleOpenBooking}
+            onNavigateHome={(sectionId) => handleNavigate('home', sectionId)}
+            onNavigate={handleNavigate}
+          />
+        </main>
+      ) : currentPage === 'community' ? (
+        <main>
+          <CommunityPage
+            onOpenBooking={handleOpenBooking}
+            onNavigate={handleNavigate}
+          />
+        </main>
+      ) : currentPage === 'contact' ? (
+        <main>
+          <ContactPage
+            onOpenBooking={handleOpenBooking}
+            onNavigate={handleNavigate}
+          />
+        </main>
+      ) : currentPage === 'privacy-policy' ? (
+        <main>
+          <PrivacyPolicyPage
+            onOpenBooking={handleOpenBooking}
+            onNavigate={handleNavigate}
+          />
+        </main>
+      ) : currentPage === 'case-study-detail' ? (
+        <main>
+          <CaseStudyDetailPage
+            slug={currentCaseStudySlug}
+            onOpenBooking={handleOpenBooking}
+            onNavigate={handleNavigate}
+          />
+        </main>
+      ) : currentPage === 'case-studies' ? (
+        <main>
+          <CaseStudiesPage
+            onOpenBooking={handleOpenBooking}
+            onNavigate={handleNavigate}
+          />
+        </main>
       ) : (
         <main>
           {/* Section 2: Hero with Clothesline Layout */}
@@ -206,7 +457,7 @@ export default function App() {
           <RealityCheck />
 
           {/* Section 9: Case Studies */}
-          <CaseStudies />
+          <CaseStudies onNavigate={handleNavigate} />
 
           {/* Section 10: Pricing */}
           <Pricing onOpenBooking={handleOpenBooking} />
@@ -221,7 +472,7 @@ export default function App() {
           <FAQ />
 
           {/* Section 14: Easter Egg — AI Memo */}
-          <EasterEggAI />
+          <EasterEggAI onNavigate={handleNavigate} />
         </main>
       )}
 

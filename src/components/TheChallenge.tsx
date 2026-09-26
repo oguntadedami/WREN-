@@ -331,7 +331,7 @@ export const TheChallenge: React.FC<TheChallengeProps> = ({ onOpenBooking }) => 
             ref={scrollRef}
             onScroll={handleScroll}
             data-lenis-prevent
-            className="relative max-h-[720px] sm:max-h-[780px] overflow-y-auto overscroll-contain touch-pan-y px-6 py-8 sm:px-12 sm:py-12 md:pl-20 text-[#0E1A15]"
+            className="relative max-h-[720px] sm:max-h-[780px] overflow-y-auto overscroll-contain touch-pan-y pl-7 sm:pl-16 md:pl-20 pr-4 sm:pr-10 py-7 sm:py-12 text-[#0E1A15]"
             style={{
               WebkitOverflowScrolling: 'touch',
               backgroundImage:
@@ -339,8 +339,8 @@ export const TheChallenge: React.FC<TheChallengeProps> = ({ onOpenBooking }) => 
               backgroundSize: '28px 28px',
             }}
           >
-            {/* Classic Red / Coral Margin Rule Line */}
-            <div className="pointer-events-none absolute bottom-0 left-8 sm:left-14 top-0 w-px bg-[#FF7A5C]/35" />
+            {/* Classic Red / Coral Margin Rule Line - Safely in left margin */}
+            <div className="pointer-events-none absolute bottom-0 left-4 sm:left-10 md:left-14 top-0 w-px bg-[#FF7A5C]/40" />
 
             {/* Main Headline Treatment: Bold Ornate Serif with Wavy Underline Swash */}
             <div className="mb-10 text-center flex flex-col items-center">

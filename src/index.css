@@ -10,9 +10,26 @@
 
 @import "tailwindcss";
 
+@theme {
+  --font-serif: 'IBM Plex Serif', Georgia, Cambria, serif;
+  --font-display: 'IBM Plex Serif', Georgia, Cambria, serif;
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+::selection {
+  background-color: #CBDA46;
+  color: #093624;
+}
+
+::-moz-selection {
+  background-color: #CBDA46;
+  color: #093624;
+}
+
 @layer base {
   :root {
-    --font-display: 'IBM Plex Serif', serif;
+    --font-display: 'IBM Plex Serif', Georgia, Cambria, serif;
     --font-body: 'Inter', sans-serif;
     --font-hand: 'HandwrittenAccent', 'Caveat', cursive;
     --font-handwritten: 'HandwrittenAccent', cursive;
@@ -37,8 +54,8 @@
     overflow-x: hidden;
   }
 
-  h1, h2, h3, h4, .font-display {
-    font-family: var(--font-display);
+  h1, h2, h3, h4, .font-display, .font-serif {
+    font-family: 'IBM Plex Serif', Georgia, Cambria, serif !important;
   }
 
   .font-hand, .font-handwritten, .font-accent-hand {
@@ -50,12 +67,31 @@
   }
 }
 
+.font-serif,
+.font-display {
+  font-family: 'IBM Plex Serif', Georgia, Cambria, serif !important;
+}
+
 /* Notebook Grid Pattern */
 .notebook-grid-bg {
   background-size: 24px 24px;
   background-image: 
     linear-gradient(to right, rgba(111, 122, 110, 0.08) 1px, transparent 1px),
     linear-gradient(to bottom, rgba(111, 122, 110, 0.08) 1px, transparent 1px);
+}
+
+/* Executive Notebook Index Card rotation & hover lift */
+.notebook-index-card-neg {
+  transform: rotate(-1.2deg);
+  transform-origin: center center;
+}
+.notebook-index-card-pos {
+  transform: rotate(1.2deg);
+  transform-origin: center center;
+}
+.notebook-index-card-neg:hover,
+.notebook-index-card-pos:hover {
+  transform: translateY(-4px) rotate(0deg) !important;
 }
 
 .notebook-grid-dark {
@@ -223,18 +259,19 @@
 }
 
 /* Reusable Card System */
+.card,
 .wren-card {
-  border: 1px solid rgba(9, 54, 36, 0.15);
-  background-color: rgba(247, 244, 233, 0.6);
-  backdrop-filter: blur(8px);
+  border: 1.5px solid rgba(9, 54, 36, 0.16);
+  background-color: #FAF7EE;
   border-radius: 14px;
   position: relative;
-  transition: all 300ms var(--ease-primary);
+  transition: all 250ms var(--ease-primary);
 }
 
+.card:hover,
 .wren-card:hover {
-  border-color: rgba(9, 54, 36, 0.3);
-  box-shadow: 0 10px 30px -10px rgba(9, 54, 36, 0.08);
+  border-color: rgba(9, 54, 36, 0.35);
+  box-shadow: 0 8px 24px -6px rgba(9, 54, 36, 0.1);
 }
 
 /* Highlighter Styles */
@@ -495,6 +532,50 @@ html.lenis body {
 
 .lenis.lenis-scrolling iframe {
   pointer-events: none;
+}
+
+/* Slow-spinning decorative turntable animation */
+@keyframes slowSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes slowSpinReverse {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+.animate-slow-spin {
+  animation: slowSpin 35s linear infinite;
+}
+
+.animate-slow-spin-reverse {
+  animation: slowSpinReverse 35s linear infinite;
+}
+
+/* Subtle input field shake animation for validation */
+@keyframes subtleShake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  15%, 45%, 75% {
+    transform: translateX(-4px);
+  }
+  30%, 60%, 90% {
+    transform: translateX(4px);
+  }
+}
+
+.animate-shake {
+  animation: subtleShake 0.45s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
 }
 
 

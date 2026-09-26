@@ -10,7 +10,11 @@ type BirdState =
   | 'perched'
   | 'flying-around';
 
-export const EasterEggAI: React.FC = () => {
+interface EasterEggAIProps {
+  onNavigate?: (page: 'home' | 'about' | 'podcast' | 'for-ai', sectionId?: string) => void;
+}
+
+export const EasterEggAI: React.FC<EasterEggAIProps> = ({ onNavigate }) => {
   const sectionRef = useRef<HTMLElement>(null);
   const [birdState, setBirdState] = useState<BirdState>('waiting');
   const [wingFlap, setWingFlap] = useState(true);
@@ -665,6 +669,12 @@ export const EasterEggAI: React.FC = () => {
               <Button
                 id="for-ai-speech-bubble-cta"
                 href="/for-ai"
+                onClick={(e) => {
+                  if (onNavigate) {
+                    e.preventDefault();
+                    onNavigate('for-ai');
+                  }
+                }}
                 variant="secondary"
                 size="sm"
                 showSparkles={false}

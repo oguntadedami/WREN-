@@ -192,9 +192,16 @@ export const RealisticSpiralBindingRow: React.FC<{ count?: number; className?: s
   className = ""
 }) => {
   return (
-    <div className={`relative w-full flex items-center justify-between px-3 sm:px-8 z-30 select-none pointer-events-none ${className}`}>
+    <div className={`relative w-full flex items-center justify-between px-2 sm:px-6 lg:px-8 z-30 select-none pointer-events-none overflow-hidden ${className}`}>
       {Array.from({ length: count }).map((_, i) => (
-        <div key={i} className="w-5 sm:w-6 lg:w-7">
+        <div 
+          key={i} 
+          className={`w-3.5 sm:w-5 md:w-6 lg:w-7 shrink-0 ${
+            i >= 12 ? 'hidden sm:block' : ''
+          } ${
+            i >= 18 ? 'hidden md:block' : ''
+          }`}
+        >
           <RealisticCreamSpiralBand id={i} />
         </div>
       ))}

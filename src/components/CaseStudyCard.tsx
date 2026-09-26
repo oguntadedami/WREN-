@@ -14,12 +14,17 @@ interface CaseStudyCardProps {
   caseStudy: CaseStudy;
   index?: number;
   isPerched?: boolean;
+  onNavigate?: (
+    page: 'home' | 'about' | 'podcast' | 'for-ai' | 'community' | 'contact' | 'privacy-policy' | 'case-studies' | 'case-study-detail',
+    sectionId?: string
+  ) => void;
 }
 
 export const CaseStudyCard: React.FC<CaseStudyCardProps> = ({
   caseStudy,
   index = 0,
   isPerched = false,
+  onNavigate,
 }) => {
   const paperClipPositions = [
     'left-6 -top-3.5',
@@ -35,50 +40,64 @@ export const CaseStudyCard: React.FC<CaseStudyCardProps> = ({
       case 'mischief-makers':
         return (
           <LogoMischiefMakers
-            className="h-5 sm:h-5.5 md:h-6 w-auto max-w-[150px] max-h-7 object-contain"
+            className="h-8 sm:h-9 md:h-10 w-auto max-w-[210px] max-h-12 object-contain"
           />
         );
       case 'carril':
         return (
           <LogoCarril
-            className="h-4.5 sm:h-5 md:h-5.5 w-auto max-w-[95px] sm:max-w-[110px] max-h-6 object-contain"
+            className="h-7 sm:h-8 md:h-9 w-auto max-w-[160px] max-h-10 object-contain"
           />
         );
       case 'seamailer':
         return (
           <LogoSeamailer
-            className="h-6 sm:h-6.5 md:h-7 w-auto max-w-[140px] max-h-8 object-contain"
+            className="h-8 sm:h-9 md:h-10 w-auto max-w-[200px] max-h-12 object-contain"
           />
         );
       case 'toolbus-ai':
       case 'the-tool-bus':
         return (
           <LogoTheToolBus
-            className="h-6 sm:h-6.5 md:h-7 w-auto max-w-[150px] max-h-8 object-contain"
+            className="h-8 sm:h-9 md:h-10 w-auto max-w-[200px] max-h-12 object-contain"
           />
         );
       case 'colorteam':
         return (
           <LogoColorteam
-            className="h-5 sm:h-5.5 md:h-6 w-auto max-w-[130px] max-h-7 object-contain"
+            className="h-8 sm:h-9 md:h-10 w-auto max-w-[190px] max-h-12 object-contain"
           />
         );
       default:
         return (
-          <span className="font-display font-black text-base text-[#093624]">
+          <span className="font-display font-serif font-bold text-2xl text-[#093624]">
             {caseStudy.companyName}
           </span>
         );
     }
   };
 
+  const getTargetUrl = (slug: string) => {
+    return `/case-studies/${slug}`;
+  };
+
+  const handleCardClick = (e: React.MouseEvent) => {
+    if (onNavigate) {
+      e.preventDefault();
+      onNavigate('case-study-detail', caseStudy.slug);
+    }
+  };
+
   return (
-    <div
+    <a
       id={`case-study-card-${index}`}
-      className={`relative rounded-2xl bg-white border-2 border-[#093624] flex flex-col justify-between p-6 sm:p-8 lg:p-9 transition-all duration-300 group ${
+      href={getTargetUrl(caseStudy.slug)}
+      onClick={handleCardClick}
+      aria-label={`Read case study for ${caseStudy.companyName}`}
+      className={`relative rounded-2xl bg-white border-2 border-[#093624] flex flex-col justify-between p-6 sm:p-8 lg:p-9 transition-all duration-300 group cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#093624] focus:ring-offset-2 select-none ${
         isPerched
           ? 'shadow-[8px_8px_0px_#093624] ring-2 ring-[#CBDA46] -translate-y-1'
-          : 'shadow-[6px_6px_0px_#093624] hover:shadow-[8px_8px_0px_#093624] hover:-translate-y-1'
+          : 'shadow-[6px_6px_0px_#093624] hover:shadow-[8px_8px_0px_#093624] hover:-translate-y-1.5'
       }`}
     >
       {/* Tactile Metal Paperclip Asset */}
@@ -89,26 +108,18 @@ export const CaseStudyCard: React.FC<CaseStudyCardProps> = ({
       </div>
 
       <div>
-        {/* Top Header Row: Tag Pill + Client Brand Logo */}
-        <div className="flex items-center justify-between gap-3 mb-6 pb-5 border-b border-[#093624]/15 min-w-0">
-          {/* Tag Pill */}
-          <span className="inline-block text-[10px] sm:text-[11px] md:text-xs font-mono font-bold uppercase tracking-wider text-[#093624] bg-[#CBDA46]/30 border border-[#093624]/30 px-2.5 sm:px-3 py-1 rounded-md shrink">
-            {caseStudy.tag}
-          </span>
-
-          {/* Official Brand Logo */}
-          <div className="flex items-center justify-end py-0.5 shrink-0">
-            {renderBrandLogo()}
-          </div>
+        {/* Top Header Row: Client Brand Logo */}
+        <div className="flex items-center min-h-[50px] mb-6 pb-5 border-b border-[#093624]/15 min-w-0">
+          {renderBrandLogo()}
         </div>
 
         {/* Large Stat + Result Label */}
         <div className="mb-4">
           <div className="flex flex-col sm:flex-row sm:items-baseline gap-2">
-            <span className="font-display font-black text-4xl sm:text-5xl lg:text-6xl text-[#093624] tracking-tight leading-none">
+            <span className="font-display font-serif font-bold text-4xl sm:text-5xl lg:text-6xl text-[#093624] tracking-tight leading-none">
               {caseStudy.stat}
             </span>
-            <span className="font-display font-bold text-lg sm:text-xl text-[#093624] leading-snug">
+            <span className="font-display font-serif font-bold text-lg sm:text-xl text-[#093624] leading-snug">
               — {caseStudy.statLabel}
             </span>
           </div>
@@ -126,19 +137,18 @@ export const CaseStudyCard: React.FC<CaseStudyCardProps> = ({
         </div>
       </div>
 
-      {/* CTA Link: Derived dynamically from slug */}
+      {/* CTA Link indicator */}
       <div className="mt-8 pt-5 border-t border-[#093624]/10">
-        <a
-          href={`/case-studies/${caseStudy.slug}`}
-          className="inline-flex items-center gap-2 font-display font-black text-sm sm:text-base text-[#093624] hover:text-[#15543D] group/link transition-colors"
+        <span
+          className="inline-flex items-center gap-2 font-display font-bold text-sm sm:text-base text-[#093624] group-hover:text-[#15543D] transition-colors"
         >
           <span className="relative">
             Read the case study
-            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#093624] group-hover/link:w-full transition-all duration-200" />
+            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#093624] group-hover:w-full transition-all duration-200" />
           </span>
-          <ArrowRight className="w-4 h-4 transform group-hover/link:translate-x-1 transition-transform duration-200 text-[#093624]" />
-        </a>
+          <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1.5 transition-transform duration-200 text-[#093624]" />
+        </span>
       </div>
-    </div>
+    </a>
   );
 };

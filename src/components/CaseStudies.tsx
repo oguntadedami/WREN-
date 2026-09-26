@@ -4,7 +4,14 @@ import { CaseStudiesWrenBird } from './CaseStudiesWrenBird';
 import caseStudiesData from '../data/caseStudies.json';
 import { CaseStudy } from '../types';
 
-export const CaseStudies: React.FC = () => {
+interface CaseStudiesProps {
+  onNavigate?: (
+    page: 'home' | 'about' | 'podcast' | 'for-ai' | 'community' | 'contact' | 'privacy-policy' | 'case-studies' | 'case-study-detail',
+    sectionId?: string
+  ) => void;
+}
+
+export const CaseStudies: React.FC<CaseStudiesProps> = ({ onNavigate }) => {
   const caseStudies: CaseStudy[] = caseStudiesData as CaseStudy[];
   const [perchedCardIndex, setPerchedCardIndex] = useState<number | null>(null);
 
@@ -49,6 +56,7 @@ export const CaseStudies: React.FC = () => {
                 caseStudy={item}
                 index={idx}
                 isPerched={perchedCardIndex === idx}
+                onNavigate={onNavigate}
               />
             ))}
           </div>

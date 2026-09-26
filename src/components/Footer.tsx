@@ -6,8 +6,8 @@ import { FooterPhysicsBadges } from './FooterPhysicsBadges';
 
 interface FooterProps {
   onOpenBooking?: () => void;
-  onNavigate?: (page: 'home' | 'about', sectionId?: string) => void;
-  currentPage?: 'home' | 'about';
+  onNavigate?: (page: 'home' | 'about' | 'podcast' | 'for-ai' | 'community' | 'contact' | 'privacy-policy' | 'case-studies' | 'case-study-detail', sectionId?: string) => void;
+  currentPage?: 'home' | 'about' | 'podcast' | 'for-ai' | 'community' | 'contact' | 'privacy-policy' | 'case-studies' | 'case-study-detail';
 }
 
 export const Footer: React.FC<FooterProps> = ({ onOpenBooking, onNavigate, currentPage = 'home' }) => {
@@ -24,6 +24,14 @@ export const Footer: React.FC<FooterProps> = ({ onOpenBooking, onNavigate, curre
       } else {
         el.scrollIntoView({ behavior: 'smooth' });
       }
+    }
+  };
+
+  const navigateTo = (page: 'home' | 'about' | 'podcast' | 'for-ai' | 'community' | 'contact' | 'privacy-policy' | 'case-studies' | 'case-study-detail', sectionId?: string) => {
+    if (onNavigate) {
+      onNavigate(page, sectionId);
+    } else {
+      scrollTo(sectionId || 'root');
     }
   };
 
@@ -170,7 +178,12 @@ export const Footer: React.FC<FooterProps> = ({ onOpenBooking, onNavigate, curre
                 </button>
               </li>
               <li>
-                <button onClick={() => scrollTo('case-studies-section')} className="hover:text-white transition-colors cursor-pointer text-left">
+                <button 
+                  onClick={() => navigateTo('case-studies')} 
+                  className={`transition-colors cursor-pointer text-left ${
+                    currentPage === 'case-studies' ? 'text-[#CBDA46] font-semibold' : 'hover:text-white'
+                  }`}
+                >
                   Case studies
                 </button>
               </li>
@@ -199,7 +212,10 @@ export const Footer: React.FC<FooterProps> = ({ onOpenBooking, onNavigate, curre
             </h4>
             <ul className="space-y-2.5 text-sm font-sans text-[#D5E3D5]">
               <li>
-                <button onClick={() => scrollTo('booking-section')} className="hover:text-white transition-colors cursor-pointer text-left">
+                <button 
+                  onClick={() => navigateTo('community')} 
+                  className="hover:text-white transition-colors cursor-pointer text-left"
+                >
                   Community
                 </button>
               </li>
@@ -215,7 +231,13 @@ export const Footer: React.FC<FooterProps> = ({ onOpenBooking, onNavigate, curre
                 </a>
               </li>
               <li>
-                <button onClick={() => scrollTo('booking-section')} className="hover:text-white transition-colors cursor-pointer text-left">
+                <button 
+                  id="footer-contact-us-btn"
+                  onClick={() => navigateTo('contact')} 
+                  className={`transition-colors cursor-pointer text-left ${
+                    currentPage === 'contact' ? 'text-[#CBDA46] font-semibold' : 'hover:text-white'
+                  }`}
+                >
                   Contact us
                 </button>
               </li>
@@ -261,7 +283,12 @@ export const Footer: React.FC<FooterProps> = ({ onOpenBooking, onNavigate, curre
             </h4>
             <ul className="space-y-2.5 text-sm font-sans text-[#D5E3D5]">
               <li>
-                <button onClick={() => scrollTo('breather-section')} className="hover:text-white transition-colors cursor-pointer text-left">
+                <button 
+                  onClick={() => navigateTo('podcast')} 
+                  className={`hover:text-white transition-colors cursor-pointer text-left ${
+                    currentPage === 'podcast' ? 'text-[#CBDA46] font-bold' : ''
+                  }`}
+                >
                   Podcast
                 </button>
               </li>
@@ -279,7 +306,18 @@ export const Footer: React.FC<FooterProps> = ({ onOpenBooking, onNavigate, curre
                 </button>
               </li>
               <li>
-                <a href="/for-ai" className="hover:text-[#CBDA46] text-xs font-mono transition-colors inline-flex items-center gap-1 text-[#A3C2A3]">
+                <a 
+                  href="/for-ai" 
+                  onClick={(e) => {
+                    if (onNavigate) {
+                      e.preventDefault();
+                      navigateTo('for-ai');
+                    }
+                  }}
+                  className={`hover:text-[#CBDA46] text-xs font-mono transition-colors inline-flex items-center gap-1 ${
+                    currentPage === 'for-ai' ? 'text-[#CBDA46] font-bold' : 'text-[#A3C2A3]'
+                  }`}
+                >
                   LLM Brief
                 </a>
               </li>
@@ -300,7 +338,13 @@ export const Footer: React.FC<FooterProps> = ({ onOpenBooking, onNavigate, curre
           <p>© {new Date().getFullYear()} WREN Agency. All rights reserved.</p>
           
           <div className="flex items-center gap-6 text-[11px] font-mono">
-            <span className="hover:text-[#CBDA46] cursor-pointer transition-colors">Privacy</span>
+            <button
+              type="button"
+              onClick={() => navigateTo('privacy-policy')}
+              className="hover:text-[#CBDA46] cursor-pointer transition-colors"
+            >
+              Privacy
+            </button>
             <span className="text-[#A3C2A3]/40">·</span>
             <span className="hover:text-[#CBDA46] cursor-pointer transition-colors">Terms</span>
             <span className="text-[#A3C2A3]/40">·</span>

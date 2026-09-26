@@ -278,8 +278,8 @@ export const RealityCheck: React.FC = () => {
     return () => mql.removeEventListener('change', handleChange);
   }, []);
 
-  // GSAP ScrollTrigger setup for pinning & word-by-word opacity reveal
-  // Works reliably across mobile and desktop devices with buttery smooth scrubbing
+  // GSAP ScrollTrigger setup for word-by-word opacity reveal
+  // Uses CSS sticky positioning for the viewport lock, avoiding any GSAP pin DOM mutation or unmount issues
   useEffect(() => {
     if (reducedMotion || !sectionRef.current || !wordsContainerRef.current) {
       setCtaVisible(true);
@@ -295,15 +295,11 @@ export const RealityCheck: React.FC = () => {
         scrollTrigger: {
           trigger: sectionRef.current,
           start: 'top top',
-          end: isSmallScreen ? '+=95%' : '+=130%',
-          pin: true,
-          scrub: isSmallScreen ? 0.35 : 0.6,
-          anticipatePin: 1,
-          fastScrollEnd: true,
-          preventOverlaps: true,
+          end: 'bottom bottom',
+          scrub: isSmallScreen ? 0.35 : 0.5,
           onUpdate: (self) => {
             // Reveal CTA button as the text finishes illuminating
-            if (self.progress >= (isSmallScreen ? 0.88 : 0.92)) {
+            if (self.progress >= (isSmallScreen ? 0.82 : 0.88)) {
               setCtaVisible(true);
             } else {
               setCtaVisible(false);
@@ -334,7 +330,9 @@ export const RealityCheck: React.FC = () => {
       );
     }, sectionRef);
 
-    return () => ctx.revert();
+    return () => {
+      ctx.revert();
+    };
   }, [reducedMotion, isMobile]);
 
   const scrollToBook = () => {
@@ -355,8 +353,9 @@ export const RealityCheck: React.FC = () => {
     <section
       ref={sectionRef}
       id="reality-check-section"
-      className="relative w-full bg-[#093624] text-[#F7F4E9] notebook-grid-dark overflow-hidden flex flex-col items-center justify-center min-h-[100dvh] sm:min-h-screen py-12 sm:py-20 px-5 sm:px-10 lg:px-16 select-none"
+      className="relative w-full bg-[#093624] text-[#F7F4E9] notebook-grid-dark select-none"
       style={{
+        minHeight: reducedMotion ? 'auto' : isMobile ? '180vh' : '220vh',
         backgroundColor: 'var(--color-bottle, #093624)',
       }}
     >
@@ -364,71 +363,78 @@ export const RealityCheck: React.FC = () => {
       <span id="breather-section" className="absolute top-0 opacity-0 pointer-events-none" />
 
       {/* Atmospheric ambient lighting & subtle glows */}
-      <div className="absolute inset-0 pointer-events-none opacity-25">
+      <div className="absolute inset-0 pointer-events-none opacity-25 overflow-hidden">
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[550px] rounded-full bg-[#CBDA46]/15 blur-[120px]" />
         <div className="absolute -bottom-20 -right-20 w-80 h-80 rounded-full bg-[#15543D]/40 blur-[80px]" />
       </div>
 
-      <div className="max-w-4xl mx-auto w-full flex flex-col items-center text-center relative z-10">
-        
-        {/* Animated Wren Bird with independent idle animation */}
-        <RealityCheckBird reducedMotion={reducedMotion} isMobile={isMobile} />
+      {/* Pure CSS Sticky Viewport Frame - locks content in place as outer section scrolls without modifying DOM */}
+      <div
+        className={`w-full flex flex-col items-center justify-center overflow-hidden py-12 sm:py-20 px-5 sm:px-10 lg:px-16 ${
+          reducedMotion ? 'relative min-h-[80vh]' : 'sticky top-0 h-[100dvh] sm:h-screen'
+        }`}
+      >
+        <div className="max-w-4xl mx-auto w-full flex flex-col items-center text-center relative z-10">
+          
+          {/* Animated Wren Bird with independent idle animation */}
+          <RealityCheckBird reducedMotion={reducedMotion} isMobile={isMobile} />
 
-        {/* Section Pill Stamp */}
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/20 backdrop-blur-xs mb-6 sm:mb-10">
-          <span className="w-2 h-2 rounded-full bg-[#CBDA46] animate-pulse" />
-          <span className="text-xs font-mono font-bold tracking-widest text-[#F7F4E9] uppercase">
-            REALITY CHECK
-          </span>
-        </div>
-
-        {/* Main Word-by-Word Revealed Copy */}
-        <h2
-          ref={wordsContainerRef}
-          className="font-display font-bold text-xl sm:text-3xl md:text-4.5xl lg:text-[42px] leading-[1.35] sm:leading-[1.3] text-[#F7F4E9] tracking-tight max-w-3.5xl mx-auto text-center mb-8 sm:mb-14"
-        >
-          {WORDS_DATA.map((item, idx) => (
-            <span
-              key={idx}
-              data-highlight={item.isHighlight ? 'true' : 'false'}
-              className={`word-span inline-block mr-[0.26em] sm:mr-[0.28em] ${
-                item.isHighlight ? 'text-[#CBDA46]' : 'text-[#F7F4E9]'
-              }`}
-              style={{
-                opacity: reducedMotion ? 1 : 0.18,
-                color: item.isHighlight
-                  ? '#CBDA46'
-                  : reducedMotion
-                  ? '#F7F4E9'
-                  : 'rgba(247, 244, 233, 0.22)',
-              }}
-            >
-              {item.text}
+          {/* Section Pill Stamp */}
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/20 backdrop-blur-xs mb-6 sm:mb-10">
+            <span className="w-2 h-2 rounded-full bg-[#CBDA46] animate-pulse" />
+            <span className="text-xs font-mono font-bold tracking-widest text-[#F7F4E9] uppercase">
+              REALITY CHECK
             </span>
-          ))}
-        </h2>
+          </div>
 
-        {/* CTA Button Wrapper */}
-        <div
-          id="reality-check-cta-container"
-          className={`relative transition-all duration-500 ease-out transform ${
-            ctaVisible || reducedMotion
-              ? 'opacity-100 translate-y-0 pointer-events-auto'
-              : 'opacity-0 translate-y-4 pointer-events-none'
-          }`}
-        >
-          <Button
-            id="reality-check-cta-btn"
-            variant="primary"
-            size="lg"
-            showSparkles={false}
-            onClick={scrollToBook}
-            className="btn-primary shadow-xl cursor-pointer"
+          {/* Main Word-by-Word Revealed Copy */}
+          <h2
+            ref={wordsContainerRef}
+            className="font-display font-bold text-xl sm:text-3xl md:text-4.5xl lg:text-[42px] leading-[1.35] sm:leading-[1.3] text-[#F7F4E9] tracking-tight max-w-3.5xl mx-auto text-center mb-8 sm:mb-14"
           >
-            Let's find your people
-          </Button>
-        </div>
+            {WORDS_DATA.map((item, idx) => (
+              <span
+                key={idx}
+                data-highlight={item.isHighlight ? 'true' : 'false'}
+                className={`word-span inline-block mr-[0.26em] sm:mr-[0.28em] ${
+                  item.isHighlight ? 'text-[#CBDA46]' : 'text-[#F7F4E9]'
+                }`}
+                style={{
+                  opacity: reducedMotion ? 1 : 0.18,
+                  color: item.isHighlight
+                    ? '#CBDA46'
+                    : reducedMotion
+                    ? '#F7F4E9'
+                    : 'rgba(247, 244, 233, 0.22)',
+                }}
+              >
+                {item.text}
+              </span>
+            ))}
+          </h2>
 
+          {/* CTA Button Wrapper */}
+          <div
+            id="reality-check-cta-container"
+            className={`relative transition-all duration-500 ease-out transform ${
+              ctaVisible || reducedMotion
+                ? 'opacity-100 translate-y-0 pointer-events-auto'
+                : 'opacity-0 translate-y-4 pointer-events-none'
+            }`}
+          >
+            <Button
+              id="reality-check-cta-btn"
+              variant="primary"
+              size="lg"
+              showSparkles={false}
+              onClick={scrollToBook}
+              className="btn-primary shadow-xl cursor-pointer"
+            >
+              Let's find your people
+            </Button>
+          </div>
+
+        </div>
       </div>
     </section>
   );

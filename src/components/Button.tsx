@@ -129,7 +129,7 @@ export const Button: React.FC<ButtonProps> = ({
 
   // Base shared interactive classes
   const baseButtonClasses = `
-    group relative inline-flex items-center justify-center select-none cursor-pointer
+    group relative inline-flex items-center justify-center select-none cursor-pointer whitespace-nowrap
     font-sans font-bold transition-all duration-300 ease-out
     active:scale-[0.97] active:translate-y-[2px]
     disabled:opacity-50 disabled:pointer-events-none disabled:cursor-not-allowed
@@ -211,7 +211,7 @@ export const Button: React.FC<ButtonProps> = ({
 
     if (href) {
       return (
-        <a href={href} target={target} rel={rel} className={`${baseButtonClasses} ${className}`}>
+        <a href={href} target={target} rel={rel} id={props.id} onClick={onClick as any} className={`${baseButtonClasses} ${className}`}>
           {content}
         </a>
       );
@@ -275,7 +275,7 @@ export const Button: React.FC<ButtonProps> = ({
 
     if (href) {
       return (
-        <a href={href} target={target} rel={rel} className={`${baseButtonClasses} ${className}`}>
+        <a href={href} target={target} rel={rel} id={props.id} onClick={onClick as any} className={`${baseButtonClasses} ${className}`}>
           {content}
         </a>
       );
@@ -337,9 +337,9 @@ export const Button: React.FC<ButtonProps> = ({
         </svg>
 
         {/* Content Wrapper: Just pure text & sparkles */}
-        <span className="relative z-10 flex items-center justify-center gap-2.5 text-[#093624] transition-colors duration-300 group-hover:text-[#F7F4E9]">
+        <span className="relative z-10 inline-flex items-center justify-center gap-2.5 text-[#093624] transition-colors duration-300 group-hover:text-[#F7F4E9] whitespace-nowrap">
           {renderSparkle('left', '#093624')}
-          <span className="tracking-tight">{children}</span>
+          <span className="tracking-tight inline-flex items-center justify-center whitespace-nowrap">{children}</span>
           {renderSparkle('right', '#093624')}
         </span>
       </>
@@ -347,7 +347,7 @@ export const Button: React.FC<ButtonProps> = ({
 
     if (href) {
       return (
-        <a href={href} target={target} rel={rel} className={`${baseButtonClasses} ${className}`}>
+        <a href={href} target={target} rel={rel} id={props.id} onClick={onClick as any} className={`${baseButtonClasses} ${className}`}>
           {content}
         </a>
       );
@@ -409,7 +409,7 @@ export const Button: React.FC<ButtonProps> = ({
 
   if (href) {
     return (
-      <a href={href} target={target} rel={rel} className={`${baseButtonClasses} ${className}`}>
+      <a href={href} target={target} rel={rel} id={props.id} onClick={onClick as any} className={`${baseButtonClasses} ${className}`}>
         {darkContent}
       </a>
     );

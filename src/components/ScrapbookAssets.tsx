@@ -171,3 +171,162 @@ export const HandDrawnHeartDoodle: React.FC<{
     />
   </svg>
 );
+
+// Hand-drawn oversized decorative quote mark illustration (ink style)
+export const HandDrawnQuotes: React.FC<{
+  className?: string;
+  color?: string;
+  opacity?: number;
+  type?: 'open' | 'close';
+}> = ({
+  className = "w-24 h-24",
+  color = "#CBDA46",
+  opacity = 0.25,
+  type = 'open'
+}) => (
+  <svg
+    viewBox="0 0 120 100"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className={`pointer-events-none select-none overflow-visible ${className}`}
+    style={{ opacity }}
+  >
+    {type === 'open' ? (
+      <g stroke={color} strokeLinecap="round" strokeLinejoin="round">
+        {/* Left quote mark */}
+        <path
+          d="M38 22 C22 22 10 34 10 52 C10 70 24 82 38 82 C48 82 56 74 56 62 C56 48 44 42 34 42 C32 42 28 43 26 44 C26 30 38 24 50 20"
+          strokeWidth="6.5"
+        />
+        <path
+          d="M36 25 C24 26 14 36 14 51 C14 66 26 77 37 77 C44 77 50 71 50 62 C50 51 40 45 32 45"
+          strokeWidth="2.5"
+          opacity="0.7"
+        />
+        {/* Right quote mark */}
+        <path
+          d="M92 22 C76 22 64 34 64 52 C64 70 78 82 92 82 C102 82 110 74 110 62 C110 48 98 42 88 42 C86 42 82 43 80 44 C80 30 92 24 104 20"
+          strokeWidth="6.5"
+        />
+        <path
+          d="M90 25 C78 26 68 36 68 51 C68 66 80 77 91 77 C98 77 104 71 104 62 C104 51 94 45 86 45"
+          strokeWidth="2.5"
+          opacity="0.7"
+        />
+      </g>
+    ) : (
+      <g stroke={color} strokeLinecap="round" strokeLinejoin="round" transform="rotate(180 60 50)">
+        {/* Closing quotes */}
+        <path
+          d="M38 22 C22 22 10 34 10 52 C10 70 24 82 38 82 C48 82 56 74 56 62 C56 48 44 42 34 42 C32 42 28 43 26 44 C26 30 38 24 50 20"
+          strokeWidth="6.5"
+        />
+        <path
+          d="M92 22 C76 22 64 34 64 52 C64 70 78 82 92 82 C102 82 110 74 110 62 C110 48 98 42 88 42 C86 42 82 43 80 44 C80 30 92 24 104 20"
+          strokeWidth="6.5"
+        />
+      </g>
+    )}
+  </svg>
+);
+
+// Hand-drawn spark / asterisk doodle
+export const HandDrawnStarDoodle: React.FC<{ className?: string; color?: string }> = ({
+  className = "w-5 h-5",
+  color = "#CBDA46"
+}) => (
+  <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
+    <path d="M16 3V29M3 16H29M6.5 6.5L25.5 25.5M25.5 6.5L6.5 25.5" stroke={color} strokeWidth="2.8" strokeLinecap="round" />
+  </svg>
+);
+
+// Hand-Drawn Realistic Chisel Marker Swipe Highlight Component
+export const Highlight: React.FC<{ 
+  color?: 'wattle' | 'coral' | string; 
+  rotation?: 'left' | 'right' | 'none';
+  className?: string;
+  children: React.ReactNode 
+}> = ({
+  color = 'wattle',
+  rotation = 'none',
+  className = '',
+  children,
+}) => {
+  const isCoral = color === 'coral';
+  const baseColor = isCoral ? '#FF7A5C' : '#CBDA46';
+  const secondaryStreak = isCoral ? '#FFA38F' : '#E2EE78';
+  const deepStreak = isCoral ? '#E65233' : '#A2B81F';
+
+  const rotClass = 
+    rotation === 'left' ? '-rotate-1' : 
+    rotation === 'right' ? 'rotate-1' : 
+    'rotate-[0.5deg]';
+
+  return (
+    <span className={`relative inline-block px-1.5 py-0.5 mx-0.5 align-baseline ${rotClass} ${className}`}>
+      {/* Hand-dragged Marker Wash with Organic Ink Streaks & Wobbly Chisel Edge */}
+      <svg
+        className="absolute -inset-x-2.5 -inset-y-1 w-[calc(100%+20px)] h-[calc(100%+8px)] -z-10 overflow-visible pointer-events-none"
+        viewBox="0 0 100 24"
+        preserveAspectRatio="none"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <defs>
+          <linearGradient id={`markerGrad-${isCoral ? 'coral' : 'wattle'}`} x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor={baseColor} stopOpacity="0.6" />
+            <stop offset="4%" stopColor={baseColor} stopOpacity="0.7" />
+            <stop offset="28%" stopColor={secondaryStreak} stopOpacity="0.5" />
+            <stop offset="68%" stopColor={baseColor} stopOpacity="0.58" />
+            <stop offset="96%" stopColor={deepStreak} stopOpacity="0.62" />
+            <stop offset="100%" stopColor={baseColor} stopOpacity="0.3" />
+          </linearGradient>
+        </defs>
+
+        {/* Main Irregular Marker Swipe (Heavy chisel start, organic path wobble, slight end flick) */}
+        <path
+          d="M 1.5 4 C 16 2.2, 44 4.8, 76 3 C 88 2.2, 95.5 3.8, 99 5.5 C 99.8 11.5, 98.2 17, 96.5 21 C 81 22.8, 50 20.2, 21 22 C 8 22.8, 2.5 19.5, 0.8 14.5 C -0.2 9.5, 0.5 5.8, 1.5 4 Z"
+          fill={`url(#markerGrad-${isCoral ? 'coral' : 'wattle'})`}
+        />
+
+        {/* Faint Internal Streak / Marker Pressure Line 1 (Upper drag channel) */}
+        <path
+          d="M 2.5 7.5 C 24 5.8, 56 7.2, 86 5.8 C 93 5.2, 97.5 7, 98 8"
+          stroke={secondaryStreak}
+          strokeWidth="3.2"
+          strokeLinecap="round"
+          opacity="0.4"
+        />
+
+        {/* Faint Internal Streak / Marker Pressure Line 2 (Lower wet ink drag) */}
+        <path
+          d="M 3.5 16.5 C 29 18.2, 63 16.2, 88 17.8 C 93.5 18.2, 95.8 17.2, 97 15.8"
+          stroke={deepStreak}
+          strokeWidth="2.4"
+          strokeLinecap="round"
+          opacity="0.28"
+        />
+
+        {/* Marker Ink pooling at start (left chisel edge press mark) */}
+        <path
+          d="M 1 5.5 C 1.6 9.5, 1.4 14.5, 1.1 18.5"
+          stroke={deepStreak}
+          strokeWidth="1.6"
+          strokeLinecap="round"
+          opacity="0.35"
+        />
+
+        {/* Marker Ink release trail at end (right overshoot trail) */}
+        <path
+          d="M 95.5 6.5 C 97.5 9.5, 98.8 13.5, 97.2 19"
+          stroke={baseColor}
+          strokeWidth="1.2"
+          strokeLinecap="round"
+          opacity="0.45"
+        />
+      </svg>
+      <span className="relative z-10">{children}</span>
+    </span>
+  );
+};
+
