@@ -6,11 +6,11 @@ import {
   ArrowLeft, 
   Sparkles, 
   FileText, 
-  ExternalLink,
-  ChevronRight,
-  Printer,
-  Calendar,
-  Layers,
+  ExternalLink, 
+  ChevronRight, 
+  Printer, 
+  Calendar, 
+  Layers, 
   ArrowRight
 } from 'lucide-react';
 import { Button } from './Button';
@@ -27,13 +27,6 @@ export const LaunchChecklistPage: React.FC<LaunchChecklistPageProps> = ({
 }) => {
   // Active toggle: 'new-launch' or 're-launch'
   const [activeTab, setActiveTab] = useState<'new-launch' | 're-launch'>('new-launch');
-
-  // Interactive in-app checkboxes for immediate utility
-  const [checkedItems, setCheckedItems] = useState<Record<string, boolean>>({});
-
-  const toggleCheck = (id: string) => {
-    setCheckedItems(prev => ({ ...prev, [id]: !prev[id] }));
-  };
 
   const newLaunchItems = [
     { id: 'nl-1', category: 'Foundation & Positioning', task: 'Single-sentence positioning statement: who this is for and why the incumbent way fails.' },
@@ -60,9 +53,6 @@ export const LaunchChecklistPage: React.FC<LaunchChecklistPageProps> = ({
     { id: 'rl-8', category: 'Distribution & Momentum', task: 'Customer referral incentive or fast-mover bonus with explicit expiration deadline.' },
     { id: 'rl-9', category: 'Closing & Follow-up', task: 'Sales enablement refresh: revised objection-handling cheat sheet ready.' },
   ];
-
-  const currentItems = activeTab === 'new-launch' ? newLaunchItems : relaunchItems;
-  const completedCount = currentItems.filter(item => checkedItems[item.id]).length;
 
   // Real, formatted printable/downloadable PDF generation via clean browser print-dialog
   const handleDownloadPDF = () => {
@@ -229,7 +219,7 @@ export const LaunchChecklistPage: React.FC<LaunchChecklistPageProps> = ({
   };
 
   return (
-    <div className="w-full bg-[#FAF7EE] text-[#0E1A15] relative selection:bg-[#CBDA46] selection:text-[#093624] overflow-x-hidden font-sans pt-24 sm:pt-28 pb-20">
+    <div className="w-full bg-[#FAF7EE] text-[#0E1A15] relative selection:bg-[#CBDA46] selection:text-[#093624] overflow-x-hidden font-sans pt-24 sm:pt-28 pb-0">
       
       {/* Background Subtle Organic Grid */}
       <div 
@@ -243,7 +233,7 @@ export const LaunchChecklistPage: React.FC<LaunchChecklistPageProps> = ({
         }}
       />
 
-      <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-16 sm:mb-24">
         
         {/* Back Link to Free Stuff */}
         <div className="mb-6 pt-2">
@@ -261,31 +251,71 @@ export const LaunchChecklistPage: React.FC<LaunchChecklistPageProps> = ({
         </div>
 
         {/* ========================================================================= */}
-        {/* 1. HEADLINE & INTRO SECTION (WORD FOR WORD FROM COPY)                     */}
+        {/* 1. HEADLINE & INTRO SECTION (CENTER ALIGNED WITH TEXT MOTION EFFECTS)     */}
         {/* ========================================================================= */}
-        <div className="mb-12">
+        <div className="mb-12 text-center">
           
-          {/* Label Tag */}
-          <div className="mb-3">
-            <span className="font-mono text-xs font-bold uppercase tracking-wider text-[#15543D]">
-              Headline:
-            </span>
-          </div>
-
-          {/* Headline (Word for word) */}
-          <h1 className="font-display font-bold text-3xl sm:text-5xl lg:text-6xl text-[#093624] tracking-tight leading-[1.15] mb-5">
-            Are there things you should know before you launch or relaunch your product?
-          </h1>
+          {/* Animated Headline with staggered word motion effect */}
+          <motion.h1
+            initial="hidden"
+            animate="visible"
+            variants={{
+              hidden: { opacity: 0 },
+              visible: {
+                opacity: 1,
+                transition: {
+                  staggerChildren: 0.045,
+                  delayChildren: 0.06,
+                },
+              },
+            }}
+            className="font-display font-bold text-3xl sm:text-5xl lg:text-6xl text-[#093624] tracking-tight leading-[1.15] mb-5 max-w-3xl mx-auto"
+          >
+            {"Are there things you should know before you launch or relaunch your product?".split(" ").map((word, idx) => (
+              <motion.span
+                key={idx}
+                variants={{
+                  hidden: { 
+                    opacity: 0, 
+                    y: 18, 
+                    filter: 'blur(4px)',
+                  },
+                  visible: { 
+                    opacity: 1, 
+                    y: 0, 
+                    filter: 'blur(0px)',
+                    transition: {
+                      duration: 0.5,
+                      ease: [0.22, 1, 0.36, 1],
+                    },
+                  },
+                }}
+                className="inline-block mr-[0.25em] last:mr-0"
+              >
+                {word}
+              </motion.span>
+            ))}
+          </motion.h1>
 
           {/* Affirmation Line (Word for word) */}
-          <p className="font-display font-bold text-2xl sm:text-3xl text-[#15543D] leading-snug mb-8">
+          <motion.p
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55, delay: 0.65, ease: [0.22, 1, 0.36, 1] }}
+            className="font-display font-bold text-2xl sm:text-3xl text-[#15543D] leading-snug mb-8 max-w-2xl mx-auto"
+          >
             Yes! And you’ve probably heard most of them before.
-          </p>
+          </motion.p>
 
-          <div className="h-px w-full bg-[#093624]/15 my-8" />
+          <div className="h-px w-full max-w-2xl mx-auto bg-[#093624]/15 my-8" />
 
           {/* Body paragraphs (Word for word) */}
-          <div className="space-y-4 font-sans text-base sm:text-lg text-[#0E1A15]/90 leading-relaxed max-w-3xl">
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55, delay: 0.75, ease: [0.22, 1, 0.36, 1] }}
+            className="space-y-4 font-sans text-base sm:text-lg text-[#0E1A15]/90 leading-relaxed max-w-2xl mx-auto"
+          >
             <p>
               There’s a lot that goes into a product launch, and it can quickly become overwhelming when it’s near time to launch.
             </p>
@@ -295,16 +325,16 @@ export const LaunchChecklistPage: React.FC<LaunchChecklistPageProps> = ({
             <p>
               This checklist will help you figure out what to prioritize, what to push back, and what to leave out completely.
             </p>
-          </div>
+          </motion.div>
 
-          <div className="h-px w-full bg-[#093624]/15 my-8" />
+          <div className="h-px w-full max-w-2xl mx-auto bg-[#093624]/15 my-8" />
 
           {/* How to use it section (Word for word) */}
-          <div className="mb-4">
+          <div className="mb-4 max-w-2xl mx-auto">
             <h2 className="font-display font-bold text-xl sm:text-2xl text-[#093624] mb-3">
               How to use it
             </h2>
-            <div className="space-y-3 font-sans text-base sm:text-lg text-[#0E1A15]/90 leading-relaxed max-w-3xl">
+            <div className="space-y-3 font-sans text-base sm:text-lg text-[#0E1A15]/90 leading-relaxed">
               <p>
                 Download it and keep it wherever you manage your work, whether that&apos;s Notion, Google Docs, or your favourite project management tool.
               </p>
@@ -314,259 +344,143 @@ export const LaunchChecklistPage: React.FC<LaunchChecklistPageProps> = ({
             </div>
           </div>
 
-          <div className="h-px w-full bg-[#093624]/15 my-8" />
+          <div className="h-px w-full max-w-2xl mx-auto bg-[#093624]/15 my-8" />
         </div>
 
         {/* ========================================================================= */}
         {/* 2. TOGGLE FEATURE SECTION: "We've split the checklist into two sections:"  */}
         {/* ========================================================================= */}
         <div className="mb-14">
-          <h2 className="font-display font-bold text-xl sm:text-2xl text-[#093624] mb-6">
+          <h2 className="font-display font-bold text-2xl sm:text-3xl text-[#093624] text-center mb-6">
             We&apos;ve split the checklist into two sections:
           </h2>
 
-          {/* Dual Toggle Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-8">
-            
-            {/* Option 01: New launch? */}
-            <div
-              onClick={() => setActiveTab('new-launch')}
-              className={`relative cursor-pointer transition-all duration-300 p-6 sm:p-7 rounded-2xl border-2 flex flex-col justify-between ${
-                activeTab === 'new-launch'
-                  ? 'bg-white border-[#093624] shadow-[6px_6px_0px_#093624] translate-x-0'
-                  : 'bg-white/60 border-[#093624]/30 hover:border-[#093624]/60 hover:bg-white/90 shadow-xs'
-              }`}
-            >
-              {/* Active Marker Indicator */}
-              {activeTab === 'new-launch' && (
-                <div className="absolute -top-3 right-6 pointer-events-none z-10">
-                  <Tape className="w-16 h-5" color="#CBDA46" />
-                </div>
-              )}
-
-              <div>
-                <div className="flex items-center justify-between mb-2">
-                  <span className="font-mono text-xs font-bold text-[#15543D] uppercase tracking-wider">
-                    01. New launch?
-                  </span>
-                  {activeTab === 'new-launch' && (
-                    <span className="inline-flex items-center gap-1 font-mono text-[11px] font-bold text-[#093624] bg-[#EEF2CC] px-2 py-0.5 rounded-full border border-[#CBDA46]">
-                      SELECTED
-                    </span>
-                  )}
-                </div>
-
-                <p className="font-sans text-[0.95rem] text-[#2C3830] leading-relaxed mb-6">
-                  Everything you need to think about when launching a new product is here.
-                </p>
-              </div>
-
-              {/* Exact CTA prompt from brief: [Give it to me] */}
-              <div className="pt-4 border-t border-[#093624]/10 flex items-center justify-between">
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setActiveTab('new-launch');
-                    handleDownloadPDF();
-                  }}
-                  className={`inline-flex items-center gap-2 font-sans font-bold text-sm py-2 px-4 rounded-xl transition-all cursor-pointer ${
-                    activeTab === 'new-launch'
-                      ? 'bg-[#093624] hover:bg-[#15543D] text-[#F7F4E9] shadow-xs'
-                      : 'bg-[#093624]/10 hover:bg-[#093624] text-[#093624] hover:text-[#F7F4E9]'
+          {/* Pill Segmented Toggle Controls (Matching image design) */}
+          <div className="flex justify-center mb-8">
+            <div className="inline-flex items-center p-1.5 rounded-full bg-white/95 border border-[#093624]/15 shadow-sm gap-1 sm:gap-2">
+              <button
+                type="button"
+                onClick={() => setActiveTab('new-launch')}
+                className={`font-sans font-bold text-xs sm:text-sm px-4 sm:px-6 py-2 sm:py-2.5 rounded-full flex items-center gap-2 transition-all cursor-pointer select-none ${
+                  activeTab === 'new-launch'
+                    ? 'bg-[#093624] text-white shadow-xs'
+                    : 'text-[#093624]/70 hover:text-[#093624] hover:bg-[#093624]/5'
+                }`}
+              >
+                <span
+                  className={`w-2 h-2 rounded-full shrink-0 ${
+                    activeTab === 'new-launch' ? 'bg-[#CBDA46] animate-pulse' : 'bg-[#093624]/30'
                   }`}
-                >
-                  <Download className="w-4 h-4 text-[#CBDA46]" />
-                  <span>Give it to me</span>
-                  <span className="text-xs opacity-75 font-normal">(Download PDF)</span>
-                </button>
-              </div>
-            </div>
-
-            {/* Option 02: Re-launches? */}
-            <div
-              onClick={() => setActiveTab('re-launch')}
-              className={`relative cursor-pointer transition-all duration-300 p-6 sm:p-7 rounded-2xl border-2 flex flex-col justify-between ${
-                activeTab === 're-launch'
-                  ? 'bg-white border-[#093624] shadow-[6px_6px_0px_#093624] translate-x-0'
-                  : 'bg-white/60 border-[#093624]/30 hover:border-[#093624]/60 hover:bg-white/90 shadow-xs'
-              }`}
-            >
-              {/* Active Marker Indicator */}
-              {activeTab === 're-launch' && (
-                <div className="absolute -top-3.5 right-6 pointer-events-none z-10">
-                  <PaperClip className="w-5 h-8" color="#093624" />
-                </div>
-              )}
-
-              <div>
-                <div className="flex items-center justify-between mb-2">
-                  <span className="font-mono text-xs font-bold text-[#15543D] uppercase tracking-wider">
-                    02. Re-launches?
-                  </span>
-                  {activeTab === 're-launch' && (
-                    <span className="inline-flex items-center gap-1 font-mono text-[11px] font-bold text-[#093624] bg-[#EEF2CC] px-2 py-0.5 rounded-full border border-[#CBDA46]">
-                      SELECTED
-                    </span>
-                  )}
-                </div>
-
-                <p className="font-sans text-[0.95rem] text-[#2C3830] leading-relaxed mb-6">
-                  For when your product has already launched, and you&apos;re getting ready to do it again.
-                </p>
-              </div>
-
-              {/* Exact CTA prompt from brief: [Give it to me] */}
-              <div className="pt-4 border-t border-[#093624]/10 flex items-center justify-between">
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setActiveTab('re-launch');
-                    handleDownloadPDF();
-                  }}
-                  className={`inline-flex items-center gap-2 font-sans font-bold text-sm py-2 px-4 rounded-xl transition-all cursor-pointer ${
-                    activeTab === 're-launch'
-                      ? 'bg-[#093624] hover:bg-[#15543D] text-[#F7F4E9] shadow-xs'
-                      : 'bg-[#093624]/10 hover:bg-[#093624] text-[#093624] hover:text-[#F7F4E9]'
-                  }`}
-                >
-                  <Download className="w-4 h-4 text-[#CBDA46]" />
-                  <span>Give it to me</span>
-                  <span className="text-xs opacity-75 font-normal">(Download PDF)</span>
-                </button>
-              </div>
-            </div>
-
-          </div>
-
-          {/* ========================================================================= */}
-          {/* INTERACTIVE IN-BROWSER CHECKLIST PAD                                      */}
-          {/* ========================================================================= */}
-          <div className="relative bg-[#FFFDF6] border-2 border-[#093624] rounded-2xl p-6 sm:p-8 shadow-[8px_8px_0px_#093624] mb-10">
-            
-            {/* Header with Title and Download Button */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-[#093624]/15 mb-6">
-              <div>
-                <div className="flex items-center gap-2 mb-1">
-                  <span className="font-mono text-xs font-bold uppercase tracking-wider text-[#093624] bg-[#EEF2CC] px-2 py-0.5 rounded-sm border border-[#CBDA46]">
-                    {activeTab === 'new-launch' ? '01. NEW LAUNCH CHECKLIST' : '02. RE-LAUNCH CHECKLIST'}
-                  </span>
-                  <span className="font-mono text-xs font-semibold text-[#6F7A6E]">
-                    {completedCount}/{currentItems.length} ticked off
-                  </span>
-                </div>
-                <h3 className="font-display font-bold text-xl sm:text-2xl text-[#093624]">
-                  {activeTab === 'new-launch' ? 'New Product Launch Checklist' : 'Product Re-launch Checklist'}
-                </h3>
-              </div>
+                />
+                <span>01. New Launch</span>
+              </button>
 
               <button
                 type="button"
-                onClick={handleDownloadPDF}
-                className="inline-flex items-center gap-2 bg-[#093624] hover:bg-[#15543D] text-[#F7F4E9] font-sans font-bold text-sm py-2.5 px-4 rounded-xl transition-all cursor-pointer shadow-xs active:scale-[0.98] self-start sm:self-center"
+                onClick={() => setActiveTab('re-launch')}
+                className={`font-sans font-bold text-xs sm:text-sm px-4 sm:px-6 py-2 sm:py-2.5 rounded-full flex items-center gap-2 transition-all cursor-pointer select-none ${
+                  activeTab === 're-launch'
+                    ? 'bg-[#093624] text-white shadow-xs'
+                    : 'text-[#093624]/70 hover:text-[#093624] hover:bg-[#093624]/5'
+                }`}
               >
-                <Download className="w-4 h-4 text-[#CBDA46]" />
-                <span>Download this PDF</span>
+                <span
+                  className={`w-2 h-2 rounded-full shrink-0 ${
+                    activeTab === 're-launch' ? 'bg-[#CBDA46] animate-pulse' : 'bg-[#093624]/30'
+                  }`}
+                />
+                <span>02. Re-launches</span>
               </button>
             </div>
-
-            {/* Progress Bar */}
-            <div className="w-full bg-[#093624]/10 h-2 rounded-full overflow-hidden mb-6">
-              <div 
-                className="bg-[#093624] h-full transition-all duration-300"
-                style={{ width: `${(completedCount / currentItems.length) * 100}%` }}
-              />
-            </div>
-
-            {/* Checklist Items */}
-            <div className="space-y-3 mb-6">
-              {currentItems.map((item) => {
-                const isDone = !!checkedItems[item.id];
-                return (
-                  <div
-                    key={item.id}
-                    onClick={() => toggleCheck(item.id)}
-                    className={`p-3.5 sm:p-4 rounded-xl border-2 transition-all cursor-pointer flex items-start gap-3.5 select-none ${
-                      isDone 
-                        ? 'bg-[#EEF2CC]/50 border-[#CBDA46] text-[#093624]' 
-                        : 'bg-white border-[#093624]/20 hover:border-[#093624]/60'
-                    }`}
-                  >
-                    <input
-                      type="checkbox"
-                      checked={isDone}
-                      onChange={() => {}}
-                      className="mt-1 w-4 h-4 rounded text-[#093624] accent-[#093624] cursor-pointer shrink-0"
-                    />
-                    <div className="flex-1 min-w-0">
-                      <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-[#6F7A6E] block mb-0.5">
-                        {item.category}
-                      </span>
-                      <p className={`font-sans text-sm sm:text-base leading-snug ${isDone ? 'line-through text-[#6F7A6E]' : 'text-[#0E1A15] font-medium'}`}>
-                        {item.task}
-                      </p>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-
-            {/* Download CTA Bar inside pad */}
-            <div className="pt-4 border-t border-[#093624]/15 flex flex-wrap items-center justify-between gap-3">
-              <span className="font-sans text-xs text-[#6F7A6E]">
-                Take it with you to your project board or print it out.
-              </span>
-              <button
-                type="button"
-                onClick={handleDownloadPDF}
-                className="font-sans font-bold text-xs text-[#093624] hover:text-[#15543D] underline underline-offset-4 decoration-[#CBDA46] hover:decoration-[#093624] transition-colors cursor-pointer inline-flex items-center gap-1.5"
-              >
-                <span>[Give it to me] Download PDF</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </button>
-            </div>
-
           </div>
 
-        </div>
-
-        {/* ========================================================================= */}
-        {/* 3. CLOSING SECTION (WORD FOR WORD FROM COPY)                              */}
-        {/* ========================================================================= */}
-        <div className="mb-14 p-6 sm:p-8 rounded-2xl bg-[#FAF7EE] border border-[#093624]/20">
-          <div className="space-y-4 font-sans text-base sm:text-lg text-[#0E1A15]/90 leading-relaxed max-w-3xl">
-            <p>
-              Work through it, tick things off, and keep moving… and maybe tell us how it goes for you.
-            </p>
-            <p className="font-medium text-[#093624]">
-              And hopefully, it saves you from forgetting the little things that become very big things three days before launch.
-            </p>
-          </div>
-
-          <div className="mt-6 pt-5 border-t border-[#093624]/15 flex flex-wrap items-center gap-4">
-            <Button
-              variant="primary"
-              size="md"
-              showSparkles={false}
-              onClick={onOpenBooking}
-              className="font-bold text-sm"
-            >
-              Need hands-on launch execution? Book a call →
-            </Button>
-            <button
-              type="button"
-              onClick={() => {
-                if (onNavigate) onNavigate('contact');
+          {/* Active Section Card (Organic Hand-Drawn Notebook Card matching Image 2) */}
+          <div className="relative max-w-3xl mx-auto group">
+            {/* Corner Washi Tape matching Image 2, color dynamically updates */}
+            <div 
+              className={`absolute pointer-events-none z-20 backdrop-blur-xs shadow-xs rotate-2 w-28 sm:w-32 h-6 -top-3 right-8 sm:right-14 transition-colors duration-300 ${
+                activeTab === 'new-launch' 
+                  ? 'bg-[rgba(203,218,70,0.92)]' 
+                  : 'bg-[rgba(245,166,33,0.92)]'
+              }`}
+              style={{
+                clipPath: 'polygon(0% 15%, 4% 0%, 96% 0%, 100% 15%, 98% 85%, 100% 100%, 4% 100%, 0% 85%)'
               }}
-              className="font-sans font-semibold text-sm text-[#093624] hover:underline cursor-pointer"
+            />
+
+            {/* Hand-Drawn Offset Shadow */}
+            <div 
+              className="absolute inset-0 translate-x-2 translate-y-2.5 bg-[#093624]/15 transition-all duration-300"
+              style={{ borderRadius: '255px 18px 225px 18px/18px 225px 18px 255px' }}
+            />
+
+            {/* Main Note Card (matching Image 2) */}
+            <div 
+              className="relative z-10 p-7 sm:p-10 bg-white/95 text-[#093624] border-2 border-[#093624] transition-all duration-300 flex flex-col justify-start"
+              style={{ borderRadius: '255px 22px 225px 22px/22px 225px 22px 255px' }}
             >
-              Or drop us a quick note
-            </button>
+              {/* Header Row: Title & Matching Dynamic Circle Badge */}
+              <div className="flex items-start justify-between gap-4 mb-4">
+                <h3 className="font-display font-bold text-2xl sm:text-4xl text-[#093624] tracking-tight">
+                  {activeTab === 'new-launch' ? '01. New launch?' : '02. Re-launches?'}
+                </h3>
+
+                <div 
+                  className={`w-11 h-11 rounded-full text-[#093624] font-mono font-bold text-base sm:text-lg flex items-center justify-center border border-[#093624]/20 shadow-xs shrink-0 transition-colors duration-300 ${
+                    activeTab === 'new-launch' ? 'bg-[#CBDA46]' : 'bg-[#F5A621]'
+                  }`}
+                >
+                  {activeTab === 'new-launch' ? '01' : '02'}
+                </div>
+              </div>
+
+              {/* Exact Copy */}
+              <p className="font-sans text-base sm:text-lg md:text-xl text-[#15543D] leading-relaxed max-w-2xl mb-8">
+                {activeTab === 'new-launch'
+                  ? 'Everything you need to think about when launching a new product is here.'
+                  : 'For when your product has already launched, and you’re getting ready to do it again.'}
+              </p>
+
+              {/* CTA Button: Secondary style with Give it to me and Download icon, linking to Fillout checklists */}
+              <div>
+                <Button
+                  variant="secondary"
+                  size="md"
+                  href={
+                    activeTab === 'new-launch'
+                      ? 'https://wren.fillout.com/product-launch-checklist'
+                      : 'https://wren.fillout.com/relaunch-checklist'
+                  }
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  showSparkles={false}
+                  className="font-bold text-sm w-full sm:w-auto"
+                >
+                  <Download className="w-4 h-4" />
+                  <span>Give it to me</span>
+                </Button>
+              </div>
+            </div>
           </div>
         </div>
-
       </div>
+
+      {/* ========================================================================= */}
+      {/* 3. CLOSING SECTION (FULL DARK GREEN CHECKED BACKGROUND)                   */}
+      {/* ========================================================================= */}
+      <section className="w-full bg-[#093624] text-[#F7F4E9] notebook-grid-dark relative overflow-hidden py-16 sm:py-24 border-t border-[#093624]/40 select-none">
+        {/* Subtle radial ambient glow */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-[#15543D]/30 rounded-full blur-3xl pointer-events-none" />
+
+        <div className="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
+          <p className="font-sans text-lg sm:text-2xl text-[#F7F4E9] font-medium leading-relaxed">
+            Work through it, tick things off, and keep moving… and maybe tell us how it goes for you.
+          </p>
+          <p className="font-sans text-base sm:text-lg text-[#CBDA46] leading-relaxed max-w-2xl mx-auto">
+            And hopefully, it saves you from forgetting the little things that become very big things three days before launch.
+          </p>
+        </div>
+      </section>
     </div>
   );
 };
