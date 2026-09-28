@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { ChevronDown, Menu, X, ArrowRight } from 'lucide-react';
+import { ChevronDown, Menu, X, ArrowRight, Plus } from 'lucide-react';
 import { Button } from './Button';
 
 interface MegaMenuItem {
@@ -20,8 +20,8 @@ interface NavGroup {
 
 interface NavbarProps {
   onOpenBooking?: () => void;
-  currentPage?: 'home' | 'about' | 'podcast' | 'for-ai' | 'community' | 'contact' | 'privacy-policy' | 'case-studies' | 'case-study-detail';
-  onNavigate?: (page: 'home' | 'about' | 'podcast' | 'for-ai' | 'community' | 'contact' | 'privacy-policy' | 'case-studies' | 'case-study-detail', sectionId?: string) => void;
+  currentPage?: 'home' | 'about' | 'podcast' | 'for-ai' | 'community' | 'contact' | 'privacy-policy' | 'case-studies' | 'case-study-detail' | 'free-stuff' | 'launch-checklist';
+  onNavigate?: (page: 'home' | 'about' | 'podcast' | 'for-ai' | 'community' | 'contact' | 'privacy-policy' | 'case-studies' | 'case-study-detail' | 'free-stuff' | 'launch-checklist', sectionId?: string) => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({ 
@@ -172,23 +172,21 @@ export const Navbar: React.FC<NavbarProps> = ({
       label: 'Free stuff',
       cards: [
         {
-          title: 'Product Launch Checklist',
-          tagline: 'Launching new or launching again? Start here.',
-          link: '/resources/product-launch-checklist',
+          title: 'Launch Checklist',
+          tagline: 'Everything to think about and cross-check before launching or relaunching your product.',
+          link: '/launch-checklist',
           action: () => {
-            try {
-              window.location.hash = '#launch-checklist';
-            } catch {}
+            if (onNavigate) onNavigate('launch-checklist');
+            else window.location.hash = '#launch-checklist';
           },
         },
         {
           title: 'GTM Calculator',
-          tagline: "See what your presence is producing and where there's room to grow.",
-          link: '/resources/gtm-calculator',
+          tagline: "See what’s working, what isn’t, and where your Founder-led GTM needs some work. No signup required.",
+          link: '/free-stuff',
           action: () => {
-            try {
-              window.location.hash = '#gtm-calculator';
-            } catch {}
+            if (onNavigate) onNavigate('free-stuff', 'gtm-calculator');
+            else window.location.hash = '#free-stuff';
           },
         },
       ],
@@ -228,7 +226,18 @@ export const Navbar: React.FC<NavbarProps> = ({
     }, 180);
   };
 
-  const handleGroupClick = (groupId: string) => {
+  const handleGroupClick = (groupId: string, e?: React.MouseEvent) => {
+    // If clicking "Free stuff", navigate directly to the Free Stuff page
+    if (groupId === 'free-stuff') {
+      setActiveDropdown(null);
+      if (onNavigate) {
+        onNavigate('free-stuff');
+      } else {
+        window.location.hash = '#free-stuff';
+      }
+      return;
+    }
+    // For other groups, toggle dropdown
     setActiveDropdown(prev => (prev === groupId ? null : groupId));
   };
 
@@ -305,24 +314,30 @@ export const Navbar: React.FC<NavbarProps> = ({
               {navGroups.map((group) => {
                 const isActive = activeDropdown === group.id;
                 const isHovered = hoveredGroup === group.id;
+                const isCurrentPage = (group.id === 'free-stuff' && currentPage === 'free-stuff') ||
+                                      (group.id === 'podcast' && currentPage === 'podcast');
 
                 return (
                   <div
                     key={group.id}
-                    className="relative py-1"
+                    className="relative py-1 flex items-center"
                     onMouseEnter={() => handleMouseEnter(group.id)}
                   >
+                    {/* Main Label: Click navigates if Free stuff, else opens dropdown */}
                     <button
                       type="button"
-                      onClick={() => handleGroupClick(group.id)}
-                      className={`font-sans font-medium text-[0.96rem] text-[#093624] py-1 px-1 transition-colors cursor-pointer flex items-center gap-1.5 group select-none`}
+                      onClick={(e) => handleGroupClick(group.id, e)}
+                      className={`font-sans font-medium text-[0.96rem] text-[#093624] py-1 pl-1 pr-0.5 transition-colors cursor-pointer flex items-center group select-none ${
+                        isCurrentPage ? 'font-bold' : ''
+                      }`}
+                      title={group.id === 'free-stuff' ? 'Click to visit Free stuff page, hover for quick links' : undefined}
                     >
                       <span className="relative">
                         {group.label}
                         
-                        {/* Hand-drawn Wattle squiggle underline on hover or when group is open */}
+                        {/* Hand-drawn Wattle squiggle underline on hover, when group is open, or when on that page */}
                         <AnimatePresence>
-                          {(isActive || isHovered) && (
+                          {(isActive || isHovered || isCurrentPage) && (
                             <motion.svg
                               viewBox="0 0 100 12"
                               fill="none"
@@ -345,10 +360,21 @@ export const Navbar: React.FC<NavbarProps> = ({
                           )}
                         </AnimatePresence>
                       </span>
+                    </button>
 
+                    {/* Chevron toggle button: clicking explicitly toggles dropdown without navigating */}
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setActiveDropdown(prev => (prev === group.id ? null : group.id));
+                      }}
+                      aria-label={`Toggle ${group.label} menu`}
+                      className="p-1 cursor-pointer text-[#093624]/70 hover:text-[#093624] transition-colors"
+                    >
                       <ChevronDown
-                        className={`w-3.5 h-3.5 text-[#093624]/70 transition-transform duration-200 ${
-                          isActive ? 'rotate-180 text-[#093624]' : 'group-hover:text-[#093624]'
+                        className={`w-3.5 h-3.5 transition-transform duration-200 ${
+                          isActive ? 'rotate-180 text-[#093624]' : ''
                         }`}
                       />
                     </button>
@@ -527,6 +553,30 @@ export const Navbar: React.FC<NavbarProps> = ({
                         );
                       })}
                     </div>
+
+                    {/* Dedicated callout banner when active group is Free Stuff */}
+                    {activeGroupData.id === 'free-stuff' && (
+                      <div className="mt-6 pt-4 border-t border-[#093624]/12 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
+                        <div className="flex items-center gap-2">
+                          <span className="w-2 h-2 rounded-full bg-[#15543D] animate-pulse" />
+                          <span className="font-sans text-xs text-[#093624]/80">
+                            Checklists, GTM models, and upcoming generators — steal whatever's useful.
+                          </span>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setActiveDropdown(null);
+                            if (onNavigate) onNavigate('free-stuff');
+                            else window.location.hash = '#free-stuff';
+                          }}
+                          className="font-sans font-bold text-xs text-[#093624] hover:text-[#15543D] inline-flex items-center gap-1.5 underline underline-offset-4 decoration-[#CBDA46] hover:decoration-[#093624] transition-colors cursor-pointer"
+                        >
+                          <span>Explore all 6 tools on the Free Stuff Page</span>
+                          <ArrowRight className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    )}
                   </motion.div>
                 </AnimatePresence>
 
@@ -607,45 +657,86 @@ export const Navbar: React.FC<NavbarProps> = ({
                 </button>
               </div>
 
-              {/* Drawer Navigation List: Accordion Groups + One Flat Link */}
-              <div className="py-2 space-y-1 flex-1">
-                {/* 1. Accordion Groups: "Inside Wren", "Resources", "Free stuff" */}
-                {navGroups
-                  .filter((group) => group.id !== 'podcast')
-                  .map((group) => {
-                    const isExpanded = mobileExpandedGroup === group.id;
+              {/* Drawer Navigation List: Restrained Torn-Paper Notes */}
+              <div className="py-4 space-y-4 flex-1">
+                {/* Nav Groups: "Inside Wren", "Resources", "Free stuff", "Podcast" */}
+                {navGroups.map((group, index) => {
+                  const isExpanded = mobileExpandedGroup === group.id;
 
-                    return (
-                      <div key={group.id} className="border-b border-[#F7F4E9]/15 py-3.5">
+                  // Alternate only 2 background tints across the notes: Cream and Pale Wattle
+                  // Note 0: Cream (#F7F4E9), Note 1: Pale Wattle (#EEF2CC), Note 2: Cream (#F7F4E9), Note 3: Pale Wattle (#EEF2CC)
+                  const bgTint = index % 2 === 0 ? '#F7F4E9' : '#EEF2CC';
+
+                  // Alternate only 2 fixed rotation angles: -1.5deg and +1.5deg (never randomized)
+                  const rotationDeg = index % 2 === 0 ? -1.5 : 1.5;
+
+                  return (
+                    <div
+                      key={group.id}
+                      className="relative w-full transition-transform duration-300"
+                      style={{
+                        transform: `rotate(${rotationDeg}deg)`,
+                        transformOrigin: 'top center',
+                      }}
+                    >
+                      {/* Torn-Paper Parent Note */}
+                      <div
+                        className="relative shadow-[0_4px_14px_rgba(3,24,15,0.22)] border border-[#093624]/15 rounded-b-xl overflow-hidden"
+                        style={{
+                          backgroundColor: bgTint,
+                        }}
+                      >
+                        {/* Torn paper top edge SVG */}
+                        <div className="w-full h-2.5 overflow-hidden leading-none pointer-events-none select-none">
+                          <svg
+                            viewBox="0 0 400 10"
+                            preserveAspectRatio="none"
+                            className="w-full h-full fill-[#093624]"
+                          >
+                            <path d="M0,0 L400,0 L400,3 Q385,8 370,4 Q355,0 340,5 Q320,10 300,4 Q280,0 260,6 Q240,10 220,5 Q200,0 180,6 Q160,10 140,4 Q120,0 100,5 Q80,10 60,4 Q40,0 20,5 L0,2 Z" />
+                          </svg>
+                        </div>
+
+                        {/* Note Header: Group Title + Rotating "+" indicator */}
                         <button
                           type="button"
                           onClick={() =>
                             setMobileExpandedGroup((prev) => (prev === group.id ? null : group.id))
                           }
-                          className="w-full flex items-center justify-between text-left group cursor-pointer py-1 select-none"
+                          className="w-full flex items-center justify-between text-left cursor-pointer px-4 pt-2.5 pb-3 select-none"
                           aria-expanded={isExpanded}
                         >
-                          <span className="font-sans font-bold text-lg text-[#F7F4E9] group-hover:text-[#CBDA46] transition-colors">
+                          <span className="font-sans font-bold text-base text-[#093624] tracking-tight">
                             {group.label}
                           </span>
-                          <ChevronDown
-                            className={`w-4 h-4 text-[#F7F4E9]/70 transition-transform duration-200 ${
-                              isExpanded ? 'rotate-180 text-[#CBDA46]' : ''
-                            }`}
-                          />
+                          <div className="w-6 h-6 rounded-full bg-[#093624]/8 flex items-center justify-center text-[#093624] transition-colors">
+                            <Plus
+                              className="w-4 h-4 transition-transform duration-300 ease-out"
+                              style={{
+                                transform: isExpanded ? 'rotate(45deg)' : 'rotate(0deg)',
+                              }}
+                            />
+                          </div>
                         </button>
 
+                        {/* Unfolding Sub-note directly beneath header:
+                            Butter-smooth unfold with scaleY, height, and opacity using smooth custom cubic bezier.
+                            Always Cream (#F7F4E9) background regardless of parent tint. */}
                         <AnimatePresence initial={false}>
                           {isExpanded && (
                             <motion.div
-                              key={`content-${group.id}`}
-                              initial={{ height: 0, opacity: 0 }}
-                              animate={{ height: 'auto', opacity: 1 }}
-                              exit={{ height: 0, opacity: 0 }}
-                              transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
-                              className="overflow-hidden"
+                              key={`subnote-${group.id}`}
+                              initial={{ opacity: 0, scaleY: 0, height: 0 }}
+                              animate={{ opacity: 1, scaleY: 1, height: 'auto' }}
+                              exit={{ opacity: 0, scaleY: 0, height: 0 }}
+                              transition={{ 
+                                duration: 0.32, 
+                                ease: [0.22, 1, 0.36, 1] 
+                              }}
+                              style={{ transformOrigin: 'top center' }}
+                              className="overflow-hidden border-t border-[#093624]/12 bg-[#F7F4E9]"
                             >
-                              <div className="pt-2.5 pb-2 space-y-3 pl-1">
+                              <div className="px-4 py-3 space-y-2.5">
                                 {group.cards.map((item) => (
                                   <button
                                     key={item.title}
@@ -660,70 +751,65 @@ export const Navbar: React.FC<NavbarProps> = ({
                                         } catch {}
                                       }
                                     }}
-                                    className="w-full text-left group/item cursor-pointer block py-1"
+                                    className="w-full text-left group/item cursor-pointer block py-1 transition-opacity hover:opacity-85"
                                   >
-                                    <div className="font-display font-bold text-[1.02rem] text-[#F7F4E9] group-hover/item:text-[#CBDA46] transition-colors leading-snug">
-                                      {item.title}
+                                    {/* Bold Title in --color-bottle (#093624) + optional badge */}
+                                    <div className="flex items-center gap-2">
+                                      {item.badge && (
+                                        <span className="inline-flex items-center justify-center px-1.5 py-0.5 rounded-[4px] bg-[#CBDA46] border border-[#093624]/20 text-[#093624] font-mono text-[9px] font-bold tracking-wider uppercase">
+                                          {item.badge}
+                                        </span>
+                                      )}
+                                      <span className="font-sans font-bold text-[0.93rem] text-[#093624] leading-snug">
+                                        {item.title}
+                                      </span>
                                     </div>
-                                    <div className="font-sans italic text-xs text-[#A3C2A3] mt-0.5 leading-relaxed">
+                                    {/* Muted italic --color-sage (#6F7A6E) tagline */}
+                                    <div className="font-sans italic text-xs text-[#6F7A6E] mt-0.5 leading-relaxed">
                                       {item.tagline}
                                     </div>
                                   </button>
                                 ))}
+
+                                {/* Direct link to full Free Stuff page inside mobile note */}
+                                {group.id === 'free-stuff' && (
+                                  <div className="pt-2 border-t border-[#093624]/10">
+                                    <button
+                                      type="button"
+                                      onClick={() => {
+                                        setMobileOpen(false);
+                                        if (onNavigate) onNavigate('free-stuff');
+                                        else window.location.hash = '#free-stuff';
+                                      }}
+                                      className="w-full text-left font-sans font-bold text-xs text-[#093624] hover:text-[#15543D] flex items-center justify-between py-1.5 transition-colors cursor-pointer"
+                                    >
+                                      <span>Explore full Free Stuff page</span>
+                                      <ArrowRight className="w-3.5 h-3.5 text-[#093624]" />
+                                    </button>
+                                  </div>
+                                )}
                               </div>
                             </motion.div>
                           )}
                         </AnimatePresence>
                       </div>
-                    );
-                  })}
-
-                {/* 2. "Podcast" renders as a single flat link (no accordion, single destination) */}
-                <div className="border-b border-[#F7F4E9]/15 py-3.5">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setMobileOpen(false);
-                      if (onNavigate) {
-                        onNavigate('podcast');
-                      } else {
-                        window.location.hash = '#podcast';
-                      }
-                    }}
-                    className="w-full text-left group cursor-pointer block py-1"
-                  >
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <span className="inline-flex items-center justify-center px-1.5 py-0.5 rounded-[4px] bg-[#CBDA46] border border-[#093624]/20 text-[#093624] font-mono text-[9px] font-bold tracking-wider uppercase">
-                        LISTEN
-                      </span>
-                      <span className="font-display font-bold text-lg text-[#F7F4E9] group-hover:text-[#CBDA46] transition-colors leading-snug">
-                        Beyond Content
-                      </span>
                     </div>
-                    <div className="font-sans italic text-xs text-[#A3C2A3] mt-1 leading-relaxed pl-0.5">
-                      Real conversations about building, selling, and growing.
-                    </div>
-                  </button>
-                </div>
+                  );
+                })}
               </div>
 
-              {/* Bottom of Drawer: Stacked sticky-note CTA button + Social icons */}
+              {/* Bottom of Drawer: Primary Website Button CTA + Social icons */}
               <div className="pt-6 pb-2 mt-auto space-y-4">
-                {/* Stacked sticky-note CTA: "Talk to us" */}
-                <div className="relative group w-full">
-                  {/* Stacked note backgrounds */}
-                  <div className="absolute inset-0 bg-[#EEF2CC] border border-[#093624]/20 rounded-xl rotate-3 shadow-xs transition-transform duration-300 group-hover:rotate-5" />
-                  <div className="absolute inset-0 bg-[#F4ECD8] border border-[#093624]/25 rounded-xl -rotate-2 shadow-xs transition-transform duration-300 group-hover:-rotate-4" />
-
-                  <button
-                    type="button"
-                    onClick={handleTalkToUs}
-                    className="relative w-full bg-[#CBDA46] hover:bg-[#D5E452] active:bg-[#C2D13D] text-[#093624] py-3.5 px-6 rounded-xl font-sans font-bold text-base border-2 border-[#093624] shadow-[4px_4px_0px_rgba(3,24,15,0.45)] hover:shadow-[2px_2px_0px_rgba(3,24,15,0.45)] hover:translate-x-[1px] hover:translate-y-[1px] transition-all cursor-pointer flex items-center justify-center gap-2"
-                  >
-                    <span>Talk to us</span>
-                    <span className="font-sans font-normal text-lg">→</span>
-                  </button>
-                </div>
+                <Button
+                  variant="primary"
+                  size="md"
+                  fullWidth
+                  showSparkles={false}
+                  onClick={handleTalkToUs}
+                  className="font-bold text-base shadow-md w-full"
+                >
+                  Talk to us →
+                </Button>
 
                 {/* Small row of social icons (reused from site footer) */}
                 <div className="flex items-center justify-center gap-3 pt-1">

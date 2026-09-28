@@ -578,4 +578,82 @@ html.lenis body {
   animation: subtleShake 0.45s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
 }
 
+/* Ambient Wren Bird Looping Orbit around Wordmark (24s cycle, ambient, pauses on letter, stays in wordmark area) */
+@keyframes wrenWordmarkOrbit {
+  0% {
+    /* Perched gracefully on top of letter 'R' */
+    transform: translate3d(78px, 12px, 0) scale(1) scaleX(1) rotate(0deg);
+    z-index: 20;
+  }
+  10% {
+    /* Still perched, slight alert head movement */
+    transform: translate3d(78px, 12px, 0) scale(1) scaleX(1) rotate(2deg);
+    z-index: 20;
+  }
+  14% {
+    /* Takes off, dipping slightly and heading right towards 'N' */
+    transform: translate3d(115px, 26px, 0) scale(1.02) scaleX(1) rotate(-6deg);
+    z-index: 20;
+  }
+  25% {
+    /* Swooping around the right side of 'N' */
+    transform: translate3d(190px, 45px, 0) scale(0.96) scaleX(1) rotate(8deg);
+    z-index: 20;
+  }
+  35% {
+    /* Looping under the wordmark heading left, passes behind letters (z-index: 0) */
+    transform: translate3d(130px, 95px, 0) scale(0.88) scaleX(-1) rotate(-4deg);
+    z-index: 0;
+  }
+  48% {
+    /* Gliding behind 'R' and 'W' */
+    transform: translate3d(35px, 75px, 0) scale(0.85) scaleX(-1) rotate(5deg);
+    z-index: 0;
+  }
+  58% {
+    /* Sweeping around the left edge of 'W' */
+    transform: translate3d(-10px, 35px, 0) scale(0.95) scaleX(-1) rotate(-10deg);
+    z-index: 20;
+  }
+  68% {
+    /* Turning forward above 'W' */
+    transform: translate3d(20px, 0px, 0) scale(1) scaleX(1) rotate(-4deg);
+    z-index: 20;
+  }
+  78% {
+    /* Descending softly toward 'E' */
+    transform: translate3d(120px, 16px, 0) scale(1) scaleX(1) rotate(4deg);
+    z-index: 20;
+  }
+  86% {
+    /* Brief hover over 'E' */
+    transform: translate3d(124px, 14px, 0) scale(1) scaleX(1) rotate(0deg);
+    z-index: 20;
+  }
+  92% {
+    /* Gliding to landing perch on 'R' */
+    transform: translate3d(85px, 13px, 0) scale(1) scaleX(1) rotate(-2deg);
+    z-index: 20;
+  }
+  100% {
+    /* Back perched on 'R' */
+    transform: translate3d(78px, 12px, 0) scale(1) scaleX(1) rotate(0deg);
+    z-index: 20;
+  }
+}
+
+.animate-wren-wordmark-orbit {
+  animation: wrenWordmarkOrbit 24s ease-in-out infinite;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-wren-wordmark-orbit {
+    animation: none !important;
+    transform: translate3d(78px, 12px, 0) scale(1) scaleX(1) rotate(0deg) !important;
+    z-index: 20 !important;
+  }
+}
+
+
 

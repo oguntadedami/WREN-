@@ -26,6 +26,8 @@ import { ContactPage } from './components/ContactPage';
 import { PrivacyPolicyPage } from './components/PrivacyPolicyPage';
 import { CaseStudiesPage } from './components/CaseStudiesPage';
 import { CaseStudyDetailPage } from './components/CaseStudyDetailPage';
+import { FreeStuffPage } from './components/FreeStuffPage';
+import { LaunchChecklistPage } from './components/LaunchChecklistPage';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -53,10 +55,12 @@ export default function App() {
     }
   });
 
-  const [currentPage, setCurrentPage] = useState<'home' | 'about' | 'podcast' | 'for-ai' | 'community' | 'contact' | 'privacy-policy' | 'case-studies' | 'case-study-detail'>(() => {
+  const [currentPage, setCurrentPage] = useState<'home' | 'about' | 'podcast' | 'for-ai' | 'community' | 'contact' | 'privacy-policy' | 'case-studies' | 'case-study-detail' | 'free-stuff' | 'launch-checklist'>(() => {
     try {
       const path = window.location.pathname;
       const hash = window.location.hash;
+      if (path === '/free-stuff/launch-checklist' || path === '/launch-checklist' || hash === '#launch-checklist') return 'launch-checklist';
+      if (path === '/free-stuff' || path === '/free-stuff/' || hash === '#free-stuff' || hash.startsWith('#gtm-calculator')) return 'free-stuff';
       if (path === '/case-studies' || path === '/case-studies/' || hash === '#case-studies') return 'case-studies';
       if (path.startsWith('/case-studies/') && path !== '/case-studies/' && path !== '/case-studies') {
         return 'case-study-detail';
@@ -80,7 +84,11 @@ export default function App() {
       try {
         const path = window.location.pathname;
         const hash = window.location.hash;
-        if (path === '/case-studies' || path === '/case-studies/' || hash === '#case-studies') {
+        if (path === '/free-stuff/launch-checklist' || path === '/launch-checklist' || hash === '#launch-checklist') {
+          setCurrentPage('launch-checklist');
+        } else if (path === '/free-stuff' || path === '/free-stuff/' || hash === '#free-stuff' || hash.startsWith('#gtm-calculator')) {
+          setCurrentPage('free-stuff');
+        } else if (path === '/case-studies' || path === '/case-studies/' || hash === '#case-studies') {
           setCurrentPage('case-studies');
         } else if (path.startsWith('/case-studies/') && path !== '/case-studies/' && path !== '/case-studies') {
           const slug = path.replace(/^\/case-studies\//, '').split('/')[0].split('#')[0].split('?')[0];
@@ -118,12 +126,16 @@ export default function App() {
           !hash.startsWith('#privacy-policy') &&
           !hash.startsWith('#case-studies') &&
           !hash.startsWith('#case-study-') &&
+          !hash.startsWith('#free-stuff') &&
+          !hash.startsWith('#launch-checklist') &&
+          !hash.startsWith('#gtm-calculator') &&
           path !== '/about' &&
           path !== '/podcast' &&
           path !== '/for-ai' &&
           path !== '/community' &&
           path !== '/contact' &&
           path !== '/privacy-policy' &&
+          path !== '/free-stuff' &&
           !path.startsWith('/case-studies')
         ) {
           setCurrentPage('home');
@@ -189,6 +201,18 @@ export default function App() {
           }
           return;
         }
+      }
+      const launchChecklistTarget = (e.target as HTMLElement).closest('a[href="/launch-checklist"], a[href="/free-stuff/launch-checklist"]');
+      if (launchChecklistTarget) {
+        e.preventDefault();
+        handleNavigate('launch-checklist');
+        return;
+      }
+      const freeStuffTarget = (e.target as HTMLElement).closest('a[href="/free-stuff"]');
+      if (freeStuffTarget) {
+        e.preventDefault();
+        handleNavigate('free-stuff');
+        return;
       }
       const caseStudiesTarget = (e.target as HTMLElement).closest('a[href="/case-studies"]');
       if (caseStudiesTarget) {
@@ -272,7 +296,7 @@ export default function App() {
     return () => clearTimeout(timer);
   }, [currentPage]);
 
-  const handleNavigate = (page: 'home' | 'about' | 'podcast' | 'for-ai' | 'community' | 'contact' | 'privacy-policy' | 'case-studies' | 'case-study-detail', sectionId?: string) => {
+  const handleNavigate = (page: 'home' | 'about' | 'podcast' | 'for-ai' | 'community' | 'contact' | 'privacy-policy' | 'case-studies' | 'case-study-detail' | 'free-stuff' | 'launch-checklist', sectionId?: string) => {
     if (page === 'case-study-detail') {
       const slug = sectionId || 'mischief-makers';
       setCurrentCaseStudySlug(slug);
@@ -296,7 +320,13 @@ export default function App() {
 
     setCurrentPage(page);
     try {
-      if (page === 'case-studies') {
+      if (page === 'launch-checklist') {
+        window.history.pushState({}, '', '/free-stuff/launch-checklist');
+        window.location.hash = '#launch-checklist';
+      } else if (page === 'free-stuff') {
+        window.history.pushState({}, '', '/free-stuff');
+        window.location.hash = sectionId ? `#${sectionId}` : '#free-stuff';
+      } else if (page === 'case-studies') {
         window.history.pushState({}, '', '/case-studies');
         window.location.hash = sectionId ? `#${sectionId}` : '#case-studies';
       } else if (page === 'privacy-policy') {
@@ -429,6 +459,20 @@ export default function App() {
       ) : currentPage === 'case-studies' ? (
         <main>
           <CaseStudiesPage
+            onOpenBooking={handleOpenBooking}
+            onNavigate={handleNavigate}
+          />
+        </main>
+      ) : currentPage === 'launch-checklist' ? (
+        <main>
+          <LaunchChecklistPage
+            onOpenBooking={handleOpenBooking}
+            onNavigate={handleNavigate}
+          />
+        </main>
+      ) : currentPage === 'free-stuff' ? (
+        <main>
+          <FreeStuffPage
             onOpenBooking={handleOpenBooking}
             onNavigate={handleNavigate}
           />

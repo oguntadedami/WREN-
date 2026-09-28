@@ -7,8 +7,8 @@ import { FooterPhysicsBadges } from './FooterPhysicsBadges';
 
 interface FooterProps {
   onOpenBooking?: () => void;
-  onNavigate?: (page: 'home' | 'about' | 'podcast' | 'for-ai' | 'community' | 'contact' | 'privacy-policy' | 'case-studies' | 'case-study-detail', sectionId?: string) => void;
-  currentPage?: 'home' | 'about' | 'podcast' | 'for-ai' | 'community' | 'contact' | 'privacy-policy' | 'case-studies' | 'case-study-detail';
+  onNavigate?: (page: 'home' | 'about' | 'podcast' | 'for-ai' | 'community' | 'contact' | 'privacy-policy' | 'case-studies' | 'case-study-detail' | 'free-stuff' | 'launch-checklist', sectionId?: string) => void;
+  currentPage?: 'home' | 'about' | 'podcast' | 'for-ai' | 'community' | 'contact' | 'privacy-policy' | 'case-studies' | 'case-study-detail' | 'free-stuff' | 'launch-checklist';
 }
 
 export const Footer: React.FC<FooterProps> = ({ onOpenBooking, onNavigate, currentPage = 'home' }) => {
@@ -28,7 +28,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenBooking, onNavigate, curre
     }
   };
 
-  const navigateTo = (page: 'home' | 'about' | 'podcast' | 'for-ai' | 'community' | 'contact' | 'privacy-policy' | 'case-studies' | 'case-study-detail', sectionId?: string) => {
+  const navigateTo = (page: 'home' | 'about' | 'podcast' | 'for-ai' | 'community' | 'contact' | 'privacy-policy' | 'case-studies' | 'case-study-detail' | 'free-stuff' | 'launch-checklist', sectionId?: string) => {
     if (onNavigate) {
       onNavigate(page, sectionId);
     } else {
@@ -252,7 +252,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenBooking, onNavigate, curre
                       </span>
                     </div>
                     <span className="text-xs text-[#A3C2A3] font-sans leading-tight mt-0.5">
-                      Connect to our Founder
+                      Connect with our founder
                     </span>
                   </div>
                 </a>
@@ -278,18 +278,31 @@ export const Footer: React.FC<FooterProps> = ({ onOpenBooking, onNavigate, curre
             </h4>
             <ul className="space-y-2.5 text-sm font-sans text-[#D5E3D5]">
               <li>
-                <button onClick={() => scrollTo('tool-stack-section')} className="hover:text-white transition-colors cursor-pointer text-left">
-                  ROI Calculator
+                <button 
+                  onClick={() => navigateTo('free-stuff')} 
+                  className={`transition-colors cursor-pointer text-left ${
+                    currentPage === 'free-stuff' ? 'text-[#CBDA46] font-semibold' : 'hover:text-white'
+                  }`}
+                >
+                  Free stuff overview
                 </button>
               </li>
               <li>
-                <button onClick={() => scrollTo('tool-stack-section')} className="hover:text-white transition-colors cursor-pointer text-left">
-                  Time Audit
+                <button 
+                  onClick={() => navigateTo('launch-checklist')} 
+                  className={`transition-colors cursor-pointer text-left ${
+                    currentPage === 'launch-checklist' ? 'text-[#CBDA46] font-semibold' : 'hover:text-white'
+                  }`}
+                >
+                  Launch Checklist
                 </button>
               </li>
               <li>
-                <button onClick={() => scrollTo('case-studies-section')} className="hover:text-white transition-colors cursor-pointer text-left">
-                  The 2026 Playbook
+                <button 
+                  onClick={() => navigateTo('free-stuff')} 
+                  className="hover:text-white transition-colors cursor-pointer text-left"
+                >
+                  GTM Calculator
                 </button>
               </li>
               <li>

@@ -157,14 +157,11 @@ export const CaseStudiesPage: React.FC<CaseStudiesPageProps> = ({
                     style={{ borderRadius: '255px 22px 225px 22px/22px 225px 22px 255px' }}
                   >
                     <div>
-                      {/* Top Bar: Brand Logo or Name + Category Badge */}
-                      <div className="flex items-center justify-between gap-3 mb-6 flex-wrap">
+                      {/* Top Bar: Brand Logo or Name */}
+                      <div className="flex items-center min-h-[44px] mb-6">
                         <div className="h-10 sm:h-12 flex items-center">
                           {renderBrandLogo(item)}
                         </div>
-                        <span className="font-mono text-xs font-bold tracking-wider uppercase px-2.5 py-1 bg-[#093624]/5 text-[#093624] rounded-sm border border-[#093624]/10">
-                          {item.category}
-                        </span>
                       </div>
 
                       {/* Headline Stat: first topStat as the card's headline stat */}
