@@ -20,8 +20,8 @@ interface NavGroup {
 
 interface NavbarProps {
   onOpenBooking?: () => void;
-  currentPage?: 'home' | 'about' | 'podcast' | 'for-ai' | 'community' | 'contact' | 'privacy-policy' | 'case-studies' | 'case-study-detail' | 'free-stuff' | 'launch-checklist';
-  onNavigate?: (page: 'home' | 'about' | 'podcast' | 'for-ai' | 'community' | 'contact' | 'privacy-policy' | 'case-studies' | 'case-study-detail' | 'free-stuff' | 'launch-checklist', sectionId?: string) => void;
+  currentPage?: 'home' | 'about' | 'podcast' | 'for-ai' | 'community' | 'contact' | 'privacy-policy' | 'case-studies' | 'case-study-detail' | 'free-stuff' | 'launch-checklist' | 'gtm-calculator';
+  onNavigate?: (page: 'home' | 'about' | 'podcast' | 'for-ai' | 'community' | 'contact' | 'privacy-policy' | 'case-studies' | 'case-study-detail' | 'free-stuff' | 'launch-checklist' | 'gtm-calculator', sectionId?: string) => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({ 
@@ -85,15 +85,11 @@ export const Navbar: React.FC<NavbarProps> = ({
     }
   };
 
-  // Header CTA action: Show Me How (links to the book a call section)
+  // Header CTA action: Show Me How (leads to the 'How We Get You There' / Our Process section on the homepage)
   const handleShowMeHow = () => {
     setActiveDropdown(null);
     setMobileOpen(false);
-    if (onOpenBooking) {
-      onOpenBooking();
-    } else {
-      scrollToSection('booking-section');
-    }
+    scrollToSection('process-section');
   };
 
   // Nav Groups & Exact Card Copy specified in brief
@@ -183,10 +179,10 @@ export const Navbar: React.FC<NavbarProps> = ({
         {
           title: 'GTM Calculator',
           tagline: "See what’s working, what isn’t, and where your Founder-led GTM needs some work. No signup required.",
-          link: '/free-stuff',
+          link: '/gtm-calculator',
           action: () => {
-            if (onNavigate) onNavigate('free-stuff', 'gtm-calculator');
-            else window.location.hash = '#free-stuff';
+            if (onNavigate) onNavigate('gtm-calculator');
+            else window.location.hash = '#gtm-calculator';
           },
         },
       ],
@@ -572,7 +568,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                           }}
                           className="font-sans font-bold text-xs text-[#093624] hover:text-[#15543D] inline-flex items-center gap-1.5 underline underline-offset-4 decoration-[#CBDA46] hover:decoration-[#093624] transition-colors cursor-pointer"
                         >
-                          <span>Explore all 6 tools on the Free Stuff Page</span>
+                          <span>Explore all the free tools</span>
                           <ArrowRight className="w-3.5 h-3.5" />
                         </button>
                       </div>
@@ -805,10 +801,10 @@ export const Navbar: React.FC<NavbarProps> = ({
                   size="md"
                   fullWidth
                   showSparkles={false}
-                  onClick={handleTalkToUs}
+                  onClick={handleShowMeHow}
                   className="font-bold text-base shadow-md w-full"
                 >
-                  Talk to us →
+                  Show Me How →
                 </Button>
 
                 {/* Small row of social icons (reused from site footer) */}

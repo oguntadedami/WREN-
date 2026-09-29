@@ -47,11 +47,27 @@
     --ease-primary: cubic-bezier(0.22, 1, 0.36, 1);
   }
 
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
   body {
     font-family: var(--font-body);
     background-color: var(--color-cream);
     color: var(--color-ink);
     overflow-x: hidden;
+  }
+
+  /* Luxurious smooth clicks and transitions for all buttons and interactive elements */
+  button, a, input, select, textarea {
+    transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  button:active, a:active {
+    transition-duration: 90ms;
   }
 
   h1, h2, h3, h4, .font-display, .font-serif {
@@ -654,6 +670,69 @@ html.lenis body {
     z-index: 20 !important;
   }
 }
+
+/* ========================================================================= */
+/* LUXURIOUS SMOOTH ENTRANCES & ALIVE MICRO-MOTIONS                          */
+/* ========================================================================= */
+@keyframes smoothEnterHero {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 22px, 0) scale(0.985);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes smoothEnterSubhead {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 16px, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes smoothFloatCard {
+  0%, 100% {
+    transform: translateY(0px) rotate(var(--base-rot, 0deg));
+  }
+  50% {
+    transform: translateY(-4px) rotate(calc(var(--base-rot, 0deg) + 0.5deg));
+  }
+}
+
+.hero-enter-headline {
+  animation: smoothEnterHero 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: transform, opacity;
+}
+
+.hero-enter-subhead {
+  animation: smoothEnterSubhead 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
+  will-change: transform, opacity;
+}
+
+.hero-enter-cards {
+  animation: smoothEnterSubhead 1.25s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
+  will-change: transform, opacity;
+}
+
+/* Smooth clickable tactile buttons with luxurious feedback */
+.interactive-tactile-btn {
+  transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+.interactive-tactile-btn:hover {
+  transform: translateY(-2px) scale(1.015);
+}
+.interactive-tactile-btn:active {
+  transform: translateY(1.5px) scale(0.985);
+  transition-duration: 0.08s;
+}
+
 
 
 

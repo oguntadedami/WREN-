@@ -219,7 +219,7 @@ export const LaunchChecklistPage: React.FC<LaunchChecklistPageProps> = ({
   };
 
   return (
-    <div className="w-full bg-[#FAF7EE] text-[#0E1A15] relative selection:bg-[#CBDA46] selection:text-[#093624] overflow-x-hidden font-sans pt-24 sm:pt-28 pb-0">
+    <div className="w-full bg-[#FAF7EE] text-[#0E1A15] relative selection:bg-[#CBDA46] selection:text-[#093624] overflow-x-hidden font-sans pt-28 sm:pt-36 pb-0">
       
       {/* Background Subtle Organic Grid */}
       <div 
@@ -236,16 +236,16 @@ export const LaunchChecklistPage: React.FC<LaunchChecklistPageProps> = ({
       <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-16 sm:mb-24">
         
         {/* Back Link to Free Stuff */}
-        <div className="mb-6 pt-2">
+        <div className="mb-8 pt-2">
           <button
             type="button"
             onClick={() => {
               if (onNavigate) onNavigate('free-stuff');
               else window.location.hash = '#free-stuff';
             }}
-            className="inline-flex items-center gap-2 font-sans font-semibold text-xs sm:text-sm text-[#093624] hover:text-[#15543D] transition-colors cursor-pointer"
+            className="inline-flex items-center gap-2 font-sans font-semibold text-xs sm:text-sm text-[#093624] hover:text-[#15543D] transition-colors cursor-pointer group"
           >
-            <ArrowLeft className="w-4 h-4" />
+            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
             <span>Back to Free stuff</span>
           </button>
         </div>

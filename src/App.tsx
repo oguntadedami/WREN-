@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import Lenis from 'lenis';
 import 'lenis/dist/lenis.css';
 import gsap from 'gsap';
@@ -28,6 +29,7 @@ import { CaseStudiesPage } from './components/CaseStudiesPage';
 import { CaseStudyDetailPage } from './components/CaseStudyDetailPage';
 import { FreeStuffPage } from './components/FreeStuffPage';
 import { LaunchChecklistPage } from './components/LaunchChecklistPage';
+import { GTMCalculator } from './components/GTMCalculator';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -55,12 +57,13 @@ export default function App() {
     }
   });
 
-  const [currentPage, setCurrentPage] = useState<'home' | 'about' | 'podcast' | 'for-ai' | 'community' | 'contact' | 'privacy-policy' | 'case-studies' | 'case-study-detail' | 'free-stuff' | 'launch-checklist'>(() => {
+  const [currentPage, setCurrentPage] = useState<'home' | 'about' | 'podcast' | 'for-ai' | 'community' | 'contact' | 'privacy-policy' | 'case-studies' | 'case-study-detail' | 'free-stuff' | 'launch-checklist' | 'gtm-calculator'>(() => {
     try {
       const path = window.location.pathname;
       const hash = window.location.hash;
       if (path === '/free-stuff/launch-checklist' || path === '/launch-checklist' || hash === '#launch-checklist') return 'launch-checklist';
-      if (path === '/free-stuff' || path === '/free-stuff/' || hash === '#free-stuff' || hash.startsWith('#gtm-calculator')) return 'free-stuff';
+      if (path === '/gtm-calculator' || path === '/free-stuff/gtm-calculator' || hash === '#gtm-calculator') return 'gtm-calculator';
+      if (path === '/free-stuff' || path === '/free-stuff/' || hash === '#free-stuff') return 'free-stuff';
       if (path === '/case-studies' || path === '/case-studies/' || hash === '#case-studies') return 'case-studies';
       if (path.startsWith('/case-studies/') && path !== '/case-studies/' && path !== '/case-studies') {
         return 'case-study-detail';
@@ -86,7 +89,9 @@ export default function App() {
         const hash = window.location.hash;
         if (path === '/free-stuff/launch-checklist' || path === '/launch-checklist' || hash === '#launch-checklist') {
           setCurrentPage('launch-checklist');
-        } else if (path === '/free-stuff' || path === '/free-stuff/' || hash === '#free-stuff' || hash.startsWith('#gtm-calculator')) {
+        } else if (path === '/gtm-calculator' || path === '/free-stuff/gtm-calculator' || hash === '#gtm-calculator') {
+          setCurrentPage('gtm-calculator');
+        } else if (path === '/free-stuff' || path === '/free-stuff/' || hash === '#free-stuff') {
           setCurrentPage('free-stuff');
         } else if (path === '/case-studies' || path === '/case-studies/' || hash === '#case-studies') {
           setCurrentPage('case-studies');
@@ -160,15 +165,15 @@ export default function App() {
       autoRefreshEvents: 'visibilitychange,DOMContentLoaded,load,resize',
     });
 
-    // Initialize Lenis for luxurious, butter-smooth inertial scrolling
+    // Initialize Lenis for luxurious, butter-smooth inertial scrolling & gliding
     const lenis = new Lenis({
-      duration: 1.25,
+      duration: 1.45,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: 'vertical',
       gestureOrientation: 'vertical',
       smoothWheel: true,
-      wheelMultiplier: 1.0,
-      touchMultiplier: 1.2,
+      wheelMultiplier: 0.95,
+      touchMultiplier: 1.3,
       infinite: false,
     });
 
@@ -206,6 +211,12 @@ export default function App() {
       if (launchChecklistTarget) {
         e.preventDefault();
         handleNavigate('launch-checklist');
+        return;
+      }
+      const gtmCalculatorTarget = (e.target as HTMLElement).closest('a[href="/gtm-calculator"], a[href="/free-stuff/gtm-calculator"]');
+      if (gtmCalculatorTarget) {
+        e.preventDefault();
+        handleNavigate('gtm-calculator');
         return;
       }
       const freeStuffTarget = (e.target as HTMLElement).closest('a[href="/free-stuff"]');
@@ -296,7 +307,7 @@ export default function App() {
     return () => clearTimeout(timer);
   }, [currentPage]);
 
-  const handleNavigate = (page: 'home' | 'about' | 'podcast' | 'for-ai' | 'community' | 'contact' | 'privacy-policy' | 'case-studies' | 'case-study-detail' | 'free-stuff' | 'launch-checklist', sectionId?: string) => {
+  const handleNavigate = (page: 'home' | 'about' | 'podcast' | 'for-ai' | 'community' | 'contact' | 'privacy-policy' | 'case-studies' | 'case-study-detail' | 'free-stuff' | 'launch-checklist' | 'gtm-calculator', sectionId?: string) => {
     if (page === 'case-study-detail') {
       const slug = sectionId || 'mischief-makers';
       setCurrentCaseStudySlug(slug);
@@ -320,7 +331,10 @@ export default function App() {
 
     setCurrentPage(page);
     try {
-      if (page === 'launch-checklist') {
+      if (page === 'gtm-calculator') {
+        window.history.pushState({}, '', '/gtm-calculator');
+        window.location.hash = '#gtm-calculator';
+      } else if (page === 'launch-checklist') {
         window.history.pushState({}, '', '/free-stuff/launch-checklist');
         window.location.hash = '#launch-checklist';
       } else if (page === 'free-stuff') {
@@ -404,121 +418,140 @@ export default function App() {
         onNavigate={handleNavigate}
       />
 
-      {currentPage === 'about' ? (
-        <main>
-          <AboutPage 
-            onOpenBooking={handleOpenBooking} 
-            onNavigateHome={(sectionId) => handleNavigate('home', sectionId)} 
-          />
-        </main>
-      ) : currentPage === 'podcast' ? (
-        <main>
-          <PodcastPage
-            onOpenBooking={handleOpenBooking}
-            onNavigateHome={(sectionId) => handleNavigate('home', sectionId)}
-            onNavigate={handleNavigate}
-          />
-        </main>
-      ) : currentPage === 'for-ai' ? (
-        <main>
-          <ForAIPage
-            onOpenBooking={handleOpenBooking}
-            onNavigateHome={(sectionId) => handleNavigate('home', sectionId)}
-            onNavigate={handleNavigate}
-          />
-        </main>
-      ) : currentPage === 'community' ? (
-        <main>
-          <CommunityPage
-            onOpenBooking={handleOpenBooking}
-            onNavigate={handleNavigate}
-          />
-        </main>
-      ) : currentPage === 'contact' ? (
-        <main>
-          <ContactPage
-            onOpenBooking={handleOpenBooking}
-            onNavigate={handleNavigate}
-          />
-        </main>
-      ) : currentPage === 'privacy-policy' ? (
-        <main>
-          <PrivacyPolicyPage
-            onOpenBooking={handleOpenBooking}
-            onNavigate={handleNavigate}
-          />
-        </main>
-      ) : currentPage === 'case-study-detail' ? (
-        <main>
-          <CaseStudyDetailPage
-            slug={currentCaseStudySlug}
-            onOpenBooking={handleOpenBooking}
-            onNavigate={handleNavigate}
-          />
-        </main>
-      ) : currentPage === 'case-studies' ? (
-        <main>
-          <CaseStudiesPage
-            onOpenBooking={handleOpenBooking}
-            onNavigate={handleNavigate}
-          />
-        </main>
-      ) : currentPage === 'launch-checklist' ? (
-        <main>
-          <LaunchChecklistPage
-            onOpenBooking={handleOpenBooking}
-            onNavigate={handleNavigate}
-          />
-        </main>
-      ) : currentPage === 'free-stuff' ? (
-        <main>
-          <FreeStuffPage
-            onOpenBooking={handleOpenBooking}
-            onNavigate={handleNavigate}
-          />
-        </main>
-      ) : (
-        <main>
-          {/* Section 2: Hero with Clothesline Layout */}
-          <Hero onOpenBooking={handleOpenBooking} />
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={currentPage === 'case-study-detail' ? `case-study-${currentCaseStudySlug}` : currentPage}
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -10 }}
+          transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
+          className="w-full"
+        >
+          {currentPage === 'about' ? (
+            <main>
+              <AboutPage 
+                onOpenBooking={handleOpenBooking} 
+                onNavigateHome={(sectionId) => handleNavigate('home', sectionId)} 
+                onNavigate={handleNavigate}
+              />
+            </main>
+          ) : currentPage === 'podcast' ? (
+            <main>
+              <PodcastPage
+                onOpenBooking={handleOpenBooking}
+                onNavigateHome={(sectionId) => handleNavigate('home', sectionId)}
+                onNavigate={handleNavigate}
+              />
+            </main>
+          ) : currentPage === 'for-ai' ? (
+            <main>
+              <ForAIPage
+                onOpenBooking={handleOpenBooking}
+                onNavigateHome={(sectionId) => handleNavigate('home', sectionId)}
+                onNavigate={handleNavigate}
+              />
+            </main>
+          ) : currentPage === 'community' ? (
+            <main>
+              <CommunityPage
+                onOpenBooking={handleOpenBooking}
+                onNavigate={handleNavigate}
+              />
+            </main>
+          ) : currentPage === 'contact' ? (
+            <main>
+              <ContactPage
+                onOpenBooking={handleOpenBooking}
+                onNavigate={handleNavigate}
+              />
+            </main>
+          ) : currentPage === 'privacy-policy' ? (
+            <main>
+              <PrivacyPolicyPage
+                onOpenBooking={handleOpenBooking}
+                onNavigate={handleNavigate}
+              />
+            </main>
+          ) : currentPage === 'case-study-detail' ? (
+            <main>
+              <CaseStudyDetailPage
+                slug={currentCaseStudySlug}
+                onOpenBooking={handleOpenBooking}
+                onNavigate={handleNavigate}
+              />
+            </main>
+          ) : currentPage === 'case-studies' ? (
+            <main>
+              <CaseStudiesPage
+                onOpenBooking={handleOpenBooking}
+                onNavigate={handleNavigate}
+              />
+            </main>
+          ) : currentPage === 'launch-checklist' ? (
+            <main>
+              <LaunchChecklistPage
+                onOpenBooking={handleOpenBooking}
+                onNavigate={handleNavigate}
+              />
+            </main>
+          ) : currentPage === 'gtm-calculator' ? (
+            <main>
+              <GTMCalculator
+                onOpenBooking={handleOpenBooking}
+                onNavigate={handleNavigate}
+              />
+            </main>
+          ) : currentPage === 'free-stuff' ? (
+            <main>
+              <FreeStuffPage
+                onOpenBooking={handleOpenBooking}
+                onNavigate={handleNavigate}
+              />
+            </main>
+          ) : (
+            <main>
+              {/* Section 2: Hero with Clothesline Layout */}
+              <Hero onOpenBooking={handleOpenBooking} />
 
-          {/* Section 3: Our Systems — Interactive Engine Showcase */}
-          <OurSystems onOpenBooking={handleOpenBooking} />
+              {/* Section 3: Our Systems — Interactive Engine Showcase */}
+              <OurSystems onOpenBooking={handleOpenBooking} />
 
-          {/* Section 4: The Challenge — Sticky Dark Editorial Window */}
-          <TheChallenge onOpenBooking={handleOpenBooking} />
+              {/* Section 4: The Challenge — Sticky Dark Editorial Window */}
+              <TheChallenge onOpenBooking={handleOpenBooking} />
 
-          {/* Section 5: What We Do / How We Get Results */}
-          <WhatWeDo />
+              {/* Section 5: What We Do / How We Get Results */}
+              <WhatWeDo />
 
-          {/* Section 6: Testimonials — Scrapbook Cards */}
-          <Testimonials onOpenBooking={handleOpenBooking} />
+              {/* Section 6: Testimonials — Scrapbook Cards */}
+              <Testimonials onOpenBooking={handleOpenBooking} />
 
-          {/* Section 7: Our Process — Horizontal Timeline Strip */}
-          <OurProcess />
+              {/* Section 7: Our Process — Horizontal Timeline Strip */}
+              <OurProcess />
 
-          {/* Section 8: Reality Check — Pinned Full-Bleed Dark Text Reveal */}
-          <RealityCheck />
+              {/* Section 8: Reality Check — Pinned Full-Bleed Dark Text Reveal */}
+              <RealityCheck />
 
-          {/* Section 9: Case Studies */}
-          <CaseStudies onNavigate={handleNavigate} />
+              {/* Section 9: Case Studies */}
+              <CaseStudies onNavigate={handleNavigate} />
 
-          {/* Section 10: Pricing */}
-          <Pricing onOpenBooking={handleOpenBooking} />
+              {/* Section 10: Pricing */}
+              <Pricing onOpenBooking={handleOpenBooking} />
 
-          {/* Section 11: Tool Stack — Marquee */}
-          <ToolStack />
+              {/* Section 11: Tool Stack — Marquee */}
+              <ToolStack />
 
-          {/* Section 12: CTA — Embedded Calendar Scheduler */}
-          <BookingCTA />
+              {/* Section 12: CTA — Embedded Calendar Scheduler */}
+              <BookingCTA />
 
-          {/* Section 13: FAQ — The Nosy Section */}
-          <FAQ />
+              {/* Section 13: FAQ — The Nosy Section */}
+              <FAQ />
 
-          {/* Section 14: Easter Egg — AI Memo */}
-          <EasterEggAI onNavigate={handleNavigate} />
-        </main>
-      )}
+              {/* Section 14: Easter Egg — AI Memo */}
+              <EasterEggAI onNavigate={handleNavigate} />
+            </main>
+          )}
+        </motion.div>
+      </AnimatePresence>
 
       {/* Footer */}
       <Footer 

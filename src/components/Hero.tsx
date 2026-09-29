@@ -44,8 +44,8 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking }) => {
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
         
-        {/* Main Headline */}
-        <h1 className="font-display font-extrabold text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-[#093624] tracking-tight leading-[1.15] sm:leading-[1.12] max-w-4xl mx-auto">
+        {/* Main Headline with smooth entrance animation */}
+        <h1 className="hero-enter-headline font-display font-extrabold text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-[#093624] tracking-tight leading-[1.15] sm:leading-[1.12] max-w-4xl mx-auto">
           The Founder-Led GTM <br className="hidden sm:inline" />
           Engine for{' '}
           <span className="relative inline-block px-1.5 mx-1 font-black">
@@ -70,13 +70,13 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking }) => {
           SaaS
         </h1>
 
-        {/* Subheading */}
-        <p className="mt-7 sm:mt-8 text-lg sm:text-xl md:text-[1.35rem] text-[#093624] max-w-3xl mx-auto font-normal leading-relaxed">
+        {/* Subheading with smooth entrance */}
+        <p className="hero-enter-subhead mt-7 sm:mt-8 text-lg sm:text-xl md:text-[1.35rem] text-[#093624] max-w-3xl mx-auto font-normal leading-relaxed">
           We turn your expertise and presence into a repeatable GTM system that generates consistent demand and revenue, without making you the bottleneck.
         </p>
 
-        {/* Clothesline Scrapbook Section */}
-        <div className="mt-16 sm:mt-24 relative w-full pt-12 pb-6">
+        {/* Clothesline Scrapbook Section with smooth entrance */}
+        <div className="hero-enter-cards mt-16 sm:mt-24 relative w-full pt-12 pb-6">
           
           {/* Animated Wren Bird landing and perching on the clothesline wire */}
           <AnimatedWrenBird />

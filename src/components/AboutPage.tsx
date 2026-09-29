@@ -1,563 +1,791 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import React, { useState, useEffect, useRef } from 'react';
+import { ExternalLink, Volume2, VolumeX } from 'lucide-react';
 import { 
-  ArrowRight, 
-  Sparkles, 
-  Heart, 
-  CheckCircle2, 
-  ExternalLink, 
-  Compass, 
-  Calendar,
-  Layers,
-  Award,
-  BookOpen,
-  Send,
-  Zap,
-  RotateCcw,
-  FileText,
-  X,
-  ArrowUpRight,
-  FolderOpen
-} from 'lucide-react';
-import { 
-  HandDrawnCircle, 
-  MarkerUnderline, 
-  Tape, 
   PaperClip, 
-  StampBadge, 
-  WoodenPin,
-  MetalClip,
-  WrenLogo
+  Tape, 
+  WrenLogo 
 } from './ScrapbookAssets';
-import { GiveBackSection } from './GiveBackSection';
+import { RealisticWrenBird } from './RealisticWrenBird';
+
+// Images
 import judithPortrait from '../assets/images/judith-portrait.jpg';
-import judithCutout from '../assets/images/wren-avatar.png';
+import judithHoverPhoto from '../assets/images/judith-linkedin-portrait.webp';
+
+// Community / Give Back Photos exactly matching image layout:
+// Left top: two small kids; Left bottom: children class standing; Right top: youth tech workshop; Right bottom: two girls laptop
+import imgTwoSmallGirls from '../assets/images/giveback/giveback-two-small-girls.webp';
+import imgChildrenClassStand from '../assets/images/giveback/giveback-children-class-stand.webp';
+import imgYouthTechWorkshop from '../assets/images/giveback/giveback-youth-tech-workshop.webp';
+import imgTwoGirlsLaptop from '../assets/images/giveback/giveback-two-girls-laptop.webp';
 
 interface AboutPageProps {
   onOpenBooking?: () => void;
   onNavigateHome?: (sectionId?: string) => void;
+  onNavigate?: (page: any, sectionId?: string) => void;
 }
 
 export const AboutPage: React.FC<AboutPageProps> = ({ 
   onOpenBooking, 
-  onNavigateHome 
+  onNavigateHome,
+  onNavigate 
 }) => {
-  // State for the interactive free tool demo in Section 4
-  const [activeTool, setActiveTool] = useState<'diagnostic' | 'matrix' | 'playbook'>('diagnostic');
-  const [diagnosticStage, setDiagnosticStage] = useState(0);
-  const [answers, setAnswers] = useState<Record<number, number>>({});
-  const [copiedAngle, setCopiedAngle] = useState(false);
+  // Photo toggle for Judith card
+  const [photoView, setPhotoView] = useState<'front' | 'hover'>('front');
+  const [isHovered, setIsHovered] = useState(false);
 
-  // Smooth scroll to a section on the about page
-  const scrollToAboutSection = (id: string) => {
-    const el = document.getElementById(id);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
+  // Sound on/off state for the bird chirp (default ON)
+  const [soundEnabled, setSoundEnabled] = useState(true);
+
+  // Animated Wren bird flight & realistic kinematics
+  const [isBirdFlying, setIsBirdFlying] = useState(false);
+  const [flightPhase, setFlightPhase] = useState<'perched' | 'takeoff' | 'swoop' | 'hover' | 'landing'>('perched');
+  const [wingPhase, setWingPhase] = useState(0);
+  const [headBop, setHeadBop] = useState(0);
+
+  // Smooth continuous flight coordinates (percentage/pixel offset across card)
+  const [birdPos, setBirdPos] = useState({ x: 34, y: -26, rot: 0, scale: 1 });
+
+  // Wing-dust particle trail behind the bird
+  interface WingParticle {
+    id: number;
+    x: number;
+    y: number;
+    size: number;
+    color: string;
+    opacity: number;
+    vx: number;
+    vy: number;
+  }
+  const [particles, setParticles] = useState<WingParticle[]>([]);
+  const nextParticleIdRef = useRef(0);
+  const lastParticleTimeRef = useRef(0);
+
+  const audioCtxRef = useRef<AudioContext | null>(null);
+  const rafRef = useRef<number | null>(null);
+  const flightStartRef = useRef<number | null>(null);
+
+  // High-fidelity natural Wren bird chirp synthesizer via Web Audio API
+  const playWrenChirp = () => {
+    if (!soundEnabled) return;
+    try {
+      const AudioCtx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+      if (!AudioCtx) return;
+      if (!audioCtxRef.current) {
+        audioCtxRef.current = new AudioCtx();
+      }
+      const ctx = audioCtxRef.current;
+      if (ctx.state === 'suspended') {
+        ctx.resume();
+      }
+
+      const now = ctx.currentTime;
+
+      // Realistic Carolina / Winter wren chirp sound: double-trill with harmonic overtone
+      const chirpNotes = [
+        { time: 0, freqStart: 2850, freqEnd: 4200, dur: 0.085 },
+        { time: 0.11, freqStart: 3200, freqEnd: 4600, dur: 0.095 },
+        { time: 0.23, freqStart: 3600, freqEnd: 4950, dur: 0.11 }
+      ];
+
+      chirpNotes.forEach(({ time, freqStart, freqEnd, dur }) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freqStart, now + time);
+        osc.frequency.exponentialRampToValueAtTime(freqEnd, now + time + dur * 0.7);
+        osc.frequency.exponentialRampToValueAtTime(freqEnd * 0.9, now + time + dur);
+
+        // Soft, crisp chirp envelope
+        gain.gain.setValueAtTime(0.001, now + time);
+        gain.gain.linearRampToValueAtTime(0.12, now + time + dur * 0.25);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + time + dur);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        osc.start(now + time);
+        osc.stop(now + time + dur + 0.02);
+      });
+    } catch {
+      // Audio playback fails gracefully if browser restricts
     }
   };
 
-  // Questions for the interactive "B2B Demand Diagnostic" tool
-  const diagnosticQuestions = [
-    {
-      question: "How do your best prospective clients currently find you?",
-      options: [
-        { label: "Direct founder referrals & word-of-mouth only", score: 45 },
-        { label: "Founder's LinkedIn / personal brand + organic network", score: 80 },
-        { label: "Inconsistent outbound emails with low reply rates", score: 30 },
-        { label: "Predictable, compounding multi-channel inbound engine", score: 95 }
-      ]
-    },
-    {
-      question: "Is your founder actively communicating your company's core POV publicly?",
-      options: [
-        { label: "Rarely — too busy running operations and product", score: 35 },
-        { label: "Occasionally, but without a structured system or rhythm", score: 60 },
-        { label: "Weekly, but content lacks punch and qualified deal flow", score: 70 },
-        { label: "Consistently turning unique founder insights into revenue pipeline", score: 95 }
-      ]
-    },
-    {
-      question: "What happens when enterprise leads visit your digital presence?",
-      options: [
-        { label: "They see generic corporate SaaS jargon and bounce", score: 30 },
-        { label: "They think our product looks cool but don't feel urgency", score: 55 },
-        { label: "They immediately understand why we're the only viable choice", score: 95 }
-      ]
-    }
-  ];
+  // Continuous organic head-bobbing when perched
+  useEffect(() => {
+    let animId: number;
+    let startTime = performance.now();
 
-  const handleSelectOption = (questionIdx: number, score: number) => {
-    const nextAnswers = { ...answers, [questionIdx]: score };
-    setAnswers(nextAnswers);
-    if (questionIdx < diagnosticQuestions.length - 1) {
-      setDiagnosticStage(questionIdx + 1);
-    } else {
-      setDiagnosticStage(diagnosticQuestions.length); // Show results
-    }
+    const updatePerchedBop = (time: number) => {
+      if (!isBirdFlying) {
+        // Natural bird head twitches and gentle breathing bop
+        const elapsed = (time - startTime) / 1000;
+        // Periodic quick look/bop twitch every ~1.8 seconds with small micro-jitters
+        const cycle = elapsed % 2.2;
+        let bop = 0;
+        if (cycle < 0.25) {
+          bop = Math.sin((cycle / 0.25) * Math.PI);
+        } else if (cycle > 1.2 && cycle < 1.45) {
+          bop = -Math.sin(((cycle - 1.2) / 0.25) * Math.PI) * 0.7;
+        } else {
+          bop = Math.sin(elapsed * 2.5) * 0.15;
+        }
+        setHeadBop(bop);
+        setWingPhase(0);
+      }
+      animId = requestAnimationFrame(updatePerchedBop);
+    };
+
+    animId = requestAnimationFrame(updatePerchedBop);
+    return () => cancelAnimationFrame(animId);
+  }, [isBirdFlying]);
+
+  // Smooth realistic flight physics trajectory & wing flapping via requestAnimationFrame
+  const triggerBirdFlight = () => {
+    if (isBirdFlying) return;
+    setIsBirdFlying(true);
+    playWrenChirp();
+
+    const totalDuration = 3600; // 3.6s natural flight
+    flightStartRef.current = performance.now();
+
+    let chirpedMidFlight = false;
+
+    const animateFlight = (now: number) => {
+      if (!flightStartRef.current) return;
+      const progress = Math.min((now - flightStartRef.current) / totalDuration, 1);
+
+      // Rapid natural wing flap oscillation (12 to 16 flaps per sec)
+      // Glide intervals during swoop
+      const isGliding = progress > 0.42 && progress < 0.62;
+      if (!isGliding && progress < 0.95) {
+        setWingPhase((now / 65) % 1);
+      } else {
+        setWingPhase(0); // Hold wings spread/tucked during glide
+      }
+
+      // Mid-flight chirp call
+      if (progress > 0.48 && !chirpedMidFlight) {
+        chirpedMidFlight = true;
+        playWrenChirp();
+      }
+
+      // Smooth Bezier-like curvilinear flight path:
+      // Start perch (34, -26) -> launch up-right -> swoop high above card -> arc around -> gentle landing glide back to perch
+      let x = 34;
+      let y = -26;
+      let rot = 0;
+      let scale = 1;
+
+      if (progress < 0.2) {
+        // Takeoff spring
+        const p = progress / 0.2;
+        setFlightPhase('takeoff');
+        x = 34 + p * 60;
+        y = -26 - Math.sin(p * Math.PI * 0.5) * 60;
+        rot = -16 * (1 - p * 0.3);
+        scale = 1 + p * 0.2;
+      } else if (progress < 0.55) {
+        // High swoop arc
+        const p = (progress - 0.2) / 0.35;
+        setFlightPhase('swoop');
+        x = 94 + Math.sin(p * Math.PI) * 200;
+        y = -86 - Math.sin(p * Math.PI) * 45;
+        rot = (p - 0.5) * 26; // Tilt bank into curve
+        scale = 1.2;
+      } else if (progress < 0.8) {
+        // Hover and circle back
+        const p = (progress - 0.55) / 0.25;
+        setFlightPhase('hover');
+        x = 294 - p * 190;
+        y = -95 + p * 40;
+        rot = -10 + Math.sin(p * Math.PI * 2) * 8;
+        scale = 1.15 - p * 0.08;
+      } else {
+        // Glide and soft touch down on rim
+        const p = (progress - 0.8) / 0.2;
+        setFlightPhase('landing');
+        x = 104 - p * 70;
+        y = -55 + p * 29;
+        rot = -6 * (1 - p);
+        scale = 1.07 - p * 0.07;
+      }
+
+      setBirdPos({ x, y, rot, scale });
+
+      // Spawn faint, organic 'wing-dust' particles behind the bird's tail & wings
+      if (progress > 0.03 && progress < 0.94) {
+        if (now - lastParticleTimeRef.current > 45) { // Spawn every ~45ms
+          lastParticleTimeRef.current = now;
+          const colors = ['#CBDA46', '#EEF2CC', '#F7F4E9', '#A3C2A3'];
+          const randomColor = colors[Math.floor(Math.random() * colors.length)];
+          const angleRad = (rot * Math.PI) / 180;
+          // Emitter position slightly behind the bird's wings and tail
+          const emitterOffsetX = -18 * Math.cos(angleRad) + (Math.random() - 0.5) * 14;
+          const emitterOffsetY = -18 * Math.sin(angleRad) + 26 + (Math.random() - 0.5) * 10;
+
+          const newParticle: WingParticle = {
+            id: nextParticleIdRef.current++,
+            x: x + 26 + emitterOffsetX,
+            y: y + emitterOffsetY,
+            size: 3.2 + Math.random() * 4.5,
+            color: randomColor,
+            opacity: 0.65 + Math.random() * 0.25,
+            vx: -Math.cos(angleRad) * (0.4 + Math.random() * 0.6) + (Math.random() - 0.5) * 0.4,
+            vy: 0.25 + Math.random() * 0.45 // Drifts gently downward like micro-feathers / dust
+          };
+
+          setParticles(prev => [...prev.slice(-28), newParticle]);
+        }
+      }
+
+      // Update existing particles (drift and fade out)
+      setParticles(prev => 
+        prev
+          .map(pt => ({
+            ...pt,
+            x: pt.x + pt.vx,
+            y: pt.y + pt.vy,
+            opacity: pt.opacity - 0.024,
+            size: Math.max(0.5, pt.size * 0.98)
+          }))
+          .filter(pt => pt.opacity > 0.02)
+      );
+
+      if (progress < 1) {
+        rafRef.current = requestAnimationFrame(animateFlight);
+      } else {
+        // Return fully to resting state
+        setFlightPhase('perched');
+        setIsBirdFlying(false);
+        setBirdPos({ x: 34, y: -26, rot: 0, scale: 1 });
+        setWingPhase(0);
+        // Fade out remaining dust
+        setTimeout(() => setParticles([]), 700);
+      }
+    };
+
+    rafRef.current = requestAnimationFrame(animateFlight);
   };
 
-  const calculatedScore = Object.values(answers).length > 0
-    ? Math.round(Object.values(answers).reduce((a, b) => a + b, 0) / Object.values(answers).length)
-    : 72;
+  // Occasional automated flight every 22 seconds
+  useEffect(() => {
+    const initialTimer = setTimeout(() => {
+      triggerBirdFlight();
+    }, 2800);
 
-  const resetDiagnostic = () => {
-    setAnswers({});
-    setDiagnosticStage(0);
-  };
+    const interval = setInterval(() => {
+      triggerBirdFlight();
+    }, 22000);
+
+    return () => {
+      clearTimeout(initialTimer);
+      clearInterval(interval);
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    };
+  }, [soundEnabled]);
+
+  const activePhoto = photoView === 'hover' || isHovered ? judithHoverPhoto : judithPortrait;
 
   return (
-    <div className="w-full bg-[#FAF7EE] text-[#0E1A15] relative selection:bg-[#CBDA46] selection:text-[#093624] overflow-x-hidden font-sans">
+    <div className="w-full bg-[#FAF7EE] text-[#093624] selection:bg-[#CBDA46] selection:text-[#093624]">
       
       {/* ========================================================================= */}
-      {/* SECTION 1: WHO THE HECK ARE WE? (HERO - FULL SCREEN 100VH CONVERSATIONAL) */}
+      {/* SECTION 1: HERO — "Who the heck are we?"                                  */}
       {/* ========================================================================= */}
-      <section 
-        id="about-hero" 
-        style={{ backgroundColor: '#F7F4E9' }}
-        className="min-h-screen w-full flex flex-col justify-center items-center relative px-4 sm:px-6 lg:px-8 notebook-grid-bg border-b border-[#0E1A15]/10 pt-28 pb-16 sm:pt-32 sm:pb-20 overflow-hidden"
-      >
-        <div className="max-w-4xl lg:max-w-5xl mx-auto flex flex-col items-center text-center justify-center relative z-10 my-auto">
+      <section className="relative w-full pt-28 sm:pt-36 pb-16 sm:pb-24 px-4 sm:px-6 lg:px-8 border-b border-[#093624]/10 notebook-grid">
+        <div className="max-w-4xl mx-auto text-center space-y-6">
           
-          {/* Line 1: "Who the heck are we?" */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.48, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-            className="relative inline-block"
-          >
-            <h1 className="font-display font-bold text-4xl sm:text-6xl md:text-7xl lg:text-[4.75rem] text-[#093624] tracking-tight leading-[1.15]">
-              Who the{' '}
-              <span className="relative inline-block">
-                heck
-                {/* Hand-drawn Wattle squiggle underline beneath "heck", appearing after line text has fully faded in */}
-                <svg
-                  viewBox="0 0 140 18"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="absolute -bottom-2 sm:-bottom-2.5 left-0 w-full h-3 sm:h-3.5 pointer-events-none"
-                  preserveAspectRatio="none"
-                >
-                  <motion.path
-                    d="M3,9 C25,4 60,14 95,8 C115,5 130,11 137,9"
-                    stroke="#CBDA46"
-                    strokeWidth="4"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    initial={{ pathLength: 0, opacity: 0 }}
-                    whileInView={{ pathLength: 1, opacity: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.65, duration: 0.38, ease: "easeOut" }}
-                  />
-                </svg>
-              </span>{' '}
-              are we?
-            </h1>
-          </motion.div>
+          {/* Main Headline */}
+          <h1 className="font-serif font-black text-4xl sm:text-5xl lg:text-6xl text-[#093624] tracking-tight leading-[1.1]">
+            Who the heck are we?
+          </h1>
 
-          {/* Line 2: "Well well well…." */}
-          <motion.div
-            initial={{ opacity: 0, y: 18 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.45, delay: 0.95, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-4 sm:mt-6 mb-2 sm:mb-3"
-          >
-            <p className="font-sans font-normal italic text-xl sm:text-2xl md:text-3xl text-[#093624] tracking-normal select-none">
-              Well well well….
-            </p>
-          </motion.div>
+          {/* Subtext 1 */}
+          <p className="font-serif italic text-lg sm:text-xl text-[#093624]/85">
+            Well, well, well....
+          </p>
 
-          {/* Line 3: "The short answer is that Wren is a GTM and marketing studio." */}
-          <motion.div
-            initial={{ opacity: 0, y: 18 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.48, delay: 1.45, ease: [0.22, 1, 0.36, 1] }}
-            className="my-3 sm:my-5 max-w-3xl lg:max-w-4xl"
-          >
-            <p className="font-sans font-normal text-lg sm:text-2xl md:text-3xl lg:text-[2rem] text-[#093624] leading-snug tracking-tight">
-              The short answer is that <strong className="font-bold">Wren</strong> is a GTM and marketing studio.
-            </p>
-          </motion.div>
+          {/* Subtext 2 */}
+          <p className="font-sans text-lg sm:text-xl text-[#093624] max-w-2xl mx-auto leading-relaxed">
+            The short answer is that <strong className="font-bold text-[#093624]">Wren is a GTM and marketing studio.</strong>
+          </p>
 
-          {/* Line 4: "Right now, it's me, a growing network of very good people, and one slightly unreasonable obsession: helping B2B businesses generate more demand than they can handle." */}
-          <motion.div
-            initial={{ opacity: 0, y: 18 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.52, delay: 2.0, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-4 sm:mt-6 mb-8 sm:mb-10 max-w-2xl sm:max-w-3xl lg:max-w-4xl px-2"
-          >
-            <p className="font-sans font-normal text-base sm:text-lg md:text-xl lg:text-[1.35rem] text-[#093624] leading-relaxed sm:leading-relaxed lg:leading-[1.6]">
-              Right now, it's me, a growing network of very good people, and one slightly unreasonable obsession:{' '}
-              <strong className="font-bold">helping B2B businesses generate more demand than they can handle.</strong>
-            </p>
-          </motion.div>
+          {/* Subtext 3 */}
+          <p className="font-sans text-base sm:text-lg text-[#54605a] max-w-2xl mx-auto leading-relaxed">
+            Right now, it's me, a growing network of very good people, and one slightly unreasonable obsession: helping B2B businesses generate more demand than they can handle.
+          </p>
 
-          {/* CTA: Below fully-revealed text, stacked sticky-note button style */}
-          <motion.div
-            initial={{ opacity: 0, y: 16, scale: 0.96 }}
-            whileInView={{ opacity: 1, y: 0, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.45, delay: 2.7, ease: [0.22, 1, 0.36, 1] }}
-            className="flex flex-col items-center justify-center select-none"
-          >
-            <div className="relative group inline-block">
-              {/* Stacked note backgrounds */}
-              <div className="absolute inset-0 bg-[#EEF2CC] border border-[#093624]/20 rounded-xl rotate-3 shadow-xs transition-transform duration-300 group-hover:rotate-6" />
-              <div className="absolute inset-0 bg-[#F4ECD8] border border-[#093624]/25 rounded-xl -rotate-2 shadow-xs transition-transform duration-300 group-hover:-rotate-4" />
+        </div>
+      </section>
+
+      {/* ========================================================================= */}
+      {/* SECTION 2: MEET JUDITH                                                    */}
+      {/* ========================================================================= */}
+      <section className="relative w-full py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-[#FAF7EE] border-b border-[#093624]/10">
+        <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-center">
+          
+          {/* LEFT: Polaroid / Scrapbook Photo Card of Judith */}
+          <div className="lg:col-span-5 flex flex-col items-center">
+            
+            <div className="relative group w-full max-w-[340px] sm:max-w-[380px]">
               
-              <button
-                id="about-hero-story-btn"
-                onClick={() => scrollToAboutSection('meet-the-founder')}
-                className="relative bg-[#093624] hover:bg-[#15543D] text-[#F7F4E9] px-7 sm:px-9 py-3.5 sm:py-4 rounded-xl font-sans font-semibold text-sm sm:text-base border-2 border-[#093624] shadow-[4px_4px_0px_#CBDA46] hover:shadow-[2px_2px_0px_#CBDA46] hover:translate-x-[1px] hover:translate-y-[1px] transition-all cursor-pointer flex items-center justify-center gap-2"
+              {/* Paperclip on top-left corner */}
+              <div className="absolute -top-4 left-4 z-30 pointer-events-none drop-shadow-xs">
+                <PaperClip className="w-5 h-11 text-[#64748B]" />
+              </div>
+
+              {/* Lime Washi Tape across top-center */}
+              <div 
+                className="absolute pointer-events-none z-20 backdrop-blur-xs shadow-xs -rotate-1 w-28 sm:w-32 h-6 -top-3 left-16 sm:left-20 bg-[rgba(203,218,70,0.92)]"
+                style={{
+                  clipPath: 'polygon(0% 15%, 4% 0%, 96% 0%, 100% 15%, 98% 85%, 100% 100%, 4% 100%, 0% 85%)'
+                }}
+              />
+
+              {/* Offset shadow block */}
+              <div 
+                className="absolute inset-0 translate-x-2 translate-y-3 bg-[#093624]/15 rounded-2xl"
+              />
+
+              {/* Main Polaroid Frame (Soft Yellow-Cream tint matching screenshot) */}
+              <div 
+                className="relative z-10 bg-[#FFFBEA] border-2 border-[#093624] rounded-2xl p-4 sm:p-5 shadow-xs transition-all"
+                onMouseEnter={() => setIsHovered(true)}
+                onMouseLeave={() => setIsHovered(false)}
               >
-                <span>The longer answer is a hella story ↓</span>
+                
+                {/* Photo Container */}
+                <div className="relative w-full aspect-[4/5] rounded-xl overflow-hidden bg-[#093624] border border-[#093624]/20 shadow-inner">
+                  <img 
+                    src={activePhoto} 
+                    alt="Judith · Founder of Wren" 
+                    className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                  />
+
+                  {/* Top-right "Change Photos" badge like in screenshot */}
+                  <div className="absolute top-2.5 right-2.5 bg-black/60 backdrop-blur-xs text-white text-[11px] font-mono font-medium px-2.5 py-1 rounded-md flex items-center gap-1.5 pointer-events-none">
+                    <span>📷</span>
+                    <span>Photo</span>
+                  </div>
+
+                  {/* Subtle hover prompt */}
+                  <div className="absolute bottom-2 right-2 bg-black/50 backdrop-blur-xs text-white/80 text-[10px] font-mono px-2 py-0.5 rounded-sm pointer-events-none">
+                    hover to reveal
+                  </div>
+                </div>
+
+                {/* Hand-written Label below photo */}
+                <div className="mt-3.5 pt-2 border-t border-[#093624]/10 flex items-center justify-between">
+                  <span className="font-hand text-xl sm:text-2xl text-[#093624] font-medium tracking-wide">
+                    Judith · founder of Wren
+                  </span>
+                  <span className="text-[10px] font-mono text-[#6F7A6E]">
+                    founder
+                  </span>
+                </div>
+
+              </div>
+
+            </div>
+
+            {/* Photo controls below card */}
+            <div className="mt-5 flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => setPhotoView('front')}
+                className={`px-3 py-1 text-xs font-mono rounded-lg border transition-all cursor-pointer ${
+                  photoView === 'front' 
+                    ? 'bg-[#093624] text-[#F7F4E9] border-[#093624]' 
+                    : 'bg-white text-[#093624] border-[#093624]/20 hover:border-[#093624]'
+                }`}
+              >
+                Front
+              </button>
+              <button
+                type="button"
+                onClick={() => setPhotoView('hover')}
+                className={`px-3 py-1 text-xs font-mono rounded-lg border transition-all cursor-pointer ${
+                  photoView === 'hover' 
+                    ? 'bg-[#093624] text-[#F7F4E9] border-[#093624]' 
+                    : 'bg-white text-[#093624] border-[#093624]/20 hover:border-[#093624]'
+                }`}
+              >
+                Alternate
               </button>
             </div>
 
-            {/* Decorative flourish: reuse existing wren bird illustration directly beneath the button */}
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: 3.1, ease: "easeOut" }}
-              className="mt-6 sm:mt-7 flex flex-col items-center justify-center pointer-events-none"
-            >
-              <div className="relative flex items-center justify-center group">
-                <div className="absolute -bottom-1 w-8 h-2 bg-[#093624]/15 rounded-full blur-[1px]" />
-                <WrenLogo className="w-8 h-8 sm:w-9 sm:h-9 text-[#093624] drop-shadow-xs" color="#093624" />
-              </div>
-            </motion.div>
-          </motion.div>
-
-        </div>
-      </section>
-
-      {/* ========================================================================= */}
-      {/* SECTION 2: MEET THE FOUNDER                                               */}
-      {/* ========================================================================= */}
-      <section 
-        id="meet-the-founder" 
-        className="relative w-full bg-[#F7F4E9] border-b border-[#0E1A15]/15 overflow-hidden"
-      >
-        {/* Two-column layout: photo fills entire left column edge-to-edge, copy on the right */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[580px] lg:min-h-[660px]">
-          
-          {/* Left Column: Full-bleed Candid Photo with Overlapping Sticker Badge */}
-          <div className="lg:col-span-5 relative w-full h-[440px] sm:h-[520px] lg:h-full min-h-[440px] lg:min-h-full bg-[#0E1A15]">
-            {/* Overlapping Sticker Badge */}
-            <div className="absolute top-6 left-6 sm:top-8 sm:left-8 z-10">
-              <div className="inline-flex items-center px-4 py-2 sm:px-5 sm:py-2.5 rounded-xl bg-[#0E1A15] text-[#FAF7EE] border border-[#FAF7EE]/25 shadow-[0_8px_20px_rgba(0,0,0,0.35)] -rotate-3 select-none">
-                <span 
-                  className="text-xl sm:text-2xl text-[#FAF7EE] leading-none tracking-wide"
-                  style={{ fontFamily: "'HandwrittenAccent', cursive" }}
-                >
-                  Meet our Founder
-                </span>
-              </div>
-            </div>
-
-            {/* Full-bleed rectangular crop (no rounding, no rotation) */}
-            <img 
-              src={judithPortrait} 
-              alt="Judith - Founder of Wren" 
-              className="w-full h-full object-cover object-top"
-            />
           </div>
 
-          {/* Right Column: Textured Cream Background, Headline, Italic Pull-quote line, Body Copy */}
-          <div className="lg:col-span-7 flex flex-col justify-center px-6 sm:px-12 lg:px-16 xl:px-20 py-14 sm:py-20 lg:py-24 bg-[#F7F4E9] notebook-grid-bg text-[#093624] border-t lg:border-t-0 lg:border-l border-[#093624]/10 relative">
-            <div className="max-w-2xl relative z-10">
-              {/* Headline */}
-              <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-[#093624] tracking-tight leading-tight">
-                Meet the founder, <span className="font-extrabold text-[#093624]">Judith</span>
-              </h2>
+          {/* RIGHT: Meet Judith Narrative */}
+          <div className="lg:col-span-7 space-y-5">
+            
+            {/* Header with Orange Heart */}
+            <h2 className="font-serif font-black text-3xl sm:text-4xl text-[#093624] flex items-center gap-2.5">
+              <span>Meet Judith</span>
+              <span className="text-[#F5A621] text-2xl sm:text-3xl">🧡</span>
+            </h2>
 
-              {/* Directly below: Italic Pull-quote line */}
-              <p className="font-display italic text-xl sm:text-2xl text-[#093624] leading-snug mt-3 sm:mt-4 mb-6 sm:mb-8">
-                Wren was born out of pure pain.
+            {/* Accent statement */}
+            <p className="font-serif font-bold text-xl sm:text-2xl text-[#093624] tracking-tight">
+              Wren was born out of pure pain.
+            </p>
+
+            {/* Narrative Paragraphs */}
+            <div className="font-sans text-base sm:text-[17px] text-[#54605a] space-y-4 leading-relaxed">
+              <p>
+                After years of helping founders grow their products and make some cool cash, I kept noticing the same thing, which is that for lean B2B businesses, the founder is often already the most trusted person in the room.
               </p>
 
-              {/* Body Copy */}
-              <div className="space-y-4 sm:space-y-5 font-sans font-normal text-base sm:text-lg text-[#093624]/90 leading-relaxed">
-                <p>
-                  After years of helping founders grow their products and make some cool cash, I kept noticing the same thing, which is that for lean B2B businesses, the founder is often already the most trusted person in the room. They have the expertise, probably have a great story, and also have the credibility.
-                </p>
+              <p>
+                They have the expertise, probably have a great story, and also have the credibility.
+              </p>
 
-                <p>
-                  So why not use that? I realised one of the simplest ways to help a lean team go to market is to turn the founder's presence into an actual GTM engine. Which will help build the company's reputation, create demand, build meaningful enterprise relationships, and make them really cool cash, It's a strategy with no loss when you look at it.
-                </p>
+              <p className="font-medium text-[#093624]">
+                So why not use that?
+              </p>
 
-                <p>
-                  <strong className="font-bold text-[#093624]">So I started Wren.</strong> Before Wren, I spent six years working across FCMO, product marketing, and growth marketing, helping businesses figure out how to get their products in front of the right people and turn attention into something useful. I've worked with more businesses than I can probably remember at this point.
-                </p>
+              <p>
+                I realised one of the simplest ways to help a lean team go to market is to turn the founder's presence into an actual GTM engine.
+              </p>
 
-                <p>
-                  Starting Wren is really me taking everything I've learned along the way and pouring it into the founders and businesses I work with. And the funniest part? The founder of Wren is the first founder Wren gets to test every new and trending hack on.
-                </p>
-              </div>
+              <p>
+                Which will help build the company's reputation, create demand, build meaningful enterprise relationships, and make them really cool cash,
+              </p>
+
+              <p className="font-serif italic font-medium text-[#15543D] text-lg">
+                It's a strategy with no loss when you look at it.
+              </p>
             </div>
+
           </div>
 
         </div>
       </section>
 
       {/* ========================================================================= */}
-      {/* SECTION 3: WE DON'T HOLD BACK (COMMUNITY & GIVE-BACK COLLAGE)             */}
+      {/* SECTION 3: WE DON'T HOLD BACK (Community & Give Back) — Dark Green        */}
       {/* ========================================================================= */}
-      <GiveBackSection onOpenBooking={onOpenBooking} />
+      <section className="relative w-full py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-[#093624] text-[#F7F4E9] notebook-grid-dark overflow-hidden">
+        
+        {/* Subtle glow */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] bg-[#15543D]/30 rounded-full blur-3xl pointer-events-none" />
 
-      {/* ========================================================================= */}
-      {/* SECTION 4: WE'VE BUILT SOME REALLY COOL STUFF (FREE TOOLS & PLAYBOOKS)   */}
-      {/* ========================================================================= */}
-      <section 
-        id="cool-stuff" 
-        className="relative w-full py-24 sm:py-32 px-4 sm:px-6 lg:px-8 border-b border-[#0E1A15]/10 bg-[#F7F4E9]"
-      >
-        <div className="max-w-5xl mx-auto">
+        <div className="max-w-6xl mx-auto relative z-10">
           
-          {/* Section Stamp Header */}
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10 border-b-2 border-dashed border-[#0E1A15]/20 pb-6">
-            <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded bg-[#CBDA46] text-[#093624] text-xs font-mono uppercase tracking-wider font-bold mb-3">
-                <Zap className="w-3.5 h-3.5 text-[#093624]" />
-                <span>FREE RESOURCES // SECTION 04</span>
+          {/* Section Header */}
+          <div className="text-center mb-14">
+            <h2 className="font-serif font-black text-3xl sm:text-4xl lg:text-5xl text-white tracking-tight">
+              We don't hold back
+            </h2>
+            <p className="font-hand text-xl sm:text-2xl text-[#CBDA46] mt-2">
+              our heart outside the studio ♥
+            </p>
+          </div>
+
+          {/* 3-Column Layout: Left Photos | Center Narrative | Right Photos */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
+            
+            {/* LEFT COLUMN: 2 Stacked Photo Polaroids */}
+            <div className="lg:col-span-3 space-y-6 flex flex-col items-center">
+              
+              {/* Photo 1: Two Small Girls */}
+              <div className="relative group w-full max-w-[260px]">
+                {/* Hand-drawn heart doodle top left */}
+                <div className="absolute -top-3 -left-3 text-[#F5A621] text-xl z-20 pointer-events-none">
+                  🧡
+                </div>
+                <div className="p-2 sm:p-2.5 bg-white rounded-xl shadow-md -rotate-2 group-hover:rotate-0 transition-transform">
+                  <img 
+                    src={imgTwoSmallGirls} 
+                    alt="Community children smiling" 
+                    className="w-full aspect-[4/3] object-cover rounded-lg"
+                  />
+                </div>
               </div>
-              <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl font-medium text-[#093624]">
-                We've built some really cool stuff
-              </h2>
+
+              {/* Photo 2: Children class stand */}
+              <div className="relative group w-full max-w-[260px]">
+                {/* Hand-drawn heart doodle bottom left */}
+                <div className="absolute -bottom-3 -left-3 text-[#CBDA46] text-xl z-20 pointer-events-none">
+                  💚
+                </div>
+                <div className="p-2 sm:p-2.5 bg-white rounded-xl shadow-md rotate-2 group-hover:rotate-0 transition-transform">
+                  <img 
+                    src={imgChildrenClassStand} 
+                    alt="School class standing together" 
+                    className="w-full aspect-[4/3] object-cover rounded-lg"
+                  />
+                </div>
+              </div>
+
             </div>
 
-            <div className="flex items-center gap-2">
-              <span className="font-hand text-2xl text-[#15543D] rotate-1">
-                zero gatekeeping. 100% free.
+            {/* CENTER COLUMN: Core Text Narrative */}
+            <div className="lg:col-span-6 text-center px-2 sm:px-6 space-y-5">
+              
+              <h3 className="font-serif font-bold text-2xl sm:text-3xl text-[#CBDA46] leading-snug">
+                At the core of Wren is community and support.
+              </h3>
+
+              <div className="font-sans text-sm sm:text-base text-[#D5E3D5] space-y-4 leading-relaxed">
+                <p>
+                  Outside of Wren, I stay connected with orphanages across Africa, supporting children with their education. I also champion Pad a Girl, a tentative programme focused on providing sanitary pads to young girls in rural African communities.
+                </p>
+
+                <p>
+                  By the side, I'm also leading the growth of iSoar, a non-governmental organization focused on introducing leadership and tech skills in the remote areas of Africa and Asia.
+                </p>
+
+                <p className="text-white font-medium">
+                  It's something I've cared about personally for a long time.
+                </p>
+
+                <p className="text-[#CBDA46] font-serif italic text-base sm:text-lg">
+                  And as Wren grows, I'd love for the business to do more of it.
+                </p>
+              </div>
+
+            </div>
+
+            {/* RIGHT COLUMN: 2 Stacked Photo Polaroids */}
+            <div className="lg:col-span-3 space-y-6 flex flex-col items-center">
+              
+              {/* Photo 3: Youth Tech Workshop */}
+              <div className="relative group w-full max-w-[260px]">
+                {/* Hand-drawn heart doodle top right */}
+                <div className="absolute -top-3 -right-3 text-[#CBDA46] text-xl z-20 pointer-events-none">
+                  💚
+                </div>
+                <div className="p-2 sm:p-2.5 bg-white rounded-xl shadow-md rotate-2 group-hover:rotate-0 transition-transform">
+                  <img 
+                    src={imgYouthTechWorkshop} 
+                    alt="Youth learning tech skills" 
+                    className="w-full aspect-[4/3] object-cover rounded-lg"
+                  />
+                </div>
+              </div>
+
+              {/* Photo 4: Two Girls Laptop */}
+              <div className="relative group w-full max-w-[260px]">
+                {/* Hand-drawn heart doodle bottom right */}
+                <div className="absolute -bottom-3 -right-3 text-[#F5A621] text-xl z-20 pointer-events-none">
+                  🧡
+                </div>
+                <div className="p-2 sm:p-2.5 bg-white rounded-xl shadow-md -rotate-2 group-hover:rotate-0 transition-transform">
+                  <img 
+                    src={imgTwoGirlsLaptop} 
+                    alt="Girls coding on laptops" 
+                    className="w-full aspect-[4/3] object-cover rounded-lg"
+                  />
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+      {/* ========================================================================= */}
+      {/* SECTION 4: YES, WE'VE BUILT SOME REALLY COOL STUFF ;)                     */}
+      {/* Centered Scrapbook Card with Wren Bird & Tape                             */}
+      {/* ========================================================================= */}
+      <section className="relative w-full py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-[#FAF7EE] border-b border-[#093624]/10 notebook-grid">
+        <div className="max-w-2xl mx-auto relative">
+          
+          {/* Faint fading 'wing-dust' particle trail behind flying bird */}
+          {particles.length > 0 && (
+            <div className="absolute inset-0 pointer-events-none z-25 overflow-visible" aria-hidden="true">
+              {particles.map(pt => (
+                <div
+                  key={pt.id}
+                  className="absolute rounded-full pointer-events-none transform -translate-x-1/2 -translate-y-1/2"
+                  style={{
+                    left: `${pt.x}px`,
+                    top: `${pt.y}px`,
+                    width: `${pt.size}px`,
+                    height: `${pt.size}px`,
+                    backgroundColor: pt.color,
+                    opacity: pt.opacity,
+                    filter: 'blur(0.6px)',
+                    boxShadow: `0 0 ${pt.size * 1.5}px ${pt.color}`,
+                    transition: 'opacity 50ms linear, transform 50ms linear'
+                  }}
+                />
+              ))}
+            </div>
+          )}
+
+          {/* Wren Bird perched on the card rim with natural head bop, wing flapping, and physics flight (NO speech bubble text) */}
+          <div 
+            onClick={triggerBirdFlight}
+            title={soundEnabled ? "Click me to fly & chirp! (or use toggle bottom-right)" : "Click me to fly!"}
+            className="absolute z-30 cursor-pointer select-none"
+            style={{
+              top: `${birdPos.y}px`,
+              left: `${birdPos.x}px`,
+              transform: `scale(${birdPos.scale}) rotate(${birdPos.rot}deg)`,
+              transformOrigin: '40px 65px',
+              willChange: 'transform, top, left',
+              transition: isBirdFlying ? 'none' : 'top 300ms ease, left 300ms ease, transform 300ms ease'
+            }}
+          >
+            {/* Realistic Wren Bird illustration matching Image 2 with animated wings and head */}
+            <div className="w-13 h-13 sm:w-15 sm:h-15 drop-shadow-[0_4px_6px_rgba(9,54,36,0.18)] hover:scale-105 transition-transform">
+              <RealisticWrenBird 
+                className="w-full h-full" 
+                isFlying={isBirdFlying}
+                wingPhase={wingPhase}
+                headBop={headBop}
+              />
+            </div>
+          </div>
+
+          {/* Top-Right Wattle Tape */}
+          <div 
+            className="absolute pointer-events-none z-20 backdrop-blur-xs shadow-xs rotate-12 w-24 h-6 -top-3 right-6 sm:right-10 bg-[rgba(203,218,70,0.92)]"
+            style={{
+              clipPath: 'polygon(0% 15%, 4% 0%, 96% 0%, 100% 15%, 98% 85%, 100% 100%, 4% 100%, 0% 85%)'
+            }}
+          />
+
+          {/* Hand-drawn offset shadow */}
+          <div 
+            className="absolute inset-0 translate-x-2 translate-y-3 bg-[#093624]/20"
+            style={{ borderRadius: '255px 18px 225px 18px/18px 225px 18px 255px' }}
+          />
+
+          {/* Main Rounded Card */}
+          <div 
+            className="relative z-10 bg-white/95 border-2 border-[#093624] p-8 sm:p-12 text-center shadow-xs"
+            style={{ borderRadius: '255px 22px 225px 22px/22px 225px 22px 255px' }}
+          >
+            {/* Headline */}
+            <h3 className="font-serif font-black text-2xl sm:text-3xl text-[#093624] tracking-tight mb-4">
+              Yes, yes, we've built some really cool stuff ;)
+            </h3>
+
+            {/* Narrative */}
+            <p className="font-sans text-sm sm:text-base text-[#093624] font-medium leading-relaxed mb-2">
+              We like building things almost as much as we like helping businesses grow.
+            </p>
+
+            <p className="font-sans font-bold text-sm sm:text-base text-[#093624] mb-3">
+              So, before you hire us, go steal something useful from us first.
+            </p>
+
+            <p className="font-sans text-sm sm:text-[15px] text-[#54605a] leading-relaxed max-w-lg mx-auto mb-8">
+              We've built free tools and playbooks to help founders and marketing teams figure things out, try new things, and get moving.
+            </p>
+
+            {/* Dotted separator line */}
+            <div className="w-full border-t border-dashed border-[#093624]/20 my-6" />
+
+            {/* CTA Link to Launch Checklist / Free Stuff */}
+            <div className="space-y-1">
+              <button
+                type="button"
+                onClick={() => {
+                  if (onNavigate) {
+                    onNavigate('launch-checklist');
+                  } else {
+                    window.location.hash = '#launch-checklist';
+                  }
+                }}
+                className="font-sans font-bold text-base sm:text-lg text-[#093624] hover:text-[#15543D] transition-colors cursor-pointer inline-flex items-center gap-1.5"
+              >
+                <span>Start with → The Product Launch Checklist</span>
+              </button>
+
+              <p className="font-hand text-sm sm:text-base text-[#6F7A6E]">
+                It's 100% free, just go play with it.
+              </p>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+      {/* ========================================================================= */}
+      {/* SECTION 5: FREE STUFF NOT YOUR THING? TALK TO US (Booking Cal)             */}
+      {/* ========================================================================= */}
+      <section className="relative w-full py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-[#093624] text-[#F7F4E9] notebook-grid-dark overflow-hidden">
+        <div className="max-w-4xl mx-auto">
+          
+          {/* Header */}
+          <div className="text-center mb-10 sm:mb-12">
+            <h2 className="font-serif font-black text-3xl sm:text-4xl lg:text-5xl text-white tracking-tight">
+              Free stuff not your thing?
+            </h2>
+            <div className="mt-2 flex items-center justify-center gap-2">
+              <span className="font-hand text-2xl sm:text-3xl text-[#CBDA46] -rotate-2">
+                Fair enough.
+              </span>
+              <span className="font-serif font-bold text-2xl sm:text-3xl text-white">
+                Talk to us
               </span>
             </div>
           </div>
 
-          {/* Copy Intro: "We like building things almost as much as we like helping businesses grow..." */}
-          <div className="max-w-3xl mb-12 space-y-3">
-            <p className="font-sans text-lg sm:text-xl text-[#0E1A15]/90 leading-relaxed font-medium">
-              We like building things almost as much as we like helping businesses grow.
-            </p>
-            <p className="font-sans text-base sm:text-lg text-[#0E1A15]/80 leading-relaxed">
-              So, before you hire us, <strong>go steal something useful from us first.</strong>
-            </p>
-            <p className="font-sans text-base sm:text-lg text-[#0E1A15]/80 leading-relaxed">
-              We've built free tools and playbooks to help founders and marketing teams figure things out, try new things, and get moving.
-            </p>
-          </div>
-
-          {/* Featured Tool Spotlight Banner as specified: */}
-          {/* "Start with [Tool Name] → It's 100% free, and you don’t need to give your email. Just go play with it." */}
-          <div className="bg-[#FAF7EE] border-2 border-[#093624] rounded-2xl p-6 sm:p-8 lg:p-10 shadow-[8px_8px_0px_#093624] mb-12 relative">
+          {/* Embedded Calendar Card with Paper Clip & Live Zcal Iframe */}
+          <div className="relative group max-w-2xl mx-auto">
             
-            {/* Top Tape */}
-            <div className="absolute -top-3 left-10">
-              <Tape className="w-28 h-6 rotate-[-2deg]" color="#CBDA46" />
+            {/* Scrapbook Paperclip Accent on Top-Left */}
+            <div className="absolute -top-4 left-8 z-30 pointer-events-none drop-shadow-xs">
+              <PaperClip className="w-5 h-11 text-[#94A3B8]" />
             </div>
 
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-8 border-b border-[#0E1A15]/15">
-              <div>
-                <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded bg-[#093624] text-[#CBDA46] text-xs font-mono font-semibold uppercase tracking-wider mb-2">
-                  <span>★ FEATURED TOOL</span>
-                </div>
-                
-                {/* Start with [Tool Name] → */}
-                <h3 className="font-display text-2xl sm:text-3xl lg:text-4xl text-[#093624] font-semibold">
-                  Start with{' '}
-                  <span className="underline decoration-[#CBDA46] decoration-4 underline-offset-4">
-                    B2B Demand Engine Diagnostic
-                  </span>{' '}
-                  →
-                </h3>
-                
-                {/* "It's 100% free, and you don’t need to give your email. Just go play with it." */}
-                <p className="font-hand text-2xl sm:text-3xl text-[#15543D] mt-2">
-                  It's 100% free, and you don’t need to give your email. Just go play with it.
-                </p>
-              </div>
+            {/* Hand-drawn offset shadow */}
+            <div 
+              className="absolute inset-0 translate-x-2 translate-y-3 bg-[#04170F]/50 rounded-3xl"
+            />
 
-              <div className="shrink-0 flex items-center gap-3">
-                <span className="px-3 py-1.5 rounded-full border border-dashed border-[#093624] text-xs font-mono font-semibold text-[#093624] bg-white">
-                  NO EMAIL REQUIRED
-                </span>
-                <span className="px-3 py-1.5 rounded-full bg-[#CBDA46] text-[#093624] text-xs font-mono font-bold">
-                  INSTANT RESULTS
-                </span>
-              </div>
-            </div>
-
-            {/* Interactive Live Mini-Tool Sandbox directly inside the page! */}
-            <div className="pt-8">
+            {/* Main Booking Card Container */}
+            <div className="relative z-10 rounded-3xl bg-white text-[#093624] border-2 border-[#093624] shadow-xs overflow-hidden">
               
-              <div className="bg-white border-2 border-dashed border-[#093624]/30 rounded-xl p-6 sm:p-8 relative">
-                
-                <div className="flex items-center justify-between mb-6">
-                  <div className="flex items-center gap-2">
-                    <Compass className="w-5 h-5 text-[#093624]" />
-                    <span className="font-mono text-xs font-bold text-[#093624] uppercase tracking-wider">
-                      INTERACTIVE AUDIT // QUESTION {Math.min(diagnosticStage + 1, diagnosticQuestions.length)} OF {diagnosticQuestions.length}
-                    </span>
-                  </div>
+              {/* Thin Colored Top Accent in Lime */}
+              <div className="h-2 w-full bg-[#CBDA46]" />
 
-                  {diagnosticStage >= diagnosticQuestions.length && (
-                    <button
-                      onClick={resetDiagnostic}
-                      className="inline-flex items-center gap-1.5 text-xs font-mono text-[#093624] hover:text-[#15543D] font-semibold cursor-pointer"
-                    >
-                      <RotateCcw className="w-3.5 h-3.5" />
-                      <span>Retake audit</span>
-                    </button>
-                  )}
+              {/* Card Header */}
+              <div className="px-6 py-4 border-b border-[#093624]/10 bg-[#FAF9F5] flex items-center justify-between gap-4">
+                <div className="flex items-center gap-2">
+                  <span className="w-2.5 h-2.5 rounded-full bg-[#22C55E] animate-pulse" />
+                  <span className="text-xs font-mono font-bold text-[#093624] uppercase tracking-wider">
+                    Discovery + Audit Call
+                  </span>
                 </div>
 
-                <AnimatePresence mode="wait">
-                  {diagnosticStage < diagnosticQuestions.length ? (
-                    <motion.div
-                      key={diagnosticStage}
-                      initial={{ opacity: 0, y: 8 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -8 }}
-                      transition={{ duration: 0.2 }}
-                      className="space-y-4"
-                    >
-                      <h4 className="font-display text-xl sm:text-2xl text-[#093624] font-medium">
-                        {diagnosticQuestions[diagnosticStage].question}
-                      </h4>
-
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-                        {diagnosticQuestions[diagnosticStage].options.map((opt, idx) => (
-                          <button
-                            key={idx}
-                            onClick={() => handleSelectOption(diagnosticStage, opt.score)}
-                            className="text-left p-4 rounded-xl border border-[#0E1A15]/15 hover:border-[#093624] hover:bg-[#FAF7EE] transition-all cursor-pointer group flex flex-col justify-between"
-                          >
-                            <span className="font-sans text-sm sm:text-base text-[#0E1A15] group-hover:text-[#093624] font-medium leading-snug">
-                              {opt.label}
-                            </span>
-                            <span className="text-[11px] font-mono text-[#6F7A6E] mt-3 flex items-center gap-1 group-hover:text-[#093624]">
-                              <span>Select option</span>
-                              <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
-                            </span>
-                          </button>
-                        ))}
-                      </div>
-                    </motion.div>
-                  ) : (
-                    <motion.div
-                      key="results"
-                      initial={{ opacity: 0, scale: 0.98 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ duration: 0.3 }}
-                      className="p-6 rounded-xl bg-[#093624] text-[#F7F4E9] space-y-4"
-                    >
-                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/15 pb-4">
-                        <div>
-                          <span className="text-xs font-mono uppercase text-[#CBDA46] tracking-wider">
-                            YOUR FOUNDER GTM ENGINE READINESS SCORE
-                          </span>
-                          <h4 className="font-display text-3xl sm:text-4xl text-[#F7F4E9] font-medium mt-1">
-                            {calculatedScore}% Readiness Score
-                          </h4>
-                        </div>
-                        <div className="px-4 py-2 rounded-lg bg-[#CBDA46] text-[#093624] font-mono text-sm font-bold text-center">
-                          {calculatedScore > 75 ? 'HIGH LEVERAGE' : 'HIGH OPPORTUNITY'}
-                        </div>
-                      </div>
-
-                      <p className="font-sans text-sm sm:text-base text-[#D5E3D5] leading-relaxed">
-                        {calculatedScore > 75 
-                          ? "You already have the core founder credibility in place. Your biggest opportunity is systematizing content loops into predictable enterprise inbound meetings so it doesn't depend on manual hours."
-                          : "You're sitting on massive untapped founder authority. Turning your direct product insights and founder point-of-view into a weekly distribution engine can unlock immediate 3x inbound deal flow."}
-                      </p>
-
-                      <div className="pt-2 flex flex-wrap items-center gap-4">
-                        <button
-                          onClick={onOpenBooking}
-                          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[#CBDA46] hover:bg-[#B6C73A] text-[#093624] font-semibold text-sm transition-colors cursor-pointer"
-                        >
-                          <span>Review your diagnostic with Judith</span>
-                          <ArrowRight className="w-4 h-4" />
-                        </button>
-                        <button
-                          onClick={resetDiagnostic}
-                          className="text-xs font-mono text-[#CBDA46] hover:underline cursor-pointer"
-                        >
-                          Try different inputs
-                        </button>
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-
-              </div>
-
-            </div>
-
-          </div>
-
-          {/* Secondary Tools & Playbooks Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            
-            {/* Tool 2: Founder Brand & Positioning Matrix */}
-            <div className="bg-[#FAF7EE] border-2 border-[#093624] rounded-xl p-6 shadow-[6px_6px_0px_#093624] flex flex-col justify-between relative">
-              <div className="absolute -top-3 right-8">
-                <PaperClip color="#093624" className="w-4 h-8" />
-              </div>
-              <div>
-                <span className="text-xs font-mono uppercase text-[#6F7A6E] tracking-wider block mb-1">
-                  PLAYBOOK // 02
-                </span>
-                <h4 className="font-display text-2xl text-[#093624] font-medium mb-2">
-                  Founder Positioning Matrix
-                </h4>
-                <p className="font-sans text-sm text-[#0E1A15]/80 leading-relaxed mb-4">
-                  The exact step-by-step framework we use to extract unique founder POVs and turn them into weekly magnetic thought leadership without sounding corporate.
-                </p>
-              </div>
-              <div className="pt-4 border-t border-[#0E1A15]/10 flex items-center justify-between">
-                <span className="text-xs font-mono text-[#093624] font-bold">100% FREE NO EMAIL</span>
-                <button
-                  onClick={() => {
-                    navigator.clipboard.writeText("Wren Founder Positioning Matrix: 1. Core Enemy / 2. Counterintuitive Insight / 3. Tactical Proof / 4. Direct Offer");
-                    setCopiedAngle(true);
-                    setTimeout(() => setCopiedAngle(false), 2000);
-                  }}
-                  className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#093624] hover:text-[#15543D] cursor-pointer"
+                {/* "Open in Cal ↗" link */}
+                <a
+                  href="https://zcal.co/i/laZ1QjPs"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-[#093624] bg-white hover:bg-[#CBDA46] border border-[#093624]/20 px-3 py-1.5 rounded-lg shadow-2xs hover:shadow-xs transition-all"
                 >
-                  <span>{copiedAngle ? 'Copied to clipboard!' : 'Copy framework →'}</span>
-                </button>
+                  <span>Open in Cal</span>
+                  <ExternalLink className="w-3.5 h-3.5 text-[#093624]" />
+                </a>
               </div>
-            </div>
 
-            {/* Tool 3: The Zero-to-Pipeline GTM Blueprint */}
-            <div className="bg-[#FAF7EE] border-2 border-[#093624] rounded-xl p-6 shadow-[6px_6px_0px_#093624] flex flex-col justify-between relative">
-              <div className="absolute -top-3 right-8">
-                <Tape className="w-16 h-5 rotate-2" color="#D97706" />
+              {/* Real Zcal Embed */}
+              <div data-lenis-prevent className="w-full bg-white flex flex-col">
+                <iframe
+                  src="https://zcal.co/i/laZ1QjPs?embed=1"
+                  loading="lazy"
+                  title="Discovery + Audit Call Booking"
+                  className="w-full min-w-full h-[620px] sm:h-[660px] border-0 block"
+                />
+
+                {/* Bottom Card Helper Note */}
+                <div className="px-4 py-3 bg-[#FAF9F5] border-t border-[#093624]/10 text-center text-[11px] font-mono font-medium text-[#6F7A6E]">
+                  🔒 Direct booking powered by zcal · Instant calendar invite sent on confirmation
+                </div>
               </div>
-              <div>
-                <span className="text-xs font-mono uppercase text-[#6F7A6E] tracking-wider block mb-1">
-                  SWIPEFILE // 03
-                </span>
-                <h4 className="font-display text-2xl text-[#093624] font-medium mb-2">
-                  The Lean B2B GTM Swipefile
-                </h4>
-                <p className="font-sans text-sm text-[#0E1A15]/80 leading-relaxed mb-4">
-                  12 verified distribution angles, cold outreach structures, and lead magnets tested across dozens of B2B SaaS and service founders.
-                </p>
-              </div>
-              <div className="pt-4 border-t border-[#0E1A15]/10 flex items-center justify-between">
-                <span className="text-xs font-mono text-[#093624] font-bold">OPEN ACCESS</span>
-                <button
-                  onClick={() => onNavigateHome ? onNavigateHome('systems-section') : scrollToAboutSection('talk-to-us-cta')}
-                  className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#093624] hover:text-[#15543D] cursor-pointer"
-                >
-                  <span>Explore systems →</span>
-                </button>
-              </div>
+
             </div>
 
           </div>
@@ -566,82 +794,38 @@ export const AboutPage: React.FC<AboutPageProps> = ({
       </section>
 
       {/* ========================================================================= */}
-      {/* SECTION 5: FREE STUFF NOT YOUR THING? / TALK TO US (CLOSING DISPATCH)     */}
+      {/* FIXED BOTTOM-RIGHT SOUND TOGGLE BUTTON                                    */}
+      {/* Allows users to turn the Wren chirp audio on or off anytime (Icon Only)   */}
       {/* ========================================================================= */}
-      <section 
-        id="talk-to-us-cta" 
-        className="relative w-full py-24 sm:py-32 px-4 sm:px-6 lg:px-8 bg-[#FAF7EE]"
-      >
-        <div className="max-w-4xl mx-auto">
-          
-          {/* Telegram / Stationery Dispatch Card */}
-          <div className="relative bg-[#093624] text-[#FAF7EE] rounded-3xl p-8 sm:p-14 lg:p-16 border-4 border-[#CBDA46] shadow-[12px_12px_0px_#05281A] overflow-hidden">
-            
-            {/* Background Grid Pattern */}
-            <div className="absolute inset-0 notebook-grid-dark opacity-30 pointer-events-none" />
-
-            {/* Corner Washi Tape */}
-            <div className="absolute -top-3 left-12">
-              <Tape className="w-32 h-7 -rotate-2" color="#CBDA46" />
-            </div>
-
-            <div className="relative z-10 max-w-2xl mx-auto text-center space-y-6">
-              
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#CBDA46] text-[#093624] text-xs font-mono font-bold uppercase tracking-wider">
-                <Send className="w-3.5 h-3.5 text-[#093624]" />
-                <span>DIRECT DISPATCH // FINAL STEP</span>
-              </div>
-
-              {/* Exact Copy: "Free stuff not your thing?" */}
-              <h3 className="font-display text-3xl sm:text-5xl lg:text-6xl font-semibold text-[#F7F4E9] tracking-tight">
-                Free stuff not your thing?
-              </h3>
-
-              {/* Exact Copy: "Fair enough." */}
-              <p className="font-hand text-3xl sm:text-4xl text-[#CBDA46] -rotate-1 select-none">
-                Fair enough.
-              </p>
-
-              {/* Supporting narrative */}
-              <p className="font-sans text-base sm:text-lg text-[#D5E3D5] max-w-xl mx-auto leading-relaxed">
-                If you'd rather bypass the playbooks and have us install a custom B2B demand engine directly into your business, let's talk.
-              </p>
-
-              {/* Exact Copy CTA Button: "Talk to us →" */}
-              <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
-                <button
-                  id="about-page-talk-to-us-btn"
-                  onClick={onOpenBooking}
-                  className="group inline-flex items-center justify-center gap-3 bg-[#CBDA46] hover:bg-[#B6C73A] text-[#093624] px-8 py-4 rounded-xl font-display font-semibold text-lg sm:text-xl border-2 border-[#093624] shadow-[4px_4px_0px_#093624] hover:shadow-[2px_2px_0px_#093624] hover:translate-x-[2px] hover:translate-y-[2px] transition-all cursor-pointer"
-                >
-                  <span>Talk to us</span>
-                  <ArrowRight className="w-5 h-5 text-[#093624] group-hover:translate-x-1 transition-transform" />
-                </button>
-
-                {onNavigateHome && (
-                  <button
-                    onClick={() => onNavigateHome()}
-                    className="text-sm font-mono text-[#D5E3D5] hover:text-[#CBDA46] underline decoration-dashed underline-offset-4 cursor-pointer"
-                  >
-                    ← Back to Wren homepage
-                  </button>
-                )}
-              </div>
-
-              {/* Tactile Stamp */}
-              <div className="pt-6 flex items-center justify-center gap-2 text-xs font-mono text-[#D5E3D5]/70">
-                <span>LIMITED TO 3 NEW FOUNDERS PER QUARTER</span>
-                <span>•</span>
-                <span>DIRECT FOUNDER ACCESS</span>
-              </div>
-
-            </div>
-
-          </div>
-
-        </div>
-      </section>
+      <div className="fixed bottom-6 right-6 z-50">
+        <button
+          type="button"
+          onClick={() => {
+            const nextState = !soundEnabled;
+            setSoundEnabled(nextState);
+            // If turning on, give a soft confirmation chirp
+            if (nextState) {
+              setTimeout(() => playWrenChirp(), 100);
+            }
+          }}
+          className={`flex items-center justify-center w-11 h-11 sm:w-12 sm:h-12 rounded-full border-2 shadow-lg backdrop-blur-md transition-all cursor-pointer select-none active:scale-95 ${
+            soundEnabled
+              ? 'bg-[#093624] text-[#CBDA46] border-[#CBDA46] shadow-[0_4px_14px_rgba(9,54,36,0.35)] hover:bg-[#15543D] hover:scale-105'
+              : 'bg-white/90 text-[#6F7A6E] border-[#093624]/20 shadow-md hover:border-[#093624]/40 hover:text-[#093624] hover:scale-105'
+          }`}
+          title={soundEnabled ? "Mute bird chirp sound" : "Enable bird chirp sound"}
+          aria-label={soundEnabled ? "Mute bird chirp sound" : "Enable bird chirp sound"}
+        >
+          {soundEnabled ? (
+            <Volume2 className="w-5 h-5 text-[#CBDA46] shrink-0 animate-pulse" />
+          ) : (
+            <VolumeX className="w-5 h-5 text-[#6F7A6E] shrink-0" />
+          )}
+        </button>
+      </div>
 
     </div>
   );
 };
+
+export default AboutPage;

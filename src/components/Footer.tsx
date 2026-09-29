@@ -7,8 +7,8 @@ import { FooterPhysicsBadges } from './FooterPhysicsBadges';
 
 interface FooterProps {
   onOpenBooking?: () => void;
-  onNavigate?: (page: 'home' | 'about' | 'podcast' | 'for-ai' | 'community' | 'contact' | 'privacy-policy' | 'case-studies' | 'case-study-detail' | 'free-stuff' | 'launch-checklist', sectionId?: string) => void;
-  currentPage?: 'home' | 'about' | 'podcast' | 'for-ai' | 'community' | 'contact' | 'privacy-policy' | 'case-studies' | 'case-study-detail' | 'free-stuff' | 'launch-checklist';
+  onNavigate?: (page: 'home' | 'about' | 'podcast' | 'for-ai' | 'community' | 'contact' | 'privacy-policy' | 'case-studies' | 'case-study-detail' | 'free-stuff' | 'launch-checklist' | 'gtm-calculator', sectionId?: string) => void;
+  currentPage?: 'home' | 'about' | 'podcast' | 'for-ai' | 'community' | 'contact' | 'privacy-policy' | 'case-studies' | 'case-study-detail' | 'free-stuff' | 'launch-checklist' | 'gtm-calculator';
 }
 
 export const Footer: React.FC<FooterProps> = ({ onOpenBooking, onNavigate, currentPage = 'home' }) => {
@@ -28,7 +28,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenBooking, onNavigate, curre
     }
   };
 
-  const navigateTo = (page: 'home' | 'about' | 'podcast' | 'for-ai' | 'community' | 'contact' | 'privacy-policy' | 'case-studies' | 'case-study-detail' | 'free-stuff' | 'launch-checklist', sectionId?: string) => {
+  const navigateTo = (page: 'home' | 'about' | 'podcast' | 'for-ai' | 'community' | 'contact' | 'privacy-policy' | 'case-studies' | 'case-study-detail' | 'free-stuff' | 'launch-checklist' | 'gtm-calculator', sectionId?: string) => {
     if (onNavigate) {
       onNavigate(page, sectionId);
     } else {
@@ -299,8 +299,10 @@ export const Footer: React.FC<FooterProps> = ({ onOpenBooking, onNavigate, curre
               </li>
               <li>
                 <button 
-                  onClick={() => navigateTo('free-stuff')} 
-                  className="hover:text-white transition-colors cursor-pointer text-left"
+                  onClick={() => navigateTo('gtm-calculator')} 
+                  className={`transition-colors cursor-pointer text-left ${
+                    currentPage === 'gtm-calculator' ? 'text-[#CBDA46] font-semibold' : 'hover:text-white'
+                  }`}
                 >
                   GTM Calculator
                 </button>

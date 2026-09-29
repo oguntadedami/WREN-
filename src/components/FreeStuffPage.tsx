@@ -27,7 +27,7 @@ import { MarkerUnderline, Tape, PaperClip } from './ScrapbookAssets';
 
 interface FreeStuffPageProps {
   onOpenBooking?: () => void;
-  onNavigate?: (page: 'home' | 'about' | 'podcast' | 'for-ai' | 'community' | 'contact' | 'privacy-policy' | 'case-studies' | 'case-study-detail' | 'free-stuff' | 'launch-checklist', sectionId?: string) => void;
+  onNavigate?: (page: 'home' | 'about' | 'podcast' | 'for-ai' | 'community' | 'contact' | 'privacy-policy' | 'case-studies' | 'case-study-detail' | 'free-stuff' | 'launch-checklist' | 'gtm-calculator', sectionId?: string) => void;
 }
 
 export const FreeStuffPage: React.FC<FreeStuffPageProps> = ({
@@ -92,7 +92,7 @@ export const FreeStuffPage: React.FC<FreeStuffPageProps> = ({
   ];
 
   return (
-    <div className="w-full bg-[#FAF7EE] text-[#0E1A15] relative selection:bg-[#CBDA46] selection:text-[#093624] overflow-x-hidden font-sans pt-24 sm:pt-28 pb-20">
+    <div className="w-full bg-[#FAF7EE] text-[#0E1A15] relative selection:bg-[#CBDA46] selection:text-[#093624] overflow-x-hidden font-sans pt-28 sm:pt-36 pb-20">
       
       {/* ========================================================================= */}
       {/* HERO SECTION                                                              */}
@@ -231,7 +231,13 @@ export const FreeStuffPage: React.FC<FreeStuffPageProps> = ({
               <div className="pt-4 border-t border-[#093624]/15 mt-auto">
                 <button
                   type="button"
-                  onClick={() => setActiveModal('gtm-calculator')}
+                  onClick={() => {
+                    if (onNavigate) {
+                      onNavigate('gtm-calculator');
+                    } else {
+                      window.location.hash = '#gtm-calculator';
+                    }
+                  }}
                   className="w-full inline-flex items-center justify-center gap-2 bg-[#093624] hover:bg-[#15543D] text-[#F7F4E9] font-sans font-bold text-sm py-2.5 px-4 rounded-xl transition-all cursor-pointer shadow-xs active:scale-[0.98]"
                 >
                   <Calculator className="w-4 h-4 text-[#CBDA46]" />
