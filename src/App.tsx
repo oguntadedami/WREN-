@@ -30,6 +30,9 @@ import { CaseStudyDetailPage } from './components/CaseStudyDetailPage';
 import { FreeStuffPage } from './components/FreeStuffPage';
 import { LaunchChecklistPage } from './components/LaunchChecklistPage';
 import { GTMCalculator } from './components/GTMCalculator';
+import { TermsPage } from './components/TermsPage';
+import { SecurityPage } from './components/SecurityPage';
+import { NotFoundPage } from './components/NotFoundPage';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -57,10 +60,13 @@ export default function App() {
     }
   });
 
-  const [currentPage, setCurrentPage] = useState<'home' | 'about' | 'podcast' | 'for-ai' | 'community' | 'contact' | 'privacy-policy' | 'case-studies' | 'case-study-detail' | 'free-stuff' | 'launch-checklist' | 'gtm-calculator'>(() => {
+  const [currentPage, setCurrentPage] = useState<'home' | 'about' | 'podcast' | 'for-ai' | 'community' | 'contact' | 'privacy-policy' | 'terms' | 'security' | 'case-studies' | 'case-study-detail' | 'free-stuff' | 'launch-checklist' | 'gtm-calculator' | '404'>(() => {
     try {
       const path = window.location.pathname;
       const hash = window.location.hash;
+      if (path === '/404' || path === '/404/' || hash === '#404') return '404';
+      if (path === '/terms' || path === '/terms/' || path === '/terms-of-service' || hash === '#terms' || hash.startsWith('#terms-')) return 'terms';
+      if (path === '/security' || path === '/security/' || path === '/security-and-trust' || path === '/trust' || hash === '#security' || hash.startsWith('#security-')) return 'security';
       if (path === '/free-stuff/launch-checklist' || path === '/launch-checklist' || hash === '#launch-checklist') return 'launch-checklist';
       if (path === '/gtm-calculator' || path === '/free-stuff/gtm-calculator' || hash === '#gtm-calculator') return 'gtm-calculator';
       if (path === '/free-stuff' || path === '/free-stuff/' || hash === '#free-stuff') return 'free-stuff';
@@ -87,7 +93,13 @@ export default function App() {
       try {
         const path = window.location.pathname;
         const hash = window.location.hash;
-        if (path === '/free-stuff/launch-checklist' || path === '/launch-checklist' || hash === '#launch-checklist') {
+        if (path === '/404' || path === '/404/' || hash === '#404') {
+          setCurrentPage('404');
+        } else if (path === '/terms' || path === '/terms/' || path === '/terms-of-service' || hash === '#terms' || hash.startsWith('#terms-')) {
+          setCurrentPage('terms');
+        } else if (path === '/security' || path === '/security/' || path === '/security-and-trust' || path === '/trust' || hash === '#security' || hash.startsWith('#security-')) {
+          setCurrentPage('security');
+        } else if (path === '/free-stuff/launch-checklist' || path === '/launch-checklist' || hash === '#launch-checklist') {
           setCurrentPage('launch-checklist');
         } else if (path === '/gtm-calculator' || path === '/free-stuff/gtm-calculator' || hash === '#gtm-calculator') {
           setCurrentPage('gtm-calculator');
@@ -129,6 +141,9 @@ export default function App() {
           !hash.startsWith('#community') &&
           !hash.startsWith('#contact') &&
           !hash.startsWith('#privacy-policy') &&
+          !hash.startsWith('#terms') &&
+          !hash.startsWith('#security') &&
+          !hash.startsWith('#404') &&
           !hash.startsWith('#case-studies') &&
           !hash.startsWith('#case-study-') &&
           !hash.startsWith('#free-stuff') &&
@@ -140,6 +155,10 @@ export default function App() {
           path !== '/community' &&
           path !== '/contact' &&
           path !== '/privacy-policy' &&
+          path !== '/terms' &&
+          path !== '/terms-of-service' &&
+          path !== '/security' &&
+          path !== '/404' &&
           path !== '/free-stuff' &&
           !path.startsWith('/case-studies')
         ) {
@@ -219,6 +238,12 @@ export default function App() {
         handleNavigate('gtm-calculator');
         return;
       }
+      const notFoundTarget = (e.target as HTMLElement).closest('a[href="/404"]');
+      if (notFoundTarget) {
+        e.preventDefault();
+        handleNavigate('404');
+        return;
+      }
       const freeStuffTarget = (e.target as HTMLElement).closest('a[href="/free-stuff"]');
       if (freeStuffTarget) {
         e.preventDefault();
@@ -253,6 +278,24 @@ export default function App() {
       if (aboutTarget) {
         e.preventDefault();
         handleNavigate('about');
+        return;
+      }
+      const termsTarget = (e.target as HTMLElement).closest('a[href="/terms"], a[href="/terms/"], a[href="/terms-of-service"]');
+      if (termsTarget) {
+        e.preventDefault();
+        handleNavigate('terms');
+        return;
+      }
+      const securityTarget = (e.target as HTMLElement).closest('a[href="/security"], a[href="/security/"], a[href="/security-and-trust"], a[href="/trust"]');
+      if (securityTarget) {
+        e.preventDefault();
+        handleNavigate('security');
+        return;
+      }
+      const privacyTarget = (e.target as HTMLElement).closest('a[href="/privacy-policy"], a[href="/privacy"]');
+      if (privacyTarget) {
+        e.preventDefault();
+        handleNavigate('privacy-policy');
         return;
       }
       const homeTarget = (e.target as HTMLElement).closest('a[href="/"]');
@@ -307,7 +350,7 @@ export default function App() {
     return () => clearTimeout(timer);
   }, [currentPage]);
 
-  const handleNavigate = (page: 'home' | 'about' | 'podcast' | 'for-ai' | 'community' | 'contact' | 'privacy-policy' | 'case-studies' | 'case-study-detail' | 'free-stuff' | 'launch-checklist' | 'gtm-calculator', sectionId?: string) => {
+  const handleNavigate = (page: 'home' | 'about' | 'podcast' | 'for-ai' | 'community' | 'contact' | 'privacy-policy' | 'terms' | 'security' | 'case-studies' | 'case-study-detail' | 'free-stuff' | 'launch-checklist' | 'gtm-calculator' | '404', sectionId?: string) => {
     if (page === 'case-study-detail') {
       const slug = sectionId || 'mischief-makers';
       setCurrentCaseStudySlug(slug);
@@ -331,7 +374,16 @@ export default function App() {
 
     setCurrentPage(page);
     try {
-      if (page === 'gtm-calculator') {
+      if (page === 'terms') {
+        window.history.pushState({}, '', '/terms');
+        window.location.hash = sectionId ? `#${sectionId}` : '#terms';
+      } else if (page === 'security') {
+        window.history.pushState({}, '', '/security');
+        window.location.hash = sectionId ? `#${sectionId}` : '#security';
+      } else if (page === '404') {
+        window.history.pushState({}, '', '/404');
+        window.location.hash = '#404';
+      } else if (page === 'gtm-calculator') {
         window.history.pushState({}, '', '/gtm-calculator');
         window.location.hash = '#gtm-calculator';
       } else if (page === 'launch-checklist') {
@@ -472,6 +524,20 @@ export default function App() {
                 onNavigate={handleNavigate}
               />
             </main>
+          ) : currentPage === 'terms' ? (
+            <main>
+              <TermsPage
+                onOpenBooking={handleOpenBooking}
+                onNavigate={handleNavigate}
+              />
+            </main>
+          ) : currentPage === 'security' ? (
+            <main>
+              <SecurityPage
+                onOpenBooking={handleOpenBooking}
+                onNavigate={handleNavigate}
+              />
+            </main>
           ) : currentPage === 'case-study-detail' ? (
             <main>
               <CaseStudyDetailPage
@@ -504,6 +570,13 @@ export default function App() {
           ) : currentPage === 'free-stuff' ? (
             <main>
               <FreeStuffPage
+                onOpenBooking={handleOpenBooking}
+                onNavigate={handleNavigate}
+              />
+            </main>
+          ) : currentPage === '404' ? (
+            <main>
+              <NotFoundPage
                 onOpenBooking={handleOpenBooking}
                 onNavigate={handleNavigate}
               />

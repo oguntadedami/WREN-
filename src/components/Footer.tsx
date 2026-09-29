@@ -7,8 +7,8 @@ import { FooterPhysicsBadges } from './FooterPhysicsBadges';
 
 interface FooterProps {
   onOpenBooking?: () => void;
-  onNavigate?: (page: 'home' | 'about' | 'podcast' | 'for-ai' | 'community' | 'contact' | 'privacy-policy' | 'case-studies' | 'case-study-detail' | 'free-stuff' | 'launch-checklist' | 'gtm-calculator', sectionId?: string) => void;
-  currentPage?: 'home' | 'about' | 'podcast' | 'for-ai' | 'community' | 'contact' | 'privacy-policy' | 'case-studies' | 'case-study-detail' | 'free-stuff' | 'launch-checklist' | 'gtm-calculator';
+  onNavigate?: (page: 'home' | 'about' | 'podcast' | 'for-ai' | 'community' | 'contact' | 'privacy-policy' | 'terms' | 'security' | 'case-studies' | 'case-study-detail' | 'free-stuff' | 'launch-checklist' | 'gtm-calculator' | '404', sectionId?: string) => void;
+  currentPage?: 'home' | 'about' | 'podcast' | 'for-ai' | 'community' | 'contact' | 'privacy-policy' | 'terms' | 'security' | 'case-studies' | 'case-study-detail' | 'free-stuff' | 'launch-checklist' | 'gtm-calculator' | '404';
 }
 
 export const Footer: React.FC<FooterProps> = ({ onOpenBooking, onNavigate, currentPage = 'home' }) => {
@@ -28,7 +28,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenBooking, onNavigate, curre
     }
   };
 
-  const navigateTo = (page: 'home' | 'about' | 'podcast' | 'for-ai' | 'community' | 'contact' | 'privacy-policy' | 'case-studies' | 'case-study-detail' | 'free-stuff' | 'launch-checklist' | 'gtm-calculator', sectionId?: string) => {
+  const navigateTo = (page: 'home' | 'about' | 'podcast' | 'for-ai' | 'community' | 'contact' | 'privacy-policy' | 'terms' | 'security' | 'case-studies' | 'case-study-detail' | 'free-stuff' | 'launch-checklist' | 'gtm-calculator' | '404', sectionId?: string) => {
     if (onNavigate) {
       onNavigate(page, sectionId);
     } else {
@@ -201,6 +201,16 @@ export const Footer: React.FC<FooterProps> = ({ onOpenBooking, onNavigate, curre
               <li>
                 <button onClick={() => scrollTo('faq-section')} className="hover:text-white transition-colors cursor-pointer text-left">
                   FAQ
+                </button>
+              </li>
+              <li>
+                <button 
+                  onClick={() => navigateTo('404')} 
+                  className={`transition-colors cursor-pointer text-left ${
+                    currentPage === '404' ? 'text-[#CBDA46] font-semibold' : 'hover:text-white'
+                  }`}
+                >
+                  404 Page
                 </button>
               </li>
             </ul>
@@ -383,14 +393,42 @@ export const Footer: React.FC<FooterProps> = ({ onOpenBooking, onNavigate, curre
             <button
               type="button"
               onClick={() => navigateTo('privacy-policy')}
-              className="hover:text-[#CBDA46] cursor-pointer transition-colors"
+              className={`cursor-pointer transition-colors ${
+                currentPage === 'privacy-policy' ? 'text-[#CBDA46] font-bold' : 'hover:text-[#CBDA46]'
+              }`}
             >
               Privacy
             </button>
             <span className="text-[#A3C2A3]/40">·</span>
-            <span className="hover:text-[#CBDA46] cursor-pointer transition-colors">Terms</span>
+            <button
+              type="button"
+              onClick={() => navigateTo('terms')}
+              className={`cursor-pointer transition-colors ${
+                currentPage === 'terms' ? 'text-[#CBDA46] font-bold' : 'hover:text-[#CBDA46]'
+              }`}
+            >
+              Terms
+            </button>
             <span className="text-[#A3C2A3]/40">·</span>
-            <span className="hover:text-[#CBDA46] cursor-pointer transition-colors">Security</span>
+            <button
+              type="button"
+              onClick={() => navigateTo('security')}
+              className={`cursor-pointer transition-colors ${
+                currentPage === 'security' ? 'text-[#CBDA46] font-bold' : 'hover:text-[#CBDA46]'
+              }`}
+            >
+              Security
+            </button>
+            <span className="text-[#A3C2A3]/40">·</span>
+            <button
+              type="button"
+              onClick={() => navigateTo('404')}
+              className={`cursor-pointer transition-colors ${
+                currentPage === '404' ? 'text-[#CBDA46] font-bold' : 'hover:text-[#CBDA46]'
+              }`}
+            >
+              404 Page
+            </button>
           </div>
         </div>
 

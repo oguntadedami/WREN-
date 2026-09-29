@@ -3,7 +3,7 @@ import { Highlight } from './ScrapbookAssets';
 
 interface PrivacyPolicyPageProps {
   onOpenBooking?: () => void;
-  onNavigate?: (page: 'home' | 'about' | 'podcast' | 'for-ai' | 'community' | 'contact' | 'privacy-policy', sectionId?: string) => void;
+  onNavigate?: (page: any, sectionId?: string) => void;
 }
 
 interface TocItem {

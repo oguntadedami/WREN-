@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import treeNestDesktop from '../assets/scenes/tree-nest-environment.webp';
 import treeNestMobile from '../assets/scenes/tree-nest-environment-mobile.webp';
+import nestFrontRimDesktop from '../assets/scenes/nest-front-rim-desktop.webp';
+import nestFrontRimMobile from '../assets/scenes/nest-front-rim-mobile.webp';
 import { Button } from './Button';
 
 type BirdState =
@@ -166,8 +168,8 @@ export const EasterEggAI: React.FC<EasterEggAIProps> = ({ onNavigate }) => {
         @keyframes wrenFlightAround {
           0% {
             left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%) scale(1) scaleX(1) rotate(-8deg);
+            top: 55.5%;
+            transform: translate(-50%, -48%) scale(1) scaleX(1) rotate(-8deg);
           }
           12% {
             left: 70%;
@@ -201,13 +203,13 @@ export const EasterEggAI: React.FC<EasterEggAIProps> = ({ onNavigate }) => {
           }
           90% {
             left: 45%;
-            top: 54%;
+            top: 56.5%;
             transform: translate(-50%, -50%) scale(1) scaleX(1) rotate(-8deg);
           }
           100% {
             left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%) scale(1) scaleX(1) rotate(0deg);
+            top: 55.5%;
+            transform: translate(-50%, -48%) scale(1) scaleX(1) rotate(0deg);
           }
         }
       `}</style>
@@ -224,10 +226,11 @@ export const EasterEggAI: React.FC<EasterEggAIProps> = ({ onNavigate }) => {
         />
       </picture>
 
-      {/* Bird Actor & Flight Layer - Scaled to a natural, delicate wren proportion */}
+      {/* Bird Actor & Flight Layer - Accurately nestled directly inside the nest bowl */}
       <div
-        className="absolute z-20 pointer-events-none"
+        className="absolute pointer-events-none"
         style={{
+          zIndex: 15,
           left:
             birdState === 'flying-around'
               ? undefined
@@ -240,17 +243,17 @@ export const EasterEggAI: React.FC<EasterEggAIProps> = ({ onNavigate }) => {
             birdState === 'flying-around'
               ? undefined
               : isPerchedOrLanding
-              ? '50%'
+              ? '55.5%'
               : birdState === 'flying-in'
-              ? '50%'
+              ? '55.5%'
               : '-15%',
           transform:
             birdState === 'flying-around'
               ? undefined
               : isPerchedOrLanding
               ? birdState === 'landing-bounce'
-                ? 'translate(-50%, -50%) scale(1.1)'
-                : 'translate(-50%, -50%)'
+                ? 'translate(-50%, -46%) scale(1.04)'
+                : 'translate(-50%, -48%)'
               : birdState === 'flying-in'
               ? 'translate(-50%, -50%) scale(1) rotate(12deg)'
               : 'translate(-50%, -50%) scale(0.65) rotate(-25deg)',
@@ -450,50 +453,85 @@ export const EasterEggAI: React.FC<EasterEggAIProps> = ({ onNavigate }) => {
                 strokeLinejoin="round"
               />
             </g>
-
-            {/* Feet gripping nestled rim */}
-            {!isFlying && (
-              <g>
-                <path
-                  d="M33 50 L33 54 M30 54 L35 54"
-                  stroke="#000000"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                />
-                <path
-                  d="M40 50 L40 54 M38 54 L43 54"
-                  stroke="#000000"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                />
-              </g>
-            )}
           </svg>
         </div>
       </div>
 
-      {/* Hand-Drawn Paper Note Card with Paperclips & Folded Dog-Ear Corner */}
-      {/* Positioned comfortably above the nest with ample top headroom */}
+      {/* Front Nest Rim Layer: Positioned at zIndex: 20 directly in front of the bird so it is settled inside the nest bowl */}
+      <picture 
+        className="absolute inset-0 w-full h-full pointer-events-none select-none"
+        style={{ zIndex: 20 }}
+      >
+        <source media="(min-width: 768px)" srcSet={nestFrontRimDesktop} />
+        <img
+          src={nestFrontRimMobile}
+          alt=""
+          className="w-full h-full object-cover object-center"
+          loading="lazy"
+        />
+      </picture>
+
+      {/* Sign Board Note Card Attached to the Pole above the Birdhouse */}
+      {/* Positioned comfortably on the pole above the birdhouse roof (top: 36%), acting as a sign board attached to the pole for both mobile & desktop */}
       <div
-        className={`absolute z-30 pointer-events-auto transition-all duration-500 ease-out ${
+        className={`absolute pointer-events-auto transition-all duration-500 ease-out ${
           showBubble
             ? 'opacity-100 scale-100 translate-y-0'
             : 'opacity-0 scale-90 translate-y-4 pointer-events-none'
         }`}
         style={{
+          zIndex: 30,
           left: '50%',
-          top: '41%',
+          top: '36%',
           transform: 'translate(-50%, -100%)',
         }}
       >
-        <div className="relative w-[240px] sm:w-[285px] md:w-[320px]">
-          {/* Hand-drawn SVG Container */}
+        <div className="relative w-[240px] sm:w-[285px] md:w-[325px]">
+          {/* Hand-drawn SVG Container: Wooden Sign Board Attached to Pole + Paper Note */}
           <svg
-            viewBox="0 0 400 230"
+            viewBox="0 0 400 236"
             className="w-full h-auto drop-shadow-[0_12px_24px_rgba(9,54,36,0.22)] overflow-visible"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
           >
+            {/* Wooden Sign Board Backing (Mounted to the central pole) */}
+            <path
+              d="M 12 18 C 100 12, 300 6, 388 8 L 388 224 C 290 226, 110 228, 12 222 Z"
+              fill="#E8DEC8"
+              stroke="#584832"
+              strokeWidth="2.8"
+              strokeLinejoin="round"
+            />
+            {/* Subtle wood grain texture accents */}
+            <path
+              d="M 20 50 C 140 44, 260 42, 380 44"
+              stroke="#D4C4A8"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+            />
+            <path
+              d="M 22 170 C 130 168, 250 166, 378 168"
+              stroke="#D4C4A8"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+            />
+
+            {/* Top Pole Mounting Bracket Clamp (attached to central pole at x=200) */}
+            <g>
+              <rect x="180" y="-8" width="40" height="34" rx="4" fill="#3D4B41" stroke="#093624" strokeWidth="2.4" />
+              {/* Metallic Rivet Bolts */}
+              <circle cx="190" cy="9" r="2.8" fill="#D0DDD2" stroke="#093624" strokeWidth="1" />
+              <circle cx="210" cy="9" r="2.8" fill="#D0DDD2" stroke="#093624" strokeWidth="1" />
+            </g>
+
+            {/* Bottom Pole Mounting Bracket Clamp */}
+            <g>
+              <rect x="180" y="210" width="40" height="34" rx="4" fill="#3D4B41" stroke="#093624" strokeWidth="2.4" />
+              {/* Metallic Rivet Bolts */}
+              <circle cx="190" cy="227" r="2.8" fill="#D0DDD2" stroke="#093624" strokeWidth="1" />
+              <circle cx="210" cy="227" r="2.8" fill="#D0DDD2" stroke="#093624" strokeWidth="1" />
+            </g>
+
             {/* Subtle soft paper shadow underneath */}
             <path
               d="M 28 35 L 372 26 L 380 185 L 340 215 L 32 218 Z"
