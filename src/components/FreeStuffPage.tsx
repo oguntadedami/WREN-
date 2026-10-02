@@ -23,7 +23,6 @@ import {
   Target
 } from 'lucide-react';
 import { Button } from './Button';
-import { MarkerUnderline, Tape, PaperClip } from './ScrapbookAssets';
 
 interface FreeStuffPageProps {
   onOpenBooking?: () => void;
@@ -102,34 +101,23 @@ export const FreeStuffPage: React.FC<FreeStuffPageProps> = ({
       {/* figure out everything GTM and get moving.                                 */}
       {/* Handwritten note: Steal whatever's useful. We won't tell.                 */}
       {/* ========================================================================= */}
-      <section className="relative px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto pt-10 pb-12 text-center">
+      <section className="relative px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto pt-10 pb-8 text-center">
 
-        {/* Headline */}
+        {/* Headline without underline */}
         <div className="relative inline-block mx-auto max-w-4xl">
-          <h1 className="font-display font-bold text-4xl sm:text-6xl md:text-7xl text-[#093624] tracking-tight leading-[1.1] mb-5">
-            Free stuff for your{' '}
-            <span className="relative inline-block">
-              GTM
-              <MarkerUnderline color="#CBDA46" className="w-full h-3 -bottom-1.5 left-0" />
-            </span>
+          <h1 className="font-display font-serif font-bold text-4xl sm:text-6xl md:text-7xl text-[#093624] tracking-tight leading-[1.1] mb-5">
+            Free stuff for your GTM
           </h1>
         </div>
 
         {/* Subheading */}
-        <p className="max-w-2xl mx-auto font-sans text-base sm:text-lg md:text-xl text-[#0E1A15]/85 leading-relaxed mb-3">
+        <p className="max-w-2xl mx-auto font-sans text-base sm:text-lg md:text-xl text-[#0E1A15]/85 leading-relaxed">
           Tools, checklists, and playbooks we've built to help you figure out everything GTM and get moving.
         </p>
-
-        {/* Handwritten note: small, visually balanced, without brackets */}
-        <div className="flex items-center justify-center select-none pt-1">
-          <span className="font-hand text-base sm:text-lg md:text-xl text-[#093624]/90 tracking-wide -rotate-1 inline-block">
-            Steal whatever's useful. We won't tell.
-          </span>
-        </div>
       </section>
 
       {/* ========================================================================= */}
-      {/* 6-CARD FREE STUFF GRID                                                    */}
+      {/* 6-CARD FREE STUFF GRID (Retro App / Browser Window Cards)                 */}
       {/* Exact 6 items matching brief:                                             */}
       {/* 1. Launch Checklist                                                       */}
       {/* 2. GTM Calculator                                                         */}
@@ -142,31 +130,25 @@ export const FreeStuffPage: React.FC<FreeStuffPageProps> = ({
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 items-stretch">
           
           {/* ------------------------------------------------------------------- */}
-          {/* Card 1: Launch Checklist                                            */}
-          {/* Top accent: Coral Washi Tape                                        */}
+          {/* Card 1: Launch Checklist (Pale Mint Green #E3F4EB / Header #D0EBDD) */}
           {/* ------------------------------------------------------------------- */}
-          <div className="group relative transition-all duration-300">
-            {/* Top Washi Tape in Coral #FF7A5C */}
-            <div 
-              className="absolute pointer-events-none z-20 backdrop-blur-xs shadow-xs -rotate-2 w-28 h-5 -top-2.5 left-1/2 -translate-x-1/2 bg-[rgba(255,122,92,0.85)]"
-              style={{
-                clipPath: 'polygon(0% 15%, 4% 0%, 96% 0%, 100% 15%, 98% 85%, 100% 100%, 4% 100%, 0% 85%)'
-              }}
-            />
+          <div className="group relative transition-all duration-300 flex flex-col h-full rounded-2xl border-2 border-[#093624] shadow-[6px_8px_0px_#093624] overflow-hidden bg-[#E3F4EB] hover:-translate-y-1 hover:shadow-[7px_10px_0px_#093624]">
+            {/* Retro Window Titlebar */}
+            <div className="flex items-center justify-between px-4 py-2.5 bg-[#D0EBDD] border-b-2 border-[#093624]">
+              <div className="flex items-center gap-1.5">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#EF4444] border border-[#093624]/40 inline-block" />
+                <span className="w-2.5 h-2.5 rounded-full bg-[#F59E0B] border border-[#093624]/40 inline-block" />
+                <span className="w-2.5 h-2.5 rounded-full bg-[#10B981] border border-[#093624]/40 inline-block" />
+              </div>
+              <div className="text-[#093624]/45 text-xs font-mono select-none">
+                ✕
+              </div>
+            </div>
 
-            {/* Hand-Drawn Offset Shadow */}
-            <div 
-              className="absolute inset-0 translate-x-1.5 translate-y-2 bg-[#093624]/15 transition-all duration-300 group-hover:translate-x-2.5 group-hover:translate-y-3 group-hover:rotate-[-0.5deg]"
-              style={{ borderRadius: '255px 18px 225px 18px/18px 225px 18px 255px' }}
-            />
-
-            {/* Main Note Card */}
-            <div 
-              className="relative z-10 p-7 sm:p-8 bg-white/95 text-[#093624] border-2 border-[#093624] transition-all duration-300 group-hover:-translate-y-1.5 group-hover:bg-[#FFFDF6] flex flex-col justify-between h-full"
-              style={{ borderRadius: '255px 22px 225px 22px/22px 225px 22px 255px' }}
-            >
+            {/* Window Content */}
+            <div className="p-6 sm:p-7 flex flex-col justify-between flex-1">
               <div>
-                <h2 className="font-display font-bold text-2xl sm:text-[1.65rem] text-[#093624] tracking-tight leading-snug mb-3">
+                <h2 className="font-display font-serif font-bold text-2xl sm:text-[1.65rem] text-[#093624] tracking-tight leading-snug mb-3">
                   Launch Checklist
                 </h2>
 
@@ -175,7 +157,7 @@ export const FreeStuffPage: React.FC<FreeStuffPageProps> = ({
                 </p>
               </div>
 
-              {/* CTA */}
+              {/* CTA Button without icons */}
               <div className="pt-4 border-t border-[#093624]/15 mt-auto">
                 <button
                   type="button"
@@ -186,39 +168,34 @@ export const FreeStuffPage: React.FC<FreeStuffPageProps> = ({
                       window.location.hash = '#launch-checklist';
                     }
                   }}
-                  className="w-full inline-flex items-center justify-center gap-2 bg-[#093624] hover:bg-[#15543D] text-[#F7F4E9] font-sans font-bold text-sm py-2.5 px-4 rounded-xl transition-all cursor-pointer shadow-xs active:scale-[0.98]"
+                  className="w-full inline-flex items-center justify-center bg-[#093624] hover:bg-[#15543D] text-[#F7F4E9] font-sans font-bold text-sm py-2.5 px-4 rounded-xl transition-all cursor-pointer shadow-xs active:scale-[0.98]"
                 >
-                  <CheckSquare className="w-4 h-4 text-[#CBDA46]" />
                   <span>Open Launch Checklist</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
                 </button>
               </div>
             </div>
           </div>
 
           {/* ------------------------------------------------------------------- */}
-          {/* Card 2: GTM Calculator                                              */}
-          {/* Top accent: Paper Clip at top-left                                  */}
+          {/* Card 2: GTM Calculator (Pale Sky Blue #E2F0FD / Header #CFE5FA)     */}
           {/* ------------------------------------------------------------------- */}
-          <div className="group relative transition-all duration-300">
-            {/* Paper Clip Top Left */}
-            <div className="absolute -top-4 left-6 z-20 pointer-events-none transition-transform duration-300 group-hover:-translate-y-1">
-              <PaperClip className="w-6 h-10 text-[#093624]" color="#093624" />
+          <div className="group relative transition-all duration-300 flex flex-col h-full rounded-2xl border-2 border-[#093624] shadow-[6px_8px_0px_#093624] overflow-hidden bg-[#E2F0FD] hover:-translate-y-1 hover:shadow-[7px_10px_0px_#093624]">
+            {/* Retro Window Titlebar */}
+            <div className="flex items-center justify-between px-4 py-2.5 bg-[#CFE5FA] border-b-2 border-[#093624]">
+              <div className="flex items-center gap-1.5">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#EF4444] border border-[#093624]/40 inline-block" />
+                <span className="w-2.5 h-2.5 rounded-full bg-[#F59E0B] border border-[#093624]/40 inline-block" />
+                <span className="w-2.5 h-2.5 rounded-full bg-[#10B981] border border-[#093624]/40 inline-block" />
+              </div>
+              <div className="text-[#093624]/45 text-xs font-mono select-none">
+                ✕
+              </div>
             </div>
 
-            {/* Hand-Drawn Offset Shadow */}
-            <div 
-              className="absolute inset-0 translate-x-1.5 translate-y-2 bg-[#093624]/15 transition-all duration-300 group-hover:translate-x-2.5 group-hover:translate-y-3 group-hover:rotate-[-0.5deg]"
-              style={{ borderRadius: '255px 18px 225px 18px/18px 225px 18px 255px' }}
-            />
-
-            {/* Main Note Card */}
-            <div 
-              className="relative z-10 p-7 sm:p-8 bg-white/95 text-[#093624] border-2 border-[#093624] transition-all duration-300 group-hover:-translate-y-1.5 group-hover:bg-[#FFFDF6] flex flex-col justify-between h-full"
-              style={{ borderRadius: '255px 22px 225px 22px/22px 225px 22px 255px' }}
-            >
+            {/* Window Content */}
+            <div className="p-6 sm:p-7 flex flex-col justify-between flex-1">
               <div>
-                <h2 className="font-display font-bold text-2xl sm:text-[1.65rem] text-[#093624] tracking-tight leading-snug mb-3">
+                <h2 className="font-display font-serif font-bold text-2xl sm:text-[1.65rem] text-[#093624] tracking-tight leading-snug mb-3">
                   GTM Calculator
                 </h2>
 
@@ -227,7 +204,7 @@ export const FreeStuffPage: React.FC<FreeStuffPageProps> = ({
                 </p>
               </div>
 
-              {/* CTA */}
+              {/* CTA Button without icons */}
               <div className="pt-4 border-t border-[#093624]/15 mt-auto">
                 <button
                   type="button"
@@ -238,212 +215,173 @@ export const FreeStuffPage: React.FC<FreeStuffPageProps> = ({
                       window.location.hash = '#gtm-calculator';
                     }
                   }}
-                  className="w-full inline-flex items-center justify-center gap-2 bg-[#093624] hover:bg-[#15543D] text-[#F7F4E9] font-sans font-bold text-sm py-2.5 px-4 rounded-xl transition-all cursor-pointer shadow-xs active:scale-[0.98]"
+                  className="w-full inline-flex items-center justify-center bg-[#093624] hover:bg-[#15543D] text-[#F7F4E9] font-sans font-bold text-sm py-2.5 px-4 rounded-xl transition-all cursor-pointer shadow-xs active:scale-[0.98]"
                 >
-                  <Calculator className="w-4 h-4 text-[#CBDA46]" />
                   <span>Launch GTM Calculator</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
                 </button>
               </div>
             </div>
           </div>
 
           {/* ------------------------------------------------------------------- */}
-          {/* Card 3: Hook Generator (Not ready yet - lower opacity)              */}
-          {/* Top accent: Amber Washi Tape                                        */}
+          {/* Card 3: Hook Generator (Pale Warm Cream #FFF8E7 / Header #FEEFC3)    */}
           {/* ------------------------------------------------------------------- */}
-          <div className="group relative transition-all duration-300 opacity-60 hover:opacity-85">
-            {/* Corner Washi Tape Top Right in Amber #F5A621 */}
-            <div 
-              className="absolute pointer-events-none z-20 backdrop-blur-xs shadow-xs rotate-2 w-24 h-5 -top-2.5 right-6 bg-[rgba(245,166,33,0.7)]"
-              style={{
-                clipPath: 'polygon(0% 15%, 4% 0%, 96% 0%, 100% 15%, 98% 85%, 100% 100%, 4% 100%, 0% 85%)'
-              }}
-            />
+          <div className="group relative transition-all duration-300 flex flex-col h-full rounded-2xl border-2 border-[#093624] shadow-[5px_6px_0px_#093624] overflow-hidden bg-[#FFF8E7] opacity-55 hover:opacity-75 hover:-translate-y-0.5">
+            {/* Retro Window Titlebar */}
+            <div className="flex items-center justify-between px-4 py-2.5 bg-[#FEEFC3] border-b-2 border-[#093624]">
+              <div className="flex items-center gap-1.5">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#EF4444] border border-[#093624]/40 inline-block" />
+                <span className="w-2.5 h-2.5 rounded-full bg-[#F59E0B] border border-[#093624]/40 inline-block" />
+                <span className="w-2.5 h-2.5 rounded-full bg-[#10B981] border border-[#093624]/40 inline-block" />
+              </div>
+              <div className="text-[#093624]/45 text-xs font-mono select-none">
+                ✕
+              </div>
+            </div>
 
-            {/* Hand-Drawn Offset Shadow */}
-            <div 
-              className="absolute inset-0 translate-x-1.5 translate-y-2 bg-[#093624]/10 transition-all duration-300 group-hover:translate-x-2 group-hover:translate-y-2.5 group-hover:rotate-[0.5deg]"
-              style={{ borderRadius: '255px 18px 225px 18px/18px 225px 18px 255px' }}
-            />
-
-            {/* Main Note Card */}
-            <div 
-              className="relative z-10 p-7 sm:p-8 bg-white/80 text-[#093624] border-2 border-[#093624]/50 transition-all duration-300 group-hover:-translate-y-1 group-hover:bg-[#FFFDF6] flex flex-col justify-between h-full"
-              style={{ borderRadius: '255px 22px 225px 22px/22px 225px 22px 255px' }}
-            >
+            {/* Window Content */}
+            <div className="p-6 sm:p-7 flex flex-col justify-between flex-1">
               <div>
-                <h2 className="font-display font-bold text-2xl sm:text-[1.65rem] text-[#093624]/75 tracking-tight leading-snug mb-3">
+                <h2 className="font-display font-serif font-bold text-2xl sm:text-[1.65rem] text-[#093624] tracking-tight leading-snug mb-3">
                   Hook Generator
                 </h2>
 
-                <p className="font-sans text-[0.95rem] sm:text-base text-[#15543D]/70 italic leading-relaxed mb-6">
-                  This is not ready yet
+                <p className="font-sans text-[0.95rem] sm:text-base text-[#15543D]/80 italic leading-relaxed mb-6">
+                  Coming in next drop
                 </p>
               </div>
 
-              {/* Locked CTA */}
-              <div className="pt-4 border-t border-[#093624]/15 mt-auto flex items-center justify-between">
-                <span className="font-mono text-xs text-[#6F7A6E] flex items-center gap-1.5">
-                  <Clock className="w-3.5 h-3.5" />
-                  Coming in next drop
-                </span>
+              {/* Locked CTA: Only Request early access */}
+              <div className="pt-4 border-t border-[#093624]/15 mt-auto flex items-center justify-end">
                 <button
                   type="button"
                   onClick={onOpenBooking}
-                  className="font-sans text-xs font-semibold text-[#093624] hover:underline cursor-pointer"
+                  className="font-sans text-xs sm:text-sm font-semibold text-[#093624] hover:underline cursor-pointer"
                 >
-                  Request early access →
+                  Request early access
                 </button>
               </div>
             </div>
           </div>
 
           {/* ------------------------------------------------------------------- */}
-          {/* Card 4: FREE STUFF FOUR (Not ready yet - lower opacity)             */}
-          {/* Top accent: Lime Washi Tape                                         */}
+          {/* Card 4: FREE STUFF FOUR (Pale Soft Rose #FCE4EC / Header #FAD0DD)   */}
           {/* ------------------------------------------------------------------- */}
-          <div className="group relative transition-all duration-300 opacity-60 hover:opacity-85">
-            {/* Top Washi Tape in Lime #CBDA46 */}
-            <div 
-              className="absolute pointer-events-none z-20 backdrop-blur-xs shadow-xs -rotate-2 w-28 h-5 -top-2.5 left-1/2 -translate-x-1/2 bg-[rgba(203,218,70,0.7)]"
-              style={{
-                clipPath: 'polygon(0% 15%, 4% 0%, 96% 0%, 100% 15%, 98% 85%, 100% 100%, 4% 100%, 0% 85%)'
-              }}
-            />
+          <div className="group relative transition-all duration-300 flex flex-col h-full rounded-2xl border-2 border-[#093624] shadow-[5px_6px_0px_#093624] overflow-hidden bg-[#FCE4EC] opacity-55 hover:opacity-75 hover:-translate-y-0.5">
+            {/* Retro Window Titlebar */}
+            <div className="flex items-center justify-between px-4 py-2.5 bg-[#FAD0DD] border-b-2 border-[#093624]">
+              <div className="flex items-center gap-1.5">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#EF4444] border border-[#093624]/40 inline-block" />
+                <span className="w-2.5 h-2.5 rounded-full bg-[#F59E0B] border border-[#093624]/40 inline-block" />
+                <span className="w-2.5 h-2.5 rounded-full bg-[#10B981] border border-[#093624]/40 inline-block" />
+              </div>
+              <div className="text-[#093624]/45 text-xs font-mono select-none">
+                ✕
+              </div>
+            </div>
 
-            {/* Hand-Drawn Offset Shadow */}
-            <div 
-              className="absolute inset-0 translate-x-1.5 translate-y-2 bg-[#093624]/10 transition-all duration-300 group-hover:translate-x-2 group-hover:translate-y-2.5 group-hover:rotate-[-0.5deg]"
-              style={{ borderRadius: '255px 18px 225px 18px/18px 225px 18px 255px' }}
-            />
-
-            {/* Main Note Card */}
-            <div 
-              className="relative z-10 p-7 sm:p-8 bg-white/80 text-[#093624] border-2 border-[#093624]/50 transition-all duration-300 group-hover:-translate-y-1 group-hover:bg-[#FFFDF6] flex flex-col justify-between h-full"
-              style={{ borderRadius: '255px 22px 225px 22px/22px 225px 22px 255px' }}
-            >
+            {/* Window Content */}
+            <div className="p-6 sm:p-7 flex flex-col justify-between flex-1">
               <div>
-                <h2 className="font-display font-bold text-2xl sm:text-[1.65rem] text-[#093624]/75 tracking-tight leading-snug mb-3">
+                <h2 className="font-display font-serif font-bold text-2xl sm:text-[1.65rem] text-[#093624] tracking-tight leading-snug mb-3">
                   FREE STUFF FOUR
                 </h2>
 
-                <p className="font-sans text-[0.95rem] sm:text-base text-[#15543D]/70 italic leading-relaxed mb-6">
-                  This is not ready yet
+                <p className="font-sans text-[0.95rem] sm:text-base text-[#15543D]/80 italic leading-relaxed mb-6">
+                  Coming in next drop
                 </p>
               </div>
 
-              {/* Locked CTA */}
-              <div className="pt-4 border-t border-[#093624]/15 mt-auto flex items-center justify-between">
-                <span className="font-mono text-xs text-[#6F7A6E] flex items-center gap-1.5">
-                  <Clock className="w-3.5 h-3.5" />
-                  Coming in next drop
-                </span>
+              {/* Locked CTA: Only Request early access */}
+              <div className="pt-4 border-t border-[#093624]/15 mt-auto flex items-center justify-end">
                 <button
                   type="button"
                   onClick={onOpenBooking}
-                  className="font-sans text-xs font-semibold text-[#093624] hover:underline cursor-pointer"
+                  className="font-sans text-xs sm:text-sm font-semibold text-[#093624] hover:underline cursor-pointer"
                 >
-                  Request early access →
+                  Request early access
                 </button>
               </div>
             </div>
           </div>
 
           {/* ------------------------------------------------------------------- */}
-          {/* Card 5: FREE STUFF FIVE (Not ready yet - lower opacity)             */}
-          {/* Top accent: Paper Clip at top-right                                 */}
+          {/* Card 5: FREE STUFF FIVE (Pale Lime Tint #F4F8DE / Header #E5EEBD)   */}
           {/* ------------------------------------------------------------------- */}
-          <div className="group relative transition-all duration-300 opacity-60 hover:opacity-85">
-            {/* Paper Clip Top Right */}
-            <div className="absolute -top-4 right-7 z-20 pointer-events-none transition-transform duration-300 group-hover:-translate-y-1 opacity-70">
-              <PaperClip className="w-6 h-10 text-[#093624]" color="#093624" />
+          <div className="group relative transition-all duration-300 flex flex-col h-full rounded-2xl border-2 border-[#093624] shadow-[5px_6px_0px_#093624] overflow-hidden bg-[#F4F8DE] opacity-55 hover:opacity-75 hover:-translate-y-0.5">
+            {/* Retro Window Titlebar */}
+            <div className="flex items-center justify-between px-4 py-2.5 bg-[#E5EEBD] border-b-2 border-[#093624]">
+              <div className="flex items-center gap-1.5">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#EF4444] border border-[#093624]/40 inline-block" />
+                <span className="w-2.5 h-2.5 rounded-full bg-[#F59E0B] border border-[#093624]/40 inline-block" />
+                <span className="w-2.5 h-2.5 rounded-full bg-[#10B981] border border-[#093624]/40 inline-block" />
+              </div>
+              <div className="text-[#093624]/45 text-xs font-mono select-none">
+                ✕
+              </div>
             </div>
 
-            {/* Hand-Drawn Offset Shadow */}
-            <div 
-              className="absolute inset-0 translate-x-1.5 translate-y-2 bg-[#093624]/10 transition-all duration-300 group-hover:translate-x-2 group-hover:translate-y-2.5 group-hover:rotate-[-0.5deg]"
-              style={{ borderRadius: '255px 18px 225px 18px/18px 225px 18px 255px' }}
-            />
-
-            {/* Main Note Card */}
-            <div 
-              className="relative z-10 p-7 sm:p-8 bg-white/80 text-[#093624] border-2 border-[#093624]/50 transition-all duration-300 group-hover:-translate-y-1 group-hover:bg-[#FFFDF6] flex flex-col justify-between h-full"
-              style={{ borderRadius: '255px 22px 225px 22px/22px 225px 22px 255px' }}
-            >
+            {/* Window Content */}
+            <div className="p-6 sm:p-7 flex flex-col justify-between flex-1">
               <div>
-                <h2 className="font-display font-bold text-2xl sm:text-[1.65rem] text-[#093624]/75 tracking-tight leading-snug mb-3">
+                <h2 className="font-display font-serif font-bold text-2xl sm:text-[1.65rem] text-[#093624] tracking-tight leading-snug mb-3">
                   FREE STUFF FIVE
                 </h2>
 
-                <p className="font-sans text-[0.95rem] sm:text-base text-[#15543D]/70 italic leading-relaxed mb-6">
-                  This is not ready yet
+                <p className="font-sans text-[0.95rem] sm:text-base text-[#15543D]/80 italic leading-relaxed mb-6">
+                  Coming in next drop
                 </p>
               </div>
 
-              {/* Locked CTA */}
-              <div className="pt-4 border-t border-[#093624]/15 mt-auto flex items-center justify-between">
-                <span className="font-mono text-xs text-[#6F7A6E] flex items-center gap-1.5">
-                  <Clock className="w-3.5 h-3.5" />
-                  Coming in next drop
-                </span>
+              {/* Locked CTA: Only Request early access */}
+              <div className="pt-4 border-t border-[#093624]/15 mt-auto flex items-center justify-end">
                 <button
                   type="button"
                   onClick={onOpenBooking}
-                  className="font-sans text-xs font-semibold text-[#093624] hover:underline cursor-pointer"
+                  className="font-sans text-xs sm:text-sm font-semibold text-[#093624] hover:underline cursor-pointer"
                 >
-                  Request early access →
+                  Request early access
                 </button>
               </div>
             </div>
           </div>
 
           {/* ------------------------------------------------------------------- */}
-          {/* Card 6: FREE STUFF SIX (Not ready yet - lower opacity)              */}
-          {/* Top accent: Soft Teal Washi Tape                                    */}
+          {/* Card 6: FREE STUFF SIX (Pale Lavender #EDE9FE / Header #DDD6FE)     */}
           {/* ------------------------------------------------------------------- */}
-          <div className="group relative transition-all duration-300 opacity-60 hover:opacity-85">
-            {/* Corner Washi Tape Top Right */}
-            <div 
-              className="absolute pointer-events-none z-20 backdrop-blur-xs shadow-xs rotate-2 w-24 h-5 -top-2.5 right-6 bg-[rgba(100,180,160,0.7)]"
-              style={{
-                clipPath: 'polygon(0% 15%, 4% 0%, 96% 0%, 100% 15%, 98% 85%, 100% 100%, 4% 100%, 0% 85%)'
-              }}
-            />
+          <div className="group relative transition-all duration-300 flex flex-col h-full rounded-2xl border-2 border-[#093624] shadow-[5px_6px_0px_#093624] overflow-hidden bg-[#EDE9FE] opacity-55 hover:opacity-75 hover:-translate-y-0.5">
+            {/* Retro Window Titlebar */}
+            <div className="flex items-center justify-between px-4 py-2.5 bg-[#DDD6FE] border-b-2 border-[#093624]">
+              <div className="flex items-center gap-1.5">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#EF4444] border border-[#093624]/40 inline-block" />
+                <span className="w-2.5 h-2.5 rounded-full bg-[#F59E0B] border border-[#093624]/40 inline-block" />
+                <span className="w-2.5 h-2.5 rounded-full bg-[#10B981] border border-[#093624]/40 inline-block" />
+              </div>
+              <div className="text-[#093624]/45 text-xs font-mono select-none">
+                ✕
+              </div>
+            </div>
 
-            {/* Hand-Drawn Offset Shadow */}
-            <div 
-              className="absolute inset-0 translate-x-1.5 translate-y-2 bg-[#093624]/10 transition-all duration-300 group-hover:translate-x-2 group-hover:translate-y-2.5 group-hover:rotate-[0.5deg]"
-              style={{ borderRadius: '255px 18px 225px 18px/18px 225px 18px 255px' }}
-            />
-
-            {/* Main Note Card */}
-            <div 
-              className="relative z-10 p-7 sm:p-8 bg-white/80 text-[#093624] border-2 border-[#093624]/50 transition-all duration-300 group-hover:-translate-y-1 group-hover:bg-[#FFFDF6] flex flex-col justify-between h-full"
-              style={{ borderRadius: '255px 22px 225px 22px/22px 225px 22px 255px' }}
-            >
+            {/* Window Content */}
+            <div className="p-6 sm:p-7 flex flex-col justify-between flex-1">
               <div>
-                <h2 className="font-display font-bold text-2xl sm:text-[1.65rem] text-[#093624]/75 tracking-tight leading-snug mb-3">
+                <h2 className="font-display font-serif font-bold text-2xl sm:text-[1.65rem] text-[#093624] tracking-tight leading-snug mb-3">
                   FREE STUFF SIX
                 </h2>
 
-                <p className="font-sans text-[0.95rem] sm:text-base text-[#15543D]/70 italic leading-relaxed mb-6">
-                  This is not ready yet
+                <p className="font-sans text-[0.95rem] sm:text-base text-[#15543D]/80 italic leading-relaxed mb-6">
+                  Coming in next drop
                 </p>
               </div>
 
-              {/* Locked CTA */}
-              <div className="pt-4 border-t border-[#093624]/15 mt-auto flex items-center justify-between">
-                <span className="font-mono text-xs text-[#6F7A6E] flex items-center gap-1.5">
-                  <Clock className="w-3.5 h-3.5" />
-                  Coming in next drop
-                </span>
+              {/* Locked CTA: Only Request early access */}
+              <div className="pt-4 border-t border-[#093624]/15 mt-auto flex items-center justify-end">
                 <button
                   type="button"
                   onClick={onOpenBooking}
-                  className="font-sans text-xs font-semibold text-[#093624] hover:underline cursor-pointer"
+                  className="font-sans text-xs sm:text-sm font-semibold text-[#093624] hover:underline cursor-pointer"
                 >
-                  Request early access →
+                  Request early access
                 </button>
               </div>
             </div>

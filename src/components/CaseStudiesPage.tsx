@@ -99,9 +99,9 @@ export const CaseStudiesPage: React.FC<CaseStudiesPageProps> = ({
       {/* HEADER SECTION                                                            */}
       {/* ========================================================================= */}
       <section id="case-studies-header" className="pt-32 sm:pt-40 pb-14 sm:pb-18 px-4 sm:px-6 lg:px-8 text-center">
-        <div className="max-w-4xl mx-auto">
-          {/* Headline: bold IBM Plex Serif, Bottle green */}
-          <h1 className="font-display font-serif font-bold text-4xl sm:text-5xl lg:text-6xl text-[#093624] tracking-tight leading-[1.12] mb-5">
+        <div className="max-w-5xl mx-auto text-center">
+          {/* Headline: bold IBM Plex Serif, Bottle green - single line on desktop, breaks naturally on mobile */}
+          <h1 className="font-display font-serif font-bold text-3xl sm:text-4xl md:text-5xl lg:text-[46px] xl:text-[52px] text-[#093624] tracking-tight leading-[1.18] mb-5 text-center whitespace-normal lg:whitespace-nowrap mx-auto">
             A look at some of our work so far
           </h1>
 
@@ -225,7 +225,8 @@ export const CaseStudiesPage: React.FC<CaseStudiesPageProps> = ({
           </h2>
 
           <p className="max-w-xl mx-auto text-base sm:text-lg text-[#F7F4E9]/80 font-sans leading-relaxed mb-9">
-            Tell us what you&apos;re building and where you need help. We&apos;ll take it from there.
+            <span>Tell us what you&apos;re building and where you need help.</span>
+            <span className="block mt-0.5">We&apos;ll take it from there.</span>
           </p>
 
           <div className="inline-block">

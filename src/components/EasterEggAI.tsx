@@ -41,48 +41,12 @@ export const EasterEggAI: React.FC<EasterEggAIProps> = ({ onNavigate }) => {
           hasTriggered = true;
           observer.disconnect();
 
-          // Step 1: Start diagonal swooping flight in toward the birdhouse opening (above the nest)
+          // Step 1: Start swooping flight into birdhouse opening
           setBirdState('flying-in');
-
-          // Step 2: Arrive above nest rim, hover/flare wings naturally (~1250ms)
-          const hoverTimer = setTimeout(() => {
-            setBirdState('hovering-rim');
-
-            // Step 3: Descend smoothly downward from above into the nest bowl (~350ms)
-            const descendTimer = setTimeout(() => {
-              setBirdState('descending-nest');
-
-              // Step 4: Touch down & settle into nest with realistic micro-bounce (~300ms)
-              const landTimer = setTimeout(() => {
-                setBirdState('landing-bounce');
-
-                // Step 5: Settle peacefully into perched state inside nest (~300ms)
-                const perchedTimer = setTimeout(() => {
-                  setBirdState('perched');
-                }, 300);
-
-                // Step 6: Show note card after ~400ms delay
-                const bubbleTimer = setTimeout(() => {
-                  setShowBubble(true);
-                }, 400);
-
-                return () => {
-                  clearTimeout(perchedTimer);
-                  clearTimeout(bubbleTimer);
-                };
-              }, 300);
-
-              return () => clearTimeout(landTimer);
-            }, 350);
-
-            return () => clearTimeout(descendTimer);
-          }, 1250);
-
-          return () => clearTimeout(hoverTimer);
         }
       },
       {
-        threshold: 0.25,
+        threshold: 0.2,
         rootMargin: '0px 0px -50px 0px',
       }
     );
@@ -94,46 +58,51 @@ export const EasterEggAI: React.FC<EasterEggAIProps> = ({ onNavigate }) => {
     };
   }, []);
 
-  // 4s Rest in Nest -> 4s Flight Around Section Loop
-  // On mobile screens, keep wren peacefully perched in nest to reduce animation lag and scroll stutter
+  // Multi-stage Flight & Perch State Machine:
+  // flying-in ➔ hovering-rim ➔ descending-nest ➔ landing-bounce ➔ perched ➔ flying-around ➔ hovering-rim ➔ ...
   useEffect(() => {
-    let timer1: ReturnType<typeof setTimeout> | undefined;
-    let timer2: ReturnType<typeof setTimeout> | undefined;
-    let timer3: ReturnType<typeof setTimeout> | undefined;
-    let timer4: ReturnType<typeof setTimeout> | undefined;
-
+    let timer: ReturnType<typeof setTimeout> | undefined;
     const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
 
-    if (birdState === 'perched') {
+    if (birdState === 'flying-in') {
+      // Step 2: Swoop into opening above the rim, then hover (~1200ms)
+      timer = setTimeout(() => {
+        setBirdState('hovering-rim');
+      }, 1200);
+    } else if (birdState === 'hovering-rim') {
+      // Step 3: Hover briefly above the rim (~450ms), then descend down into the nest cavity
+      timer = setTimeout(() => {
+        setBirdState('descending-nest');
+      }, 450);
+    } else if (birdState === 'descending-nest') {
+      // Step 4: Drop down into nest bowl behind front rim (~400ms), then land with micro-bounce
+      timer = setTimeout(() => {
+        setBirdState('landing-bounce');
+      }, 400);
+    } else if (birdState === 'landing-bounce') {
+      // Step 5: Settle from bounce into resting perched state (~300ms)
+      timer = setTimeout(() => {
+        setBirdState('perched');
+        setShowBubble(true);
+      }, 300);
+    } else if (birdState === 'perched') {
       if (isMobile) {
-        // On mobile, stay resting peacefully in nest
+        // On mobile, keep resting peacefully in nest
         return;
       }
-      // Rest in the nest for 4.5 seconds, then take off to fly around
-      timer1 = setTimeout(() => {
+      // Rest in the nest for 4.5 seconds, then take off for ambient flight loop
+      timer = setTimeout(() => {
         setBirdState('flying-around');
       }, 4500);
     } else if (birdState === 'flying-around') {
-      // Loop flight around section for 4 seconds, then approach from above into rim
-      timer1 = setTimeout(() => {
+      // 4-second loop around screen finishes above the rim at top: 44%, then hover and drop back in
+      timer = setTimeout(() => {
         setBirdState('hovering-rim');
-        timer2 = setTimeout(() => {
-          setBirdState('descending-nest');
-          timer3 = setTimeout(() => {
-            setBirdState('landing-bounce');
-            timer4 = setTimeout(() => {
-              setBirdState('perched');
-            }, 300);
-          }, 300);
-        }, 350);
       }, 4000);
     }
 
     return () => {
-      if (timer1) clearTimeout(timer1);
-      if (timer2) clearTimeout(timer2);
-      if (timer3) clearTimeout(timer3);
-      if (timer4) clearTimeout(timer4);
+      if (timer) clearTimeout(timer);
     };
   }, [birdState]);
 
@@ -208,25 +177,25 @@ export const EasterEggAI: React.FC<EasterEggAIProps> = ({ onNavigate }) => {
         @keyframes wrenFlightAround {
           0% {
             left: 50%;
-            top: 55.5%;
+            top: 51%;
             transform: translate(-50%, -48%) scale(1) scaleX(1) rotate(-8deg);
           }
-          10% {
+          8% {
             left: 50%;
-            top: 45%;
+            top: 44%;
             transform: translate(-50%, -50%) scale(1.02) scaleX(1) rotate(-14deg);
           }
-          22% {
+          20% {
             left: 72%;
             top: 36%;
             transform: translate(-50%, -50%) scale(0.98) scaleX(1) rotate(-22deg);
           }
-          34% {
+          32% {
             left: 84%;
             top: 22%;
             transform: translate(-50%, -50%) scale(0.95) scaleX(1) rotate(-6deg);
           }
-          46% {
+          45% {
             left: 64%;
             top: 14%;
             transform: translate(-50%, -50%) scale(0.9) scaleX(-1) rotate(-16deg);
@@ -254,7 +223,7 @@ export const EasterEggAI: React.FC<EasterEggAIProps> = ({ onNavigate }) => {
           100% {
             left: 50%;
             top: 44%;
-            transform: translate(-50%, -50%) scale(1.04) scaleX(1) rotate(2deg);
+            transform: translate(-50%, -50%) scale(1.04) scaleX(1) rotate(4deg);
           }
         }
       `}</style>
@@ -290,7 +259,7 @@ export const EasterEggAI: React.FC<EasterEggAIProps> = ({ onNavigate }) => {
             birdState === 'flying-around'
               ? undefined
               : isPerchedOrLanding
-              ? '55.5%'
+              ? '51%'
               : birdState === 'hovering-rim'
               ? '44%'
               : birdState === 'flying-in'
@@ -304,7 +273,7 @@ export const EasterEggAI: React.FC<EasterEggAIProps> = ({ onNavigate }) => {
               : birdState === 'descending-nest'
               ? 'translate(-50%, -48%) scale(1) rotate(0deg)'
               : birdState === 'landing-bounce'
-              ? 'translate(-50%, -46%) scale(1.04)'
+              ? 'translate(-50%, -45%) scale(1.05)'
               : birdState === 'perched'
               ? 'translate(-50%, -48%)'
               : birdState === 'flying-in'
@@ -317,13 +286,13 @@ export const EasterEggAI: React.FC<EasterEggAIProps> = ({ onNavigate }) => {
               : 'none',
           transition:
             birdState === 'flying-in'
-              ? 'left 1.25s cubic-bezier(0.18, 0.85, 0.32, 1), top 1.25s cubic-bezier(0.18, 0.85, 0.32, 1), transform 1.25s ease, opacity 0.3s ease'
+              ? 'left 1.2s cubic-bezier(0.18, 0.85, 0.32, 1), top 1.2s cubic-bezier(0.18, 0.85, 0.32, 1), transform 1.2s ease, opacity 0.3s ease'
               : birdState === 'hovering-rim'
               ? 'left 0.2s ease-out, top 0.2s ease-out, transform 0.2s ease-out'
               : birdState === 'descending-nest'
-              ? 'left 0.35s cubic-bezier(0.3, 0.8, 0.4, 1), top 0.35s cubic-bezier(0.3, 0.8, 0.4, 1), transform 0.35s cubic-bezier(0.3, 0.8, 0.4, 1)'
+              ? 'top 0.4s cubic-bezier(0.25, 0.8, 0.3, 1), transform 0.4s cubic-bezier(0.25, 0.8, 0.3, 1)'
               : birdState === 'landing-bounce'
-              ? 'transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
+              ? 'transform 0.28s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
               : 'transform 0.3s ease',
         }}
       >

@@ -552,13 +552,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
                     {/* Dedicated callout banner when active group is Free Stuff */}
                     {activeGroupData.id === 'free-stuff' && (
-                      <div className="mt-6 pt-4 border-t border-[#093624]/12 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
-                        <div className="flex items-center gap-2">
-                          <span className="w-2 h-2 rounded-full bg-[#15543D] animate-pulse" />
-                          <span className="font-sans text-xs text-[#093624]/80">
-                            Checklists, GTM models, and upcoming generators — steal whatever's useful.
-                          </span>
-                        </div>
+                      <div className="mt-6 pt-4 border-t border-[#093624]/12 flex items-center justify-end">
                         <button
                           type="button"
                           onClick={() => {

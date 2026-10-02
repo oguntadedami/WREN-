@@ -203,16 +203,6 @@ export const Footer: React.FC<FooterProps> = ({ onOpenBooking, onNavigate, curre
                   FAQ
                 </button>
               </li>
-              <li>
-                <button 
-                  onClick={() => navigateTo('404')} 
-                  className={`transition-colors cursor-pointer text-left ${
-                    currentPage === '404' ? 'text-[#CBDA46] font-semibold' : 'hover:text-white'
-                  }`}
-                >
-                  404 Page
-                </button>
-              </li>
             </ul>
           </div>
 
@@ -317,14 +307,6 @@ export const Footer: React.FC<FooterProps> = ({ onOpenBooking, onNavigate, curre
                   GTM Calculator
                 </button>
               </li>
-              <li>
-                <a 
-                  href="mailto:hello@getwren.io?subject=Tool%20Idea" 
-                  className="hover:text-white transition-colors inline-block text-left"
-                >
-                  Got a tool idea? (tell us about it)
-                </a>
-              </li>
             </ul>
           </div>
 
@@ -343,14 +325,6 @@ export const Footer: React.FC<FooterProps> = ({ onOpenBooking, onNavigate, curre
                 >
                   Podcast
                 </button>
-              </li>
-              <li>
-                <span className="text-[#A3C2A3] flex items-center gap-2">
-                  <span>Events</span>
-                  <span className="text-[10px] font-mono font-bold uppercase bg-[#CBDA46] text-[#093624] px-1.5 py-0.2 rounded">
-                    coming soon
-                  </span>
-                </span>
               </li>
               <li>
                 <button onClick={() => scrollTo('case-studies-section')} className="hover:text-white transition-colors cursor-pointer text-left">

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Highlight } from './ScrapbookAssets';
+import { Highlight, PaperClip } from './ScrapbookAssets';
 
 interface PrivacyPolicyPageProps {
   onOpenBooking?: () => void;
@@ -124,56 +124,71 @@ export const PrivacyPolicyPage: React.FC<PrivacyPolicyPageProps> = () => {
         {/* ========================================================================= */}
         {/* TABLE OF CONTENTS                                                         */}
         {/* ========================================================================= */}
-        <nav 
-          id="privacy-toc"
-          aria-label="Table of Contents" 
-          className="bg-white/80 border border-[#093624]/15 rounded-2xl p-6 sm:p-8 shadow-xs mb-16 sm:mb-20"
-        >
-          <div className="text-xs font-mono font-bold tracking-widest text-[#093624]/70 uppercase mb-5">
-            Table of Contents
+        <div className="group relative transition-all duration-300 mb-16 sm:mb-20">
+          {/* Paper Clip Top Left */}
+          <div className="absolute -top-4 left-6 sm:left-8 z-20 pointer-events-none transition-transform duration-300 group-hover:-translate-y-1">
+            <PaperClip className="w-6 h-10 text-[#093624]" color="#093624" />
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3">
-            {/* Left Column (01 - 08) */}
-            <div className="space-y-2.5">
-              {TOC_LEFT.map((item) => (
-                <div key={item.id} className="text-sm sm:text-base">
-                  <a
-                    href={`#${item.id}`}
-                    onClick={(e) => handleTocClick(e, item.id)}
-                    className="group inline-flex items-baseline text-[#093624] hover:text-[#186043] transition-colors"
-                  >
-                    <span className="font-mono text-xs text-[#093624]/60 mr-2.5 select-none w-5">
-                      {item.num}.
-                    </span>
-                    <span className="group-hover:underline underline-offset-4 decoration-[#093624]/40">
-                      {item.title}
-                    </span>
-                  </a>
-                </div>
-              ))}
-            </div>
 
-            {/* Right Column (09 - 16) */}
-            <div className="space-y-2.5">
-              {TOC_RIGHT.map((item) => (
-                <div key={item.id} className="text-sm sm:text-base">
-                  <a
-                    href={`#${item.id}`}
-                    onClick={(e) => handleTocClick(e, item.id)}
-                    className="group inline-flex items-baseline text-[#093624] hover:text-[#186043] transition-colors"
-                  >
-                    <span className="font-mono text-xs text-[#093624]/60 mr-2.5 select-none w-5">
-                      {item.num}.
-                    </span>
-                    <span className="group-hover:underline underline-offset-4 decoration-[#093624]/40">
-                      {item.title}
-                    </span>
-                  </a>
-                </div>
-              ))}
+          {/* Hand-Drawn Offset Shadow */}
+          <div 
+            className="absolute inset-0 translate-x-1.5 translate-y-2 bg-[#093624]/15 transition-all duration-300 group-hover:translate-x-2.5 group-hover:translate-y-3 group-hover:rotate-[-0.5deg]"
+            style={{ borderRadius: '255px 18px 225px 18px/18px 225px 18px 255px' }}
+          />
+
+          {/* Main Note Card */}
+          <nav 
+            id="privacy-toc"
+            aria-label="Table of Contents" 
+            className="relative z-10 p-6 sm:p-8 md:p-9 bg-white/95 text-[#093624] border-2 border-[#093624] transition-all duration-300 group-hover:-translate-y-1 group-hover:bg-[#FFFDF6] flex flex-col justify-start"
+            style={{ borderRadius: '255px 22px 225px 22px/22px 225px 22px 255px' }}
+          >
+            <div className="text-xs font-mono font-bold tracking-widest text-[#093624]/70 uppercase mb-5">
+              Table of Contents
             </div>
-          </div>
-        </nav>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3">
+              {/* Left Column (01 - 08) */}
+              <div className="space-y-2.5">
+                {TOC_LEFT.map((item) => (
+                  <div key={item.id} className="text-sm sm:text-base">
+                    <a
+                      href={`#${item.id}`}
+                      onClick={(e) => handleTocClick(e, item.id)}
+                      className="group/link inline-flex items-baseline text-[#093624] hover:text-[#186043] transition-colors"
+                    >
+                      <span className="font-mono text-xs text-[#093624]/60 mr-2.5 select-none w-5">
+                        {item.num}.
+                      </span>
+                      <span className="group-hover/link:underline underline-offset-4 decoration-[#093624]/40 font-medium">
+                        {item.title}
+                      </span>
+                    </a>
+                  </div>
+                ))}
+              </div>
+
+              {/* Right Column (09 - 16) */}
+              <div className="space-y-2.5">
+                {TOC_RIGHT.map((item) => (
+                  <div key={item.id} className="text-sm sm:text-base">
+                    <a
+                      href={`#${item.id}`}
+                      onClick={(e) => handleTocClick(e, item.id)}
+                      className="group/link inline-flex items-baseline text-[#093624] hover:text-[#186043] transition-colors"
+                    >
+                      <span className="font-mono text-xs text-[#093624]/60 mr-2.5 select-none w-5">
+                        {item.num}.
+                      </span>
+                      <span className="group-hover/link:underline underline-offset-4 decoration-[#093624]/40 font-medium">
+                        {item.title}
+                      </span>
+                    </a>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </nav>
+        </div>
 
         {/* ========================================================================= */}
         {/* SECTIONS                                                                  */}
@@ -452,21 +467,38 @@ export const PrivacyPolicyPage: React.FC<PrivacyPolicyPageProps> = () => {
               If you have questions, concerns, or requests about this Privacy Policy or our data practices, contact us at:
             </p>
 
-            {/* Contact Card — Bottle green background, Cream text */}
-            <div className="bg-[#093624] text-[#F7F4E9] rounded-2xl p-6 sm:p-8 max-w-md border border-[#093624] shadow-md">
-              <div className="font-display font-serif font-bold text-xl text-[#F7F4E9] mb-1.5">
-                Wren Labs LLC
+            {/* Contact Card — Redesigned to match scrapbook note card */}
+            <div className="group relative transition-all duration-300 max-w-md">
+              {/* Paper Clip Top Left */}
+              <div className="absolute -top-4 left-6 z-20 pointer-events-none transition-transform duration-300 group-hover:-translate-y-1">
+                <PaperClip className="w-6 h-10 text-[#093624]" color="#093624" />
               </div>
-              <div className="font-sans text-sm sm:text-base text-[#D5E3D5] mb-3 leading-relaxed">
-                30 N Gould St, Sheridan Wy
-              </div>
-              <div>
-                <a 
-                  href="mailto:hello@getwren.io" 
-                  className="font-mono text-sm sm:text-base text-[#CBDA46] hover:underline underline-offset-4 font-semibold"
-                >
-                  hello@getwren.io
-                </a>
+
+              {/* Hand-Drawn Offset Shadow */}
+              <div 
+                className="absolute inset-0 translate-x-1.5 translate-y-2 bg-[#093624]/15 transition-all duration-300 group-hover:translate-x-2.5 group-hover:translate-y-3 group-hover:rotate-[-0.5deg]"
+                style={{ borderRadius: '255px 18px 225px 18px/18px 225px 18px 255px' }}
+              />
+
+              {/* Main Note Card */}
+              <div 
+                className="relative z-10 p-6 sm:p-8 bg-white/95 text-[#093624] border-2 border-[#093624] transition-all duration-300 group-hover:-translate-y-1 group-hover:bg-[#FFFDF6] flex flex-col justify-start"
+                style={{ borderRadius: '255px 22px 225px 22px/22px 225px 22px 255px' }}
+              >
+                <div className="font-display font-serif font-bold text-xl sm:text-2xl text-[#093624] mb-1.5">
+                  Wren Labs LLC
+                </div>
+                <div className="font-sans text-sm sm:text-base text-[#15543D] mb-3 leading-relaxed font-medium">
+                  30 N Gould St, Sheridan Wy
+                </div>
+                <div>
+                  <a 
+                    href="mailto:hello@getwren.io" 
+                    className="font-mono text-sm sm:text-base text-[#093624] hover:text-[#186043] underline decoration-[#CBDA46] decoration-2 underline-offset-4 font-bold"
+                  >
+                    hello@getwren.io
+                  </a>
+                </div>
               </div>
             </div>
           </section>

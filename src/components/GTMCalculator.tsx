@@ -462,59 +462,29 @@ export const GTMCalculator: React.FC<GTMCalculatorProps> = ({ onNavigate, onOpen
         </div>
 
         {/* ========================================================================= */}
-        {/* PHYSICAL RETRO CALCULATOR CHASSIS                                         */}
+        {/* SLEEK RETRO CALCULATOR CHASSIS (Matches image styling)                    */}
         {/* ========================================================================= */}
-        <div className="relative group">
-          
-          {/* Heavy retro solid drop shadow block behind chassis */}
-          <div 
-            className="absolute inset-0 translate-x-3 translate-y-4 sm:translate-x-4 sm:translate-y-5 rounded-[32px] sm:rounded-[42px] bg-[#04170F] pointer-events-none"
-            aria-hidden="true"
-          />
-
-          {/* Main Molded Retro Chassis Body */}
-          <div 
-            className="relative rounded-[32px] sm:rounded-[42px] bg-[#093624] p-5 sm:p-8 md:p-10 text-[#F7F4E9] border-2 border-[#093624] transition-all"
-            style={{
-              boxShadow: `
-                inset 0 3px 0 rgba(203, 218, 70, 0.35),
-                inset 0 6px 12px rgba(255, 255, 255, 0.12),
-                inset 0 -8px 0 #04170F,
-                inset 4px 0 8px rgba(0, 0, 0, 0.25),
-                inset -4px 0 8px rgba(0, 0, 0, 0.25)
-              `
-            }}
-          >
-            {/* Retro Solar Cell / Accent Plate Row */}
-            <div className="flex items-center justify-between pb-4 sm:pb-6 mb-5 sm:mb-7 border-b border-[#04170F]/50">
-              {/* Row of decorative LED / status indicator dots */}
-              <div className="flex items-center gap-2.5">
-                <span className="w-3 h-3 rounded-full bg-[#CBDA46] shadow-[0_0_8px_#CBDA46]" />
-                <span className="w-3 h-3 rounded-full bg-[#CBDA46]/80" />
-                <span className="w-3 h-3 rounded-full bg-[#CBDA46]/50" />
-                <span className="w-3 h-3 rounded-full bg-[#CBDA46]/25" />
-              </div>
-
-              {/* Realistic Retro Solar Panel Grid (decorative 4-cell glass bar) */}
-              <div className="flex items-center gap-1 bg-[#04170F] p-1.5 rounded-lg border border-[#CBDA46]/20 shadow-inner">
-                <div className="w-7 h-4 rounded-xs bg-[#15543D]/60 border border-[#CBDA46]/30" />
-                <div className="w-7 h-4 rounded-xs bg-[#15543D]/60 border border-[#CBDA46]/30" />
-                <div className="w-7 h-4 rounded-xs bg-[#15543D]/60 border border-[#CBDA46]/30" />
-                <div className="w-7 h-4 rounded-xs bg-[#15543D]/60 border border-[#CBDA46]/30" />
-              </div>
+        <div className="w-full bg-[#093624] rounded-2xl sm:rounded-3xl border-2 sm:border-[2.5px] border-[#093624] shadow-[6px_6px_0px_#093624] overflow-hidden flex flex-col transition-all">
+          {/* Calculator Window Chrome Header */}
+          <div className="bg-[#093624] px-4 py-2.5 sm:px-5 sm:py-3 flex items-center border-b border-[#04170F]/50">
+            {/* Mac-style colored dots */}
+            <div className="flex items-center gap-1.5">
+              <span className="w-2.5 h-2.5 rounded-full bg-[#FF6B6B] border border-black/20 inline-block" />
+              <span className="w-2.5 h-2.5 rounded-full bg-[#FFD166] border border-black/20 inline-block" />
+              <span className="w-2.5 h-2.5 rounded-full bg-[#CBDA46] border border-black/20 inline-block" />
             </div>
+          </div>
 
-            {/* TWO RECESSED SCREENS (Side-by-side on desktop, stacked on mobile) */}
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-5 sm:gap-7 items-stretch">
+          {/* Slim Chassis Frame Area around screens */}
+          <div className="p-2 sm:p-3 bg-[#093624]">
+            {/* TWO SCREENS (Side-by-side on desktop, stacked on mobile) */}
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-2.5 sm:gap-3.5 items-stretch">
               
               {/* ------------------------------------------------------------------- */}
               {/* LEFT SCREEN (Form - 2 questions per page, 3 pages total)            */}
               {/* ------------------------------------------------------------------- */}
               <div 
-                className="md:col-span-7 flex flex-col justify-between rounded-2xl sm:rounded-[24px] bg-[#FAF7EE] text-[#093624] p-5 sm:p-7 border-2 border-[#04170F]/40 relative min-h-[500px]"
-                style={{
-                  boxShadow: 'inset 0 4px 12px rgba(4, 23, 15, 0.28), inset 0 1px 3px rgba(4, 23, 15, 0.4)'
-                }}
+                className="md:col-span-7 flex flex-col justify-between rounded-xl sm:rounded-2xl bg-[#FAF7EE] text-[#093624] p-5 sm:p-7 border border-[#093624]/20 relative min-h-[480px] shadow-xs"
               >
                 
                 {/* Screen Top Status Banner (Removed Q1 & Q2 of 6) */}
@@ -707,10 +677,7 @@ export const GTMCalculator: React.FC<GTMCalculatorProps> = ({ onNavigate, onOpen
             {/* RIGHT SCREEN (Digital Readout: Empty initially, lights up upon =)   */}
             {/* ------------------------------------------------------------------- */}
             <div 
-              className="md:col-span-5 flex flex-col justify-center items-center rounded-2xl sm:rounded-[24px] bg-[#FAF7EE] text-[#093624] p-6 sm:p-8 border-2 border-[#04170F]/40 relative min-h-[350px] md:min-h-[500px]"
-              style={{
-                boxShadow: 'inset 0 4px 12px rgba(4, 23, 15, 0.28), inset 0 1px 3px rgba(4, 23, 15, 0.4)'
-              }}
+              className="md:col-span-5 flex flex-col justify-center items-center rounded-xl sm:rounded-2xl bg-[#FAF7EE] text-[#093624] p-5 sm:p-7 border border-[#093624]/20 relative min-h-[350px] md:min-h-[480px] shadow-xs"
             >
               
               {!results ? (
@@ -731,8 +698,7 @@ export const GTMCalculator: React.FC<GTMCalculatorProps> = ({ onNavigate, onOpen
                 <div className="w-full flex flex-col justify-between h-full py-4 text-center">
                   
                   {/* Digital Readout Screen Bezel */}
-                  <div className="flex items-center justify-between text-[11px] font-mono font-bold uppercase tracking-widest text-[#15543D] pb-3 border-b border-[#093624]/10 w-full">
-                    <span>DIGITAL READOUT</span>
+                  <div className="flex items-center justify-end text-[11px] font-mono font-bold uppercase tracking-widest text-[#15543D] pb-3 border-b border-[#093624]/10 w-full">
                     <span className="flex items-center gap-1.5 text-[#093624]">
                       <span className="w-2 h-2 rounded-full bg-[#15543D] animate-ping" />
                       LIVE RESULT
@@ -1057,7 +1023,7 @@ export const GTMCalculator: React.FC<GTMCalculatorProps> = ({ onNavigate, onOpen
                   onClick={handleReset}
                   className="text-base font-semibold text-[#093624] underline decoration-[#093624]/30 underline-offset-4 hover:decoration-[#CBDA46] transition cursor-pointer"
                 >
-                  ← Try different numbers
+                  Try different numbers
                 </button>
               </div>
             </FadeIn>
