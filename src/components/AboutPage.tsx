@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ExternalLink, Volume2, VolumeX } from 'lucide-react';
+import { ExternalLink } from 'lucide-react';
 import { 
   PaperClip, 
   Tape, 
@@ -9,7 +9,7 @@ import { RealisticWrenBird } from './RealisticWrenBird';
 
 // Images
 import judithPortrait from '../assets/images/judith-portrait.jpg';
-import judithHoverPhoto from '../assets/images/judith-linkedin-portrait.webp';
+import judithHoverPhoto from '../assets/images/community/founder-note-polaroid.webp';
 
 // Community / Give Back Photos exactly matching image layout:
 // Left top: two small kids; Left bottom: children class standing; Right top: youth tech workshop; Right bottom: two girls laptop
@@ -32,9 +32,6 @@ export const AboutPage: React.FC<AboutPageProps> = ({
   // Photo toggle for Judith card
   const [photoView, setPhotoView] = useState<'front' | 'hover'>('front');
   const [isHovered, setIsHovered] = useState(false);
-
-  // Sound on/off state for the bird chirp (default ON)
-  const [soundEnabled, setSoundEnabled] = useState(true);
 
   // Animated Wren bird flight & realistic kinematics
   const [isBirdFlying, setIsBirdFlying] = useState(false);
@@ -60,57 +57,8 @@ export const AboutPage: React.FC<AboutPageProps> = ({
   const nextParticleIdRef = useRef(0);
   const lastParticleTimeRef = useRef(0);
 
-  const audioCtxRef = useRef<AudioContext | null>(null);
   const rafRef = useRef<number | null>(null);
   const flightStartRef = useRef<number | null>(null);
-
-  // High-fidelity natural Wren bird chirp synthesizer via Web Audio API
-  const playWrenChirp = () => {
-    if (!soundEnabled) return;
-    try {
-      const AudioCtx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
-      if (!AudioCtx) return;
-      if (!audioCtxRef.current) {
-        audioCtxRef.current = new AudioCtx();
-      }
-      const ctx = audioCtxRef.current;
-      if (ctx.state === 'suspended') {
-        ctx.resume();
-      }
-
-      const now = ctx.currentTime;
-
-      // Realistic Carolina / Winter wren chirp sound: double-trill with harmonic overtone
-      const chirpNotes = [
-        { time: 0, freqStart: 2850, freqEnd: 4200, dur: 0.085 },
-        { time: 0.11, freqStart: 3200, freqEnd: 4600, dur: 0.095 },
-        { time: 0.23, freqStart: 3600, freqEnd: 4950, dur: 0.11 }
-      ];
-
-      chirpNotes.forEach(({ time, freqStart, freqEnd, dur }) => {
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(freqStart, now + time);
-        osc.frequency.exponentialRampToValueAtTime(freqEnd, now + time + dur * 0.7);
-        osc.frequency.exponentialRampToValueAtTime(freqEnd * 0.9, now + time + dur);
-
-        // Soft, crisp chirp envelope
-        gain.gain.setValueAtTime(0.001, now + time);
-        gain.gain.linearRampToValueAtTime(0.12, now + time + dur * 0.25);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + time + dur);
-
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-
-        osc.start(now + time);
-        osc.stop(now + time + dur + 0.02);
-      });
-    } catch {
-      // Audio playback fails gracefully if browser restricts
-    }
-  };
 
   // Continuous organic head-bobbing when perched
   useEffect(() => {
@@ -145,12 +93,9 @@ export const AboutPage: React.FC<AboutPageProps> = ({
   const triggerBirdFlight = () => {
     if (isBirdFlying) return;
     setIsBirdFlying(true);
-    playWrenChirp();
 
     const totalDuration = 3600; // 3.6s natural flight
     flightStartRef.current = performance.now();
-
-    let chirpedMidFlight = false;
 
     const animateFlight = (now: number) => {
       if (!flightStartRef.current) return;
@@ -163,12 +108,6 @@ export const AboutPage: React.FC<AboutPageProps> = ({
         setWingPhase((now / 65) % 1);
       } else {
         setWingPhase(0); // Hold wings spread/tucked during glide
-      }
-
-      // Mid-flight chirp call
-      if (progress > 0.48 && !chirpedMidFlight) {
-        chirpedMidFlight = true;
-        playWrenChirp();
       }
 
       // Smooth Bezier-like curvilinear flight path:
@@ -284,7 +223,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({
       clearInterval(interval);
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
-  }, [soundEnabled]);
+  }, []);
 
   const activePhoto = photoView === 'hover' || isHovered ? judithHoverPhoto : judithPortrait;
 
@@ -293,9 +232,19 @@ export const AboutPage: React.FC<AboutPageProps> = ({
       
       {/* ========================================================================= */}
       {/* SECTION 1: HERO — "Who the heck are we?"                                  */}
+      {/* Cream Checked Grid Background                                             */}
       {/* ========================================================================= */}
-      <section className="relative w-full pt-28 sm:pt-36 pb-16 sm:pb-24 px-4 sm:px-6 lg:px-8 border-b border-[#093624]/10 notebook-grid">
-        <div className="max-w-4xl mx-auto text-center space-y-6">
+      <section 
+        className="relative w-full pt-28 sm:pt-36 pb-16 sm:pb-24 px-4 sm:px-6 lg:px-8 border-b border-[#093624]/10 bg-[#FAF7EE] overflow-hidden"
+        style={{
+          backgroundImage: `
+            linear-gradient(to right, rgba(9, 54, 36, 0.065) 1.5px, transparent 1.5px),
+            linear-gradient(to bottom, rgba(9, 54, 36, 0.065) 1.5px, transparent 1.5px)
+          `,
+          backgroundSize: '28px 28px'
+        }}
+      >
+        <div className="max-w-4xl mx-auto text-center space-y-6 relative z-10">
           
           {/* Main Headline */}
           <h1 className="font-serif font-black text-4xl sm:text-5xl lg:text-6xl text-[#093624] tracking-tight leading-[1.1]">
@@ -324,65 +273,55 @@ export const AboutPage: React.FC<AboutPageProps> = ({
       {/* SECTION 2: MEET JUDITH                                                    */}
       {/* ========================================================================= */}
       <section className="relative w-full py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-[#FAF7EE] border-b border-[#093624]/10">
-        <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-center">
+        <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
           
           {/* LEFT: Polaroid / Scrapbook Photo Card of Judith */}
           <div className="lg:col-span-5 flex flex-col items-center">
             
-            <div className="relative group w-full max-w-[340px] sm:max-w-[380px]">
+            <div className="relative group w-full max-w-[340px] sm:max-w-[370px]">
               
-              {/* Paperclip on top-left corner */}
-              <div className="absolute -top-4 left-4 z-30 pointer-events-none drop-shadow-xs">
+              {/* Paperclip on top-left edge */}
+              <div className="absolute -top-3.5 left-6 z-30 pointer-events-none drop-shadow-xs">
                 <PaperClip className="w-5 h-11 text-[#64748B]" />
               </div>
 
               {/* Lime Washi Tape across top-center */}
               <div 
-                className="absolute pointer-events-none z-20 backdrop-blur-xs shadow-xs -rotate-1 w-28 sm:w-32 h-6 -top-3 left-16 sm:left-20 bg-[rgba(203,218,70,0.92)]"
+                className="absolute pointer-events-none z-20 backdrop-blur-xs shadow-xs -rotate-1 w-28 sm:w-32 h-6 -top-3 left-24 sm:left-28 bg-[rgba(203,218,70,0.92)]"
                 style={{
                   clipPath: 'polygon(0% 15%, 4% 0%, 96% 0%, 100% 15%, 98% 85%, 100% 100%, 4% 100%, 0% 85%)'
                 }}
               />
 
-              {/* Offset shadow block */}
+              {/* Main Polaroid Frame (Soft warm yellow-cream tint matching screenshot) */}
               <div 
-                className="absolute inset-0 translate-x-2 translate-y-3 bg-[#093624]/15 rounded-2xl"
-              />
-
-              {/* Main Polaroid Frame (Soft Yellow-Cream tint matching screenshot) */}
-              <div 
-                className="relative z-10 bg-[#FFFBEA] border-2 border-[#093624] rounded-2xl p-4 sm:p-5 shadow-xs transition-all"
+                className="relative z-10 bg-[#FFF7BA] border-2 border-[#EAD585] rounded-2xl p-4 sm:p-5 shadow-[0_8px_20px_rgba(9,54,36,0.06)] transition-all"
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
               >
                 
                 {/* Photo Container */}
-                <div className="relative w-full aspect-[4/5] rounded-xl overflow-hidden bg-[#093624] border border-[#093624]/20 shadow-inner">
+                <div className="relative w-full aspect-[4/5] rounded-xl overflow-hidden bg-[#093624] border border-[#093624]/15 shadow-inner">
                   <img 
                     src={activePhoto} 
-                    alt="Judith · Founder of Wren" 
-                    className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                    alt={isHovered || photoView === 'hover' ? 'Judith in action' : 'Judith · founder of Wren'} 
+                    className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-102"
                   />
 
-                  {/* Top-right "Change Photos" badge like in screenshot */}
-                  <div className="absolute top-2.5 right-2.5 bg-black/60 backdrop-blur-xs text-white text-[11px] font-mono font-medium px-2.5 py-1 rounded-md flex items-center gap-1.5 pointer-events-none">
+                  {/* Top-right "Change Photos" badge matching screenshot */}
+                  <div className="absolute top-2.5 right-2.5 bg-[#093624]/85 backdrop-blur-xs text-white text-[11px] font-mono font-medium px-2.5 py-1 rounded-md flex items-center gap-1.5 pointer-events-none shadow-xs">
                     <span>📷</span>
-                    <span>Photo</span>
-                  </div>
-
-                  {/* Subtle hover prompt */}
-                  <div className="absolute bottom-2 right-2 bg-black/50 backdrop-blur-xs text-white/80 text-[10px] font-mono px-2 py-0.5 rounded-sm pointer-events-none">
-                    hover to reveal
+                    <span className="font-sans font-semibold text-[11px]">Change Photos</span>
                   </div>
                 </div>
 
-                {/* Hand-written Label below photo */}
-                <div className="mt-3.5 pt-2 border-t border-[#093624]/10 flex items-center justify-between">
-                  <span className="font-hand text-xl sm:text-2xl text-[#093624] font-medium tracking-wide">
-                    Judith · founder of Wren
+                {/* Hand-written Label below photo (fits cleanly, handwritten font, swaps on hover) */}
+                <div className="mt-3.5 pt-1.5 flex items-center justify-between">
+                  <span className="font-hand text-base sm:text-lg text-[#093624] font-medium tracking-normal leading-tight">
+                    {isHovered || photoView === 'hover' ? 'Judith in action' : 'Judith · founder of Wren'}
                   </span>
-                  <span className="text-[10px] font-mono text-[#6F7A6E]">
-                    founder
+                  <span className="font-hand text-xs sm:text-sm text-[#7D8872] select-none">
+                    hover to reveal
                   </span>
                 </div>
 
@@ -390,36 +329,56 @@ export const AboutPage: React.FC<AboutPageProps> = ({
 
             </div>
 
-            {/* Photo controls below card */}
-            <div className="mt-5 flex items-center gap-2">
+            {/* Photo controls toolbar below card exactly like screenshot */}
+            <div className="mt-4 flex items-center gap-1.5 p-1 bg-white border border-[#093624]/15 rounded-lg shadow-xs">
+              <button
+                type="button"
+                className="px-2.5 py-1 text-xs font-sans font-semibold rounded-md bg-[#093624] text-white flex items-center gap-1.5 shadow-xs cursor-default"
+              >
+                <span>📷</span>
+                <span>Change Photos</span>
+              </button>
+              
               <button
                 type="button"
                 onClick={() => setPhotoView('front')}
-                className={`px-3 py-1 text-xs font-mono rounded-lg border transition-all cursor-pointer ${
+                className={`px-2 py-1 text-xs font-mono rounded-md border transition-all cursor-pointer flex items-center gap-1 ${
                   photoView === 'front' 
-                    ? 'bg-[#093624] text-[#F7F4E9] border-[#093624]' 
-                    : 'bg-white text-[#093624] border-[#093624]/20 hover:border-[#093624]'
+                    ? 'bg-[#F7F4E9] text-[#093624] border-[#093624]/40 font-bold' 
+                    : 'bg-white text-[#54605a] border-[#093624]/15 hover:border-[#093624]/30'
                 }`}
               >
-                Front
+                <span>↑</span>
+                <span>Front</span>
               </button>
+
               <button
                 type="button"
                 onClick={() => setPhotoView('hover')}
-                className={`px-3 py-1 text-xs font-mono rounded-lg border transition-all cursor-pointer ${
+                className={`px-2 py-1 text-xs font-mono rounded-md border transition-all cursor-pointer flex items-center gap-1 ${
                   photoView === 'hover' 
-                    ? 'bg-[#093624] text-[#F7F4E9] border-[#093624]' 
-                    : 'bg-white text-[#093624] border-[#093624]/20 hover:border-[#093624]'
+                    ? 'bg-[#F7F4E9] text-[#093624] border-[#093624]/40 font-bold' 
+                    : 'bg-white text-[#54605a] border-[#093624]/15 hover:border-[#093624]/30'
                 }`}
               >
-                Alternate
+                <span>↑</span>
+                <span>Hover</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setPhotoView('front')}
+                className="px-2 py-1 text-xs font-mono rounded-md border border-[#093624]/15 bg-white text-[#54605a] hover:border-[#093624]/30 transition-all cursor-pointer flex items-center gap-1"
+              >
+                <span>👁</span>
+                <span>Front</span>
               </button>
             </div>
 
           </div>
 
-          {/* RIGHT: Meet Judith Narrative */}
-          <div className="lg:col-span-7 space-y-5">
+          {/* RIGHT: Meet Judith Narrative (No italicized text) */}
+          <div className="lg:col-span-7 space-y-5 pt-2">
             
             {/* Header with Orange Heart */}
             <h2 className="font-serif font-black text-3xl sm:text-4xl text-[#093624] flex items-center gap-2.5">
@@ -432,7 +391,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({
               Wren was born out of pure pain.
             </p>
 
-            {/* Narrative Paragraphs */}
+            {/* Narrative Paragraphs (without italics) */}
             <div className="font-sans text-base sm:text-[17px] text-[#54605a] space-y-4 leading-relaxed">
               <p>
                 After years of helping founders grow their products and make some cool cash, I kept noticing the same thing, which is that for lean B2B businesses, the founder is often already the most trusted person in the room.
@@ -454,7 +413,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({
                 Which will help build the company's reputation, create demand, build meaningful enterprise relationships, and make them really cool cash,
               </p>
 
-              <p className="font-serif italic font-medium text-[#15543D] text-lg">
+              <p className="font-sans font-medium text-[#15543D] text-base sm:text-[17px]">
                 It's a strategy with no loss when you look at it.
               </p>
             </div>
@@ -622,7 +581,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({
           {/* Wren Bird perched on the card rim with natural head bop, wing flapping, and physics flight (NO speech bubble text) */}
           <div 
             onClick={triggerBirdFlight}
-            title={soundEnabled ? "Click me to fly & chirp! (or use toggle bottom-right)" : "Click me to fly!"}
+            title="Click me to fly!"
             className="absolute z-30 cursor-pointer select-none"
             style={{
               top: `${birdPos.y}px`,
@@ -792,37 +751,6 @@ export const AboutPage: React.FC<AboutPageProps> = ({
 
         </div>
       </section>
-
-      {/* ========================================================================= */}
-      {/* FIXED BOTTOM-RIGHT SOUND TOGGLE BUTTON                                    */}
-      {/* Allows users to turn the Wren chirp audio on or off anytime (Icon Only)   */}
-      {/* ========================================================================= */}
-      <div className="fixed bottom-6 right-6 z-50">
-        <button
-          type="button"
-          onClick={() => {
-            const nextState = !soundEnabled;
-            setSoundEnabled(nextState);
-            // If turning on, give a soft confirmation chirp
-            if (nextState) {
-              setTimeout(() => playWrenChirp(), 100);
-            }
-          }}
-          className={`flex items-center justify-center w-11 h-11 sm:w-12 sm:h-12 rounded-full border-2 shadow-lg backdrop-blur-md transition-all cursor-pointer select-none active:scale-95 ${
-            soundEnabled
-              ? 'bg-[#093624] text-[#CBDA46] border-[#CBDA46] shadow-[0_4px_14px_rgba(9,54,36,0.35)] hover:bg-[#15543D] hover:scale-105'
-              : 'bg-white/90 text-[#6F7A6E] border-[#093624]/20 shadow-md hover:border-[#093624]/40 hover:text-[#093624] hover:scale-105'
-          }`}
-          title={soundEnabled ? "Mute bird chirp sound" : "Enable bird chirp sound"}
-          aria-label={soundEnabled ? "Mute bird chirp sound" : "Enable bird chirp sound"}
-        >
-          {soundEnabled ? (
-            <Volume2 className="w-5 h-5 text-[#CBDA46] shrink-0 animate-pulse" />
-          ) : (
-            <VolumeX className="w-5 h-5 text-[#6F7A6E] shrink-0" />
-          )}
-        </button>
-      </div>
 
     </div>
   );

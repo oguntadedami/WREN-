@@ -15,6 +15,11 @@ export default defineConfig(() => {
     optimizeDeps: {
       include: ['react', 'react-dom'],
     },
+    build: {
+      outDir: 'dist',
+      emptyOutDir: true,
+      sourcemap: false,
+    },
     server: {
       host: '0.0.0.0',
       port: 3000,
