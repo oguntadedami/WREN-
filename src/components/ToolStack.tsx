@@ -36,7 +36,6 @@ export const ToolStack: React.FC = () => {
     { name: "AuthoredUp", logoSrc: authoredupLogo },
   ];
 
-  // Tripled list for infinite seamless marquee loop
   const marqueeItems = [...tools, ...tools, ...tools];
 
   return (
@@ -50,12 +49,10 @@ export const ToolStack: React.FC = () => {
         </span>
       </div>
 
-      {/* Auto-scrolling Infinite Marquee with generous vertical room for unclipped hover logos */}
       <div
         className="relative w-full overflow-hidden flex"
         onMouseLeave={() => setHoveredIdx(null)}
       >
-        {/* Left and Right Fade Gradients */}
         <div className="absolute left-0 top-0 bottom-0 w-16 sm:w-28 bg-gradient-to-r from-[#F7F4E9] to-transparent z-30 pointer-events-none" />
         <div className="absolute right-0 top-0 bottom-0 w-16 sm:w-28 bg-gradient-to-l from-[#F7F4E9] to-transparent z-30 pointer-events-none" />
 
@@ -80,7 +77,6 @@ export const ToolStack: React.FC = () => {
                 }}
                 onClick={() => setHoveredIdx(hoveredIdx === idx ? null : idx)}
               >
-                {/* Floating Logo above the pill with transparent background and direct drop shadow */}
                 <div
                   className={`absolute bottom-full left-1/2 -translate-x-1/2 mb-3.5 sm:mb-4 z-50 transition-all duration-200 ease-out pointer-events-none overflow-visible flex items-center justify-center transform ${
                     isHovered
@@ -98,7 +94,6 @@ export const ToolStack: React.FC = () => {
                   />
                 </div>
 
-                {/* Pill Button / Badge */}
                 <div
                   className={`flex items-center gap-3 px-4 py-2 rounded-lg border text-xs sm:text-sm font-medium whitespace-nowrap transition-all duration-150 cursor-pointer select-none ${
                     isHovered
@@ -121,5 +116,3 @@ export const ToolStack: React.FC = () => {
     </section>
   );
 };
-
-

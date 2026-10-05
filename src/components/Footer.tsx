@@ -39,9 +39,6 @@ export const Footer: React.FC<FooterProps> = ({ onOpenBooking, onNavigate, curre
   return (
     <footer className="bg-[#093624] text-[#F7F4E9] relative overflow-hidden pt-16 sm:pt-20 pb-12 sm:pb-16 notebook-grid-dark select-none border-t border-[#093624]">
       
-      {/* ========================================================================= */}
-      {/* BACKGROUND LAYER: Typographic Statement (Low Contrast & Fully Visible)   */}
-      {/* ========================================================================= */}
       <div 
         aria-hidden="true"
         className="absolute inset-x-0 bottom-0 pointer-events-none select-none z-0 flex flex-col items-center justify-end pb-2 sm:pb-4 opacity-25 sm:opacity-30 w-full px-0 overflow-hidden"
@@ -54,18 +51,12 @@ export const Footer: React.FC<FooterProps> = ({ onOpenBooking, onNavigate, curre
         </div>
       </div>
 
-      {/* Ambient Top Subtle Scrim Gradient for crisp text readability */}
       <div className="absolute inset-0 bg-gradient-to-b from-[#093624] via-[#093624]/90 to-transparent pointer-events-none z-[1]" />
 
-      {/* ========================================================================= */}
-      {/* TOP LAYER: Functional Footer Content                                      */}
-      {/* ========================================================================= */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
-        {/* Top Header Bar: Contact / Socials on Left, Stacked CTAs on Right */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 pb-12 sm:pb-14 border-b border-[#F7F4E9]/15">
           
-          {/* Left: Contact Info + Social Badges */}
           <div className="space-y-3">
             <div className="flex items-center">
               <img
@@ -89,7 +80,6 @@ export const Footer: React.FC<FooterProps> = ({ onOpenBooking, onNavigate, curre
               </div>
             </div>
 
-            {/* Socials with "Come say hi" label */}
             <div className="pt-2 space-y-1.5">
               <div className="text-[11px] font-mono text-[#A3C2A3] uppercase tracking-wider">
                 Come say hi
@@ -117,10 +107,8 @@ export const Footer: React.FC<FooterProps> = ({ onOpenBooking, onNavigate, curre
             </div>
           </div>
 
-          {/* Right: Primary and Secondary CTA Buttons */}
           <div className="flex flex-wrap sm:flex-nowrap items-center gap-3.5 sm:gap-4 self-start md:self-center">
             
-            {/* Primary Button: See our work (links to case studies page) */}
             <Button
               id="footer-see-our-work-btn"
               variant="primary"
@@ -132,7 +120,6 @@ export const Footer: React.FC<FooterProps> = ({ onOpenBooking, onNavigate, curre
               See our work
             </Button>
 
-            {/* Secondary Button: Book a call (links to booking section on homepage) */}
             <Button
               id="footer-book-a-call-btn"
               variant="secondary"
@@ -154,10 +141,8 @@ export const Footer: React.FC<FooterProps> = ({ onOpenBooking, onNavigate, curre
 
         </div>
 
-        {/* 4-Column Functional Links Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 sm:gap-10 pt-10 pb-16 sm:pb-24">
           
-          {/* Column 1: Company */}
           <div>
             <h4 className="font-mono font-bold text-xs uppercase tracking-widest text-[#CBDA46] mb-4">
               Company
@@ -173,7 +158,6 @@ export const Footer: React.FC<FooterProps> = ({ onOpenBooking, onNavigate, curre
                       try {
                         window.location.hash = '#about';
                       } catch {
-                        // Ignore iframe restriction
                       }
                     }
                   }} 
@@ -212,7 +196,6 @@ export const Footer: React.FC<FooterProps> = ({ onOpenBooking, onNavigate, curre
             </ul>
           </div>
 
-          {/* Column 2: Come hang */}
           <div>
             <h4 className="font-mono font-bold text-xs uppercase tracking-widest text-[#CBDA46] mb-4">
               Come hang
@@ -227,7 +210,6 @@ export const Footer: React.FC<FooterProps> = ({ onOpenBooking, onNavigate, curre
                 </button>
               </li>
               <li>
-                {/* Founder Contact Card */}
                 <a 
                   href="https://www.linkedin.com/in/judithamarachi-founder-led-gtm-and-revenue-enablement-content/" 
                   target="_blank" 
@@ -235,7 +217,6 @@ export const Footer: React.FC<FooterProps> = ({ onOpenBooking, onNavigate, curre
                   className="group inline-flex items-center gap-3 text-left py-1 transition-all"
                   aria-label="Judith Amarachi - Founder (LinkedIn profile)"
                 >
-                  {/* Photo with overlapping verified badge */}
                   <div className="relative shrink-0">
                     <img 
                       src={judithPortrait} 
@@ -250,7 +231,6 @@ export const Footer: React.FC<FooterProps> = ({ onOpenBooking, onNavigate, curre
                     </div>
                   </div>
 
-                  {/* Name and Role */}
                   <div className="flex flex-col justify-center min-w-0">
                     <div className="flex items-center gap-1.5">
                       <span className="font-sans font-semibold text-sm text-[#F7F4E9] group-hover:text-[#CBDA46] group-hover:underline underline-offset-2 transition-colors leading-tight">
@@ -277,7 +257,6 @@ export const Footer: React.FC<FooterProps> = ({ onOpenBooking, onNavigate, curre
             </ul>
           </div>
 
-          {/* Column 3: Free stuff */}
           <div>
             <h4 className="font-mono font-bold text-xs uppercase tracking-widest text-[#CBDA46] mb-4">
               Free stuff
@@ -327,7 +306,6 @@ export const Footer: React.FC<FooterProps> = ({ onOpenBooking, onNavigate, curre
             </ul>
           </div>
 
-          {/* Column 4: Learn something new */}
           <div>
             <h4 className="font-mono font-bold text-xs uppercase tracking-widest text-[#CBDA46] mb-4">
               Learn something new
@@ -377,14 +355,8 @@ export const Footer: React.FC<FooterProps> = ({ onOpenBooking, onNavigate, curre
 
         </div>
 
-        {/* ========================================================================= */}
-        {/* PHYSICAL BADGE BOX: Interactive Matter.js Rolling & Draggable Stickers   */}
-        {/* ========================================================================= */}
         <FooterPhysicsBadges />
 
-        {/* ========================================================================= */}
-        {/* Bottom Metadata & Links Line                                              */}
-        {/* ========================================================================= */}
         <div className="pt-8 border-t border-[#F7F4E9]/15 flex flex-col sm:flex-row items-center justify-between text-xs text-[#D5E3D5] gap-4">
           <p>© {new Date().getFullYear()} WREN Agency. All rights reserved.</p>
           

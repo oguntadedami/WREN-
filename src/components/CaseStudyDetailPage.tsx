@@ -23,10 +23,8 @@ export const CaseStudyDetailPage: React.FC<CaseStudyDetailPageProps> = ({
   onOpenBooking,
   onNavigate,
 }) => {
-  // Call getCaseStudyBySlug() with the URL's slug param
   const data: CaseStudy | undefined = getCaseStudyBySlug(slug);
 
-  // Scroll to top or target hash on mount and when slug changes
   useEffect(() => {
     if (!data) return;
     const hash = window.location.hash;
@@ -55,7 +53,6 @@ export const CaseStudyDetailPage: React.FC<CaseStudyDetailPageProps> = ({
     }
   }, [slug, data]);
 
-  // If no match is found, render a "Case study not found" state with a link back to /case-studies
   if (!data) {
     return (
       <div className="min-h-screen bg-[#F7F4E9] notebook-grid-bg text-[#0E1A15] pt-36 sm:pt-44 pb-24 px-4 sm:px-6 text-center">
@@ -81,7 +78,6 @@ export const CaseStudyDetailPage: React.FC<CaseStudyDetailPageProps> = ({
     );
   }
 
-  // Helper to render headline text with highlightWord using the authentic scrapbook Highlight component
   const renderWithHighlight = (text: string, highlightWord?: string, isDark: boolean = false) => {
     if (!highlightWord || !highlightWord.trim()) return text;
     const escaped = highlightWord.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&');
@@ -107,7 +103,6 @@ export const CaseStudyDetailPage: React.FC<CaseStudyDetailPageProps> = ({
     );
   };
 
-  // Helper to render trackRecord.body (detecting "- " bullet lines after blank line)
   const renderTrackRecordBody = (body: string) => {
     const blocks = body.split(/\n\s*\n/);
     return (
@@ -149,25 +144,20 @@ export const CaseStudyDetailPage: React.FC<CaseStudyDetailPageProps> = ({
   };
 
   const washiTapeStyles = [
-    { color: 'rgba(245, 166, 33, 0.88)', rotation: 'rotate-2' },   // Warm Amber
-    { color: 'rgba(203, 218, 70, 0.88)', rotation: '-rotate-2' },  // Wattle Lime
-    { color: 'rgba(255, 122, 92, 0.88)', rotation: 'rotate-1.5' },  // Coral Pop
-    { color: 'rgba(56, 189, 248, 0.88)', rotation: '-rotate-1.5' }, // Sky Blue
+    { color: 'rgba(245, 166, 33, 0.88)', rotation: 'rotate-2' },
+    { color: 'rgba(203, 218, 70, 0.88)', rotation: '-rotate-2' },
+    { color: 'rgba(255, 122, 92, 0.88)', rotation: 'rotate-1.5' },
+    { color: 'rgba(56, 189, 248, 0.88)', rotation: '-rotate-1.5' },
   ];
 
-  // Results 2-row logic
   const hasRow2Divider = Boolean(data.results.row2DividerText && data.results.row2DividerText.trim().length > 0);
   const row1Stats = hasRow2Divider ? data.results.stats.slice(0, 4) : data.results.stats;
   const row2Stats = hasRow2Divider ? data.results.stats.slice(4) : [];
 
   return (
     <div className="min-h-screen bg-[#F7F4E9] notebook-grid-bg text-[#0E1A15]">
-      {/* ========================================================================= */}
-      {/* HEADER SECTION                                                            */}
-      {/* ========================================================================= */}
       <section id="case-study-hero" className="pt-32 sm:pt-40 pb-12 sm:pb-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto text-center">
-          {/* Top navigation row: "← All case studies" */}
           <div className="flex items-center justify-between gap-4 mb-8 max-w-3xl mx-auto flex-wrap">
             <a
               href="/case-studies"
@@ -182,23 +172,19 @@ export const CaseStudyDetailPage: React.FC<CaseStudyDetailPageProps> = ({
               <span>← All case studies</span>
             </a>
 
-            {/* Optional client logo representation */}
             <div className="h-6 flex items-center">
               {renderBrandLogo()}
             </div>
           </div>
 
-          {/* Headline text with highlightWord rendered inside a solid Wattle highlight box */}
           <h1 className="font-display font-serif font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-[#093624] tracking-tight leading-[1.15] mb-6">
             {renderWithHighlight(data.headline, data.highlightWord, false)}
           </h1>
 
-          {/* Subheading below */}
           <p className="font-sans text-base sm:text-lg md:text-xl text-[#2C3830]/85 max-w-3xl mx-auto leading-relaxed mb-8">
             {data.subheading}
           </p>
 
-          {/* Book a call CTA */}
           <div className="flex items-center justify-center">
             <Button
               variant="primary"
@@ -212,9 +198,6 @@ export const CaseStudyDetailPage: React.FC<CaseStudyDetailPageProps> = ({
         </div>
       </section>
 
-      {/* ========================================================================= */}
-      {/* TOP STATS ROW (always exactly 3)                                          */}
-      {/* ========================================================================= */}
       <section id="top-stats-row" className="pb-12 sm:pb-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-5xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 items-stretch">
@@ -225,7 +208,6 @@ export const CaseStudyDetailPage: React.FC<CaseStudyDetailPageProps> = ({
                   key={idx}
                   className="relative group transition-transform duration-200 flex flex-col h-full"
                 >
-                  {/* Washi Tape */}
                   <div
                     className={`absolute pointer-events-none z-20 backdrop-blur-xs shadow-xs ${tape.rotation} w-20 h-5 -top-2.5 right-6`}
                     style={{
@@ -233,12 +215,10 @@ export const CaseStudyDetailPage: React.FC<CaseStudyDetailPageProps> = ({
                       clipPath: 'polygon(0% 15%, 4% 0%, 96% 0%, 100% 15%, 98% 85%, 100% 100%, 4% 100%, 0% 85%)'
                     }}
                   />
-                  {/* Offset Shadow */}
                   <div
                     className="absolute inset-0 translate-x-1.5 translate-y-2 bg-[#093624]/15 rounded-xl pointer-events-none"
                     style={{ borderRadius: '255px 18px 225px 18px/18px 225px 18px 255px' }}
                   />
-                  {/* Card Content */}
                   <div
                     className="relative z-10 p-6 sm:p-7 bg-white/95 border-2 border-[#093624] flex flex-col justify-between h-full"
                     style={{ borderRadius: '255px 20px 225px 20px/20px 225px 20px 255px' }}
@@ -257,9 +237,6 @@ export const CaseStudyDetailPage: React.FC<CaseStudyDetailPageProps> = ({
         </div>
       </section>
 
-      {/* ========================================================================= */}
-      {/* QUICK FACTS BAR (4-column card)                                           */}
-      {/* ========================================================================= */}
       <section id="quick-facts-bar" className="pb-16 sm:pb-24 px-4 sm:px-6 lg:px-8">
         <div className="max-w-5xl mx-auto">
           <div
@@ -282,9 +259,6 @@ export const CaseStudyDetailPage: React.FC<CaseStudyDetailPageProps> = ({
         </div>
       </section>
 
-      {/* ========================================================================= */}
-      {/* THE CHALLENGE (Cream background)                                          */}
-      {/* ========================================================================= */}
       <section id="challenge-section" className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-[#F7F4E9] border-t border-[#093624]/10">
         <div className="max-w-4xl mx-auto">
           <div className="font-mono text-xs font-bold uppercase tracking-widest text-[#093624]/70 mb-3">
@@ -301,9 +275,6 @@ export const CaseStudyDetailPage: React.FC<CaseStudyDetailPageProps> = ({
         </div>
       </section>
 
-      {/* ========================================================================= */}
-      {/* THE SYSTEM BUILT (Pale Wattle background)                                  */}
-      {/* ========================================================================= */}
       <section
         id="system-built"
         className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-[#FAF7D6] border-t border-b border-[#093624]/10"
@@ -319,7 +290,6 @@ export const CaseStudyDetailPage: React.FC<CaseStudyDetailPageProps> = ({
             {data.systemBuilt.intro}
           </p>
 
-          {/* Steps */}
           <div className="space-y-8">
             {data.systemBuilt.steps.map((step, idx) => {
               const hasImage = Boolean(step.image);
@@ -327,23 +297,19 @@ export const CaseStudyDetailPage: React.FC<CaseStudyDetailPageProps> = ({
                 <div key={idx}>
                   <div className={`grid ${hasImage ? 'grid-cols-1 md:grid-cols-2 gap-8 items-center' : 'grid-cols-1'} gap-6`}>
                     <div className="flex items-start gap-4 sm:gap-6">
-                      {/* Large bold number */}
                       <span className="font-display font-serif font-bold text-3xl sm:text-4xl md:text-5xl text-[#093624]/35 shrink-0 leading-none">
                         {step.number}
                       </span>
                       <div>
-                        {/* Bold title */}
                         <h3 className="font-sans font-bold text-xl sm:text-2xl text-[#093624] mb-2 leading-snug">
                           {step.title}
                         </h3>
-                        {/* Body paragraph */}
                         <p className="font-sans text-base text-[#2C3830] leading-relaxed">
                           {step.body}
                         </p>
                       </div>
                     </div>
 
-                    {/* Image alongside step's text if present */}
                     {hasImage && step.image && (
                       <div className="rounded-xl overflow-hidden border-2 border-[#093624] shadow-md bg-white">
                         <img
@@ -355,7 +321,6 @@ export const CaseStudyDetailPage: React.FC<CaseStudyDetailPageProps> = ({
                     )}
                   </div>
 
-                  {/* Thin divider between steps */}
                   {idx < data.systemBuilt.steps.length - 1 && (
                     <div className="border-t border-[#093624]/15 my-8" />
                   )}
@@ -366,11 +331,7 @@ export const CaseStudyDetailPage: React.FC<CaseStudyDetailPageProps> = ({
         </div>
       </section>
 
-      {/* ========================================================================= */}
-      {/* THE RESULTS (Bottle green background, Cream text)                          */}
-      {/* ========================================================================= */}
       <section id="results-section" className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-[#093624] text-[#F7F4E9] relative overflow-hidden">
-        {/* Notebook grid overlay */}
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
@@ -392,10 +353,8 @@ export const CaseStudyDetailPage: React.FC<CaseStudyDetailPageProps> = ({
             </h2>
           </div>
 
-          {/* Stats Card Grid */}
           {hasRow2Divider ? (
             <div className="space-y-6">
-              {/* Row 1: First 4 */}
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
                 {row1Stats.map((stat, idx) => (
                   <div
@@ -412,14 +371,12 @@ export const CaseStudyDetailPage: React.FC<CaseStudyDetailPageProps> = ({
                 ))}
               </div>
 
-              {/* Short italic divider line */}
               <div className="py-4 text-center">
                 <span className="italic font-serif text-sm sm:text-base text-[#E2FD52] border-t border-b border-[#F7F4E9]/20 px-6 py-2 inline-block">
                   {data.results.row2DividerText}
                 </span>
               </div>
 
-              {/* Row 2: Remaining stats */}
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
                 {row2Stats.map((stat, idx) => (
                   <div
@@ -437,7 +394,6 @@ export const CaseStudyDetailPage: React.FC<CaseStudyDetailPageProps> = ({
               </div>
             </div>
           ) : (
-            /* Single row / standard grid */
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
               {data.results.stats.map((stat, idx) => (
                 <div
@@ -457,16 +413,12 @@ export const CaseStudyDetailPage: React.FC<CaseStudyDetailPageProps> = ({
         </div>
       </section>
 
-      {/* ========================================================================= */}
-      {/* KEY INSIGHT (Cream background)                                            */}
-      {/* ========================================================================= */}
       <section id="key-insight-section" className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-[#F7F4E9]">
         <div className="max-w-4xl mx-auto">
           <div
             className="relative p-8 sm:p-12 bg-white/95 border-2 border-[#093624] shadow-[6px_6px_0px_#093624]"
             style={{ borderRadius: '255px 20px 225px 20px/20px 225px 20px 255px' }}
           >
-            {/* Washi tape on insight note */}
             <div
               className="absolute pointer-events-none z-20 backdrop-blur-xs shadow-xs -rotate-1 w-24 h-5.5 -top-2.5 right-10"
               style={{
@@ -487,9 +439,6 @@ export const CaseStudyDetailPage: React.FC<CaseStudyDetailPageProps> = ({
         </div>
       </section>
 
-      {/* ========================================================================= */}
-      {/* SYSTEMS BEHIND IT (Pale Wattle background) — only render if non-empty       */}
-      {/* ========================================================================= */}
       {data.systemsUsed && data.systemsUsed.length > 0 && (
         <section id="systems-behind-it" className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-[#FAF7D6] border-t border-b border-[#093624]/10">
           <div className="max-w-5xl mx-auto">
@@ -553,9 +502,6 @@ export const CaseStudyDetailPage: React.FC<CaseStudyDetailPageProps> = ({
         </section>
       )}
 
-      {/* ========================================================================= */}
-      {/* BROADER TRACK RECORD (Cream background)                                    */}
-      {/* ========================================================================= */}
       <section id="broader-track-record" className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-[#F7F4E9]">
         <div className="max-w-4xl mx-auto">
           <div className="font-mono text-xs font-bold uppercase tracking-widest text-[#093624]/70 mb-3">
@@ -565,10 +511,8 @@ export const CaseStudyDetailPage: React.FC<CaseStudyDetailPageProps> = ({
             {data.trackRecord.headline}
           </h2>
 
-          {/* Body with detected bullet points */}
           {renderTrackRecordBody(data.trackRecord.body)}
 
-          {/* Link anchor to trackRecord.link */}
           <div className="mt-8">
             <a
               href={data.trackRecord.link}
@@ -590,11 +534,7 @@ export const CaseStudyDetailPage: React.FC<CaseStudyDetailPageProps> = ({
         </div>
       </section>
 
-      {/* ========================================================================= */}
-      {/* CLOSING CTA (Bottle green background, Cream text)                          */}
-      {/* ========================================================================= */}
       <section id="case-study-cta" className="bg-[#093624] text-[#F7F4E9] py-20 sm:py-28 px-4 sm:px-6 lg:px-8 text-center relative overflow-hidden">
-        {/* Notebook Grid */}
         <div
           className="absolute inset-0 pointer-events-none"
           style={{

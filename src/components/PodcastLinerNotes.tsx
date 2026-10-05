@@ -3,7 +3,6 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Tape } from './ScrapbookAssets';
 
-// Icon assets
 import gtmIcon from '../assets/images/podcast/podcast-gtm-icon.png';
 import micIcon from '../assets/images/podcast/podcast-mic-icon.png';
 import handshakeIcon from '../assets/images/podcast/podcast-handshake-icon.png';
@@ -12,7 +11,6 @@ import penDocIcon from '../assets/images/podcast/podcast-pen-and-document-icon.p
 
 gsap.registerPlugin(ScrollTrigger);
 
-// Middle sentence words ("Sometimes we break things down...")
 const MIDDLE_SENTENCE_WORDS = [
   'Sometimes', 'we', 'break', 'things', 'down,',
   'sometimes', 'we', 'bring', 'people', 'in,',
@@ -25,7 +23,6 @@ export const PodcastLinerNotes: React.FC = () => {
   const [reducedMotion, setReducedMotion] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
-  // Detect mobile screen for scroll distance adjustment
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
@@ -35,7 +32,6 @@ export const PodcastLinerNotes: React.FC = () => {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  // Listen for prefers-reduced-motion
   useEffect(() => {
     const mql = window.matchMedia('(prefers-reduced-motion: reduce)');
     setReducedMotion(mql.matches);
@@ -48,7 +44,6 @@ export const PodcastLinerNotes: React.FC = () => {
     return () => mql.removeEventListener('change', handleChange);
   }, []);
 
-  // GSAP ScrollTrigger setup for scroll-scrubbed reveal
   useEffect(() => {
     if (reducedMotion || !sectionRef.current) return;
 
@@ -64,7 +59,6 @@ export const PodcastLinerNotes: React.FC = () => {
         },
       });
 
-      // --- 1. First line connecting words: "We talk about" ---
       tl.to(
         ['#pln-w-0', '#pln-w-1', '#pln-w-2'],
         {
@@ -77,7 +71,6 @@ export const PodcastLinerNotes: React.FC = () => {
         0.05
       );
 
-      // --- Checkpoint 1: GTM (Bold Bottle Green + Icon Sticker) ---
       tl.to(
         '#pln-kw-0',
         {
@@ -97,7 +90,6 @@ export const PodcastLinerNotes: React.FC = () => {
       );
       tl.to('#pln-punct-0', { color: '#0E1A15', opacity: 1, duration: 0.2 }, 0.5);
 
-      // --- Checkpoint 2: founders (Bold Bottle Green + Icon Sticker) ---
       tl.to(
         '#pln-kw-1',
         {
@@ -117,7 +109,6 @@ export const PodcastLinerNotes: React.FC = () => {
       );
       tl.to('#pln-punct-1', { color: '#0E1A15', opacity: 1, duration: 0.2 }, 0.93);
 
-      // --- Checkpoint 3: sales (Bold Bottle Green + Icon Sticker) ---
       tl.to(
         '#pln-kw-2',
         {
@@ -137,7 +128,6 @@ export const PodcastLinerNotes: React.FC = () => {
       );
       tl.to('#pln-punct-2', { color: '#0E1A15', opacity: 1, duration: 0.2 }, 1.36);
 
-      // --- Checkpoint 4: marketing (Bold Bottle Green + Icon Sticker) ---
       tl.to(
         '#pln-kw-3',
         {
@@ -157,10 +147,8 @@ export const PodcastLinerNotes: React.FC = () => {
       );
       tl.to('#pln-punct-3', { color: '#0E1A15', opacity: 1, duration: 0.2 }, 1.8);
 
-      // Connecting word: "and"
       tl.to('#pln-w-3', { color: '#0E1A15', opacity: 1, duration: 0.22, ease: 'power1.inOut' }, 2.02);
 
-      // --- Checkpoint 5: content (Bold Bottle Green + Icon Sticker) ---
       tl.to(
         '#pln-kw-4',
         {
@@ -180,7 +168,6 @@ export const PodcastLinerNotes: React.FC = () => {
       );
       tl.to('#pln-punct-4', { color: '#0E1A15', opacity: 1, duration: 0.2 }, 2.36);
 
-      // Connecting text: "and whatever else is worth unpacking."
       tl.to(
         ['#pln-w-4', '#pln-w-5', '#pln-w-6', '#pln-w-7', '#pln-w-8', '#pln-w-9'],
         {
@@ -193,8 +180,6 @@ export const PodcastLinerNotes: React.FC = () => {
         2.65
       );
 
-      // --- 2. Middle Sentence: "Sometimes we break things down..." (Deliberate Pause) ---
-      // Reserved extra scroll distance (approx. 40% of the entire scroll distance)
       const s2Els = gsap.utils.toArray('.pln-s2-word');
       tl.to(
         s2Els,
@@ -202,13 +187,12 @@ export const PodcastLinerNotes: React.FC = () => {
           color: '#0E1A15',
           opacity: 1,
           duration: 0.35,
-          stagger: 0.16, // Generous stagger creates a contemplative pause
+          stagger: 0.16,
           ease: 'none',
         },
         3.4
       );
 
-      // --- 3. Third line connecting words: "That's the whole point of" ---
       tl.to(
         ['#pln-w-10', '#pln-w-11', '#pln-w-12', '#pln-w-13', '#pln-w-14'],
         {
@@ -221,7 +205,6 @@ export const PodcastLinerNotes: React.FC = () => {
         7.2
       );
 
-      // --- Checkpoint 6: Beyond Content (Bold Bottle Green + Icon Sticker) ---
       tl.to(
         '#pln-kw-5',
         {
@@ -241,7 +224,6 @@ export const PodcastLinerNotes: React.FC = () => {
       );
       tl.to('#pln-punct-5', { color: '#093624', opacity: 1, duration: 0.25 }, 8.1);
 
-      // Buffer at the end of the scroll trigger
       tl.to({}, { duration: 0.7 }, 8.4);
 
     }, sectionRef);
@@ -251,7 +233,6 @@ export const PodcastLinerNotes: React.FC = () => {
     };
   }, [reducedMotion, isMobile]);
 
-  // Initial styling for unrevealed state vs reduced motion
   const initialNormalStyle: React.CSSProperties = reducedMotion
     ? { color: '#0E1A15', opacity: 1, fontWeight: 400 }
     : { color: '#6F7A6E', opacity: 0.45, fontWeight: 400 };
@@ -270,7 +251,6 @@ export const PodcastLinerNotes: React.FC = () => {
         backgroundColor: 'var(--color-cream, #F7F4E9)',
       }}
     >
-      {/* Pinned Viewport Container - CSS sticky matching Reality Check */}
       <div
         className={`w-full flex flex-col items-center justify-center py-8 sm:py-12 md:py-16 px-4 sm:px-8 lg:px-14 ${
           reducedMotion ? 'relative min-h-[65vh]' : 'sticky top-0 h-[100dvh] sm:h-screen overflow-hidden'
@@ -278,29 +258,24 @@ export const PodcastLinerNotes: React.FC = () => {
       >
         <div className="max-w-4xl lg:max-w-5xl xl:max-w-[1080px] mx-auto w-full flex flex-col items-center text-center relative z-10">
           
-          {/* Subtle Top Tape Stamp */}
           <div className="flex justify-center -mt-2 sm:-mt-4 mb-3 sm:mb-4 pointer-events-none">
             <Tape className="w-24 sm:w-28 h-5 sm:h-6" color="#CBDA46" />
           </div>
 
-          {/* Section Headline */}
           <h2 className="font-display font-extrabold text-3xl sm:text-4xl md:text-5xl text-[#093624] tracking-tight text-center mb-6 sm:mb-8 md:mb-10">
             What the show is about
           </h2>
 
-          {/* Main Large Centered Paragraph Block (IBM Plex Serif) */}
           <p
             className="font-display text-xl sm:text-2xl md:text-3xl lg:text-[38px] leading-[1.65] sm:leading-[1.6] md:leading-[1.55] tracking-tight text-center max-w-4xl lg:max-w-5xl mx-auto"
             style={{
               fontFamily: 'var(--font-display, "IBM Plex Serif", serif)',
             }}
           >
-            {/* --- SENTENCE 1 --- */}
             <span id="pln-w-0" className="inline-block mr-[0.28em] transition-colors" style={initialNormalStyle}>We</span>
             <span id="pln-w-1" className="inline-block mr-[0.28em] transition-colors" style={initialNormalStyle}>talk</span>
             <span id="pln-w-2" className="inline-block mr-[0.28em] transition-colors" style={initialNormalStyle}>about</span>
 
-            {/* Checkpoint 1: GTM */}
             <span className="inline-flex items-center align-middle whitespace-nowrap mr-[0.28em]">
               <span id="pln-kw-0" className="transition-colors" style={initialKeywordStyle}>
                 GTM
@@ -318,7 +293,6 @@ export const PodcastLinerNotes: React.FC = () => {
               <span id="pln-punct-0" style={initialNormalStyle}>,</span>
             </span>
 
-            {/* Checkpoint 2: founders */}
             <span className="inline-flex items-center align-middle whitespace-nowrap mr-[0.28em]">
               <span id="pln-kw-1" className="transition-colors" style={initialKeywordStyle}>
                 founders
@@ -336,7 +310,6 @@ export const PodcastLinerNotes: React.FC = () => {
               <span id="pln-punct-1" style={initialNormalStyle}>,</span>
             </span>
 
-            {/* Checkpoint 3: sales */}
             <span className="inline-flex items-center align-middle whitespace-nowrap mr-[0.28em]">
               <span id="pln-kw-2" className="transition-colors" style={initialKeywordStyle}>
                 sales
@@ -354,7 +327,6 @@ export const PodcastLinerNotes: React.FC = () => {
               <span id="pln-punct-2" style={initialNormalStyle}>,</span>
             </span>
 
-            {/* Checkpoint 4: marketing */}
             <span className="inline-flex items-center align-middle whitespace-nowrap mr-[0.28em]">
               <span id="pln-kw-3" className="transition-colors" style={initialKeywordStyle}>
                 marketing
@@ -374,7 +346,6 @@ export const PodcastLinerNotes: React.FC = () => {
 
             <span id="pln-w-3" className="inline-block mr-[0.28em] transition-colors" style={initialNormalStyle}>and</span>
 
-            {/* Checkpoint 5: content */}
             <span className="inline-flex items-center align-middle whitespace-nowrap mr-[0.28em]">
               <span id="pln-kw-4" className="transition-colors" style={initialKeywordStyle}>
                 content
@@ -400,7 +371,6 @@ export const PodcastLinerNotes: React.FC = () => {
             <span id="pln-w-9" className="inline-block mr-[0.28em] transition-colors" style={initialNormalStyle}>unpacking.</span>
             {' '}
 
-            {/* --- SENTENCE 2: The Deliberate Pause (connecting words only, no icons) --- */}
             {MIDDLE_SENTENCE_WORDS.map((word, idx) => (
               <span
                 key={idx}
@@ -412,14 +382,12 @@ export const PodcastLinerNotes: React.FC = () => {
             ))}
             {' '}
 
-            {/* --- SENTENCE 3 --- */}
             <span id="pln-w-10" className="inline-block mr-[0.28em] transition-colors" style={initialNormalStyle}>That's</span>
             <span id="pln-w-11" className="inline-block mr-[0.28em] transition-colors" style={initialNormalStyle}>the</span>
             <span id="pln-w-12" className="inline-block mr-[0.28em] transition-colors" style={initialNormalStyle}>whole</span>
             <span id="pln-w-13" className="inline-block mr-[0.28em] transition-colors" style={initialNormalStyle}>point</span>
             <span id="pln-w-14" className="inline-block mr-[0.28em] transition-colors" style={initialNormalStyle}>of</span>
 
-            {/* Checkpoint 6: Beyond Content */}
             <span className="inline-flex items-center align-middle whitespace-nowrap">
               <span id="pln-kw-5" className="transition-colors" style={initialKeywordStyle}>
                 Beyond Content
@@ -438,7 +406,6 @@ export const PodcastLinerNotes: React.FC = () => {
             </span>
           </p>
 
-          {/* Hand-drawn divider stamp at bottom */}
           <div className="mt-8 sm:mt-10 flex justify-center items-center gap-3 select-none pointer-events-none opacity-60">
             <div className="h-[1px] w-12 sm:w-16 bg-[#093624]/20" />
             <span className="font-mono text-xs uppercase tracking-widest text-[#6F7A6E]">

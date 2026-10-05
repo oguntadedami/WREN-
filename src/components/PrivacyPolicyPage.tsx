@@ -35,7 +35,6 @@ const TOC_RIGHT: TocItem[] = [
 ];
 
 export const PrivacyPolicyPage: React.FC<PrivacyPolicyPageProps> = () => {
-  // Scroll to top on mount unless an anchor hash is present
   useEffect(() => {
     const hash = window.location.hash;
     if (hash && hash.length > 1 && hash !== '#privacy-policy') {
@@ -84,9 +83,6 @@ export const PrivacyPolicyPage: React.FC<PrivacyPolicyPageProps> = () => {
     <div className="min-h-screen bg-[#F7F4E9] text-[#0E1A15] pt-28 sm:pt-36 pb-24 sm:pb-32 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
         
-        {/* ========================================================================= */}
-        {/* HEADER                                                                    */}
-        {/* ========================================================================= */}
         <header id="privacy-header" className="mb-14 sm:mb-16">
           <div className="text-xs font-mono font-bold tracking-widest text-[#093624]/70 uppercase mb-3 select-none">
             LEGAL
@@ -121,22 +117,16 @@ export const PrivacyPolicyPage: React.FC<PrivacyPolicyPageProps> = () => {
           </p>
         </header>
 
-        {/* ========================================================================= */}
-        {/* TABLE OF CONTENTS                                                         */}
-        {/* ========================================================================= */}
         <div className="group relative transition-all duration-300 mb-16 sm:mb-20">
-          {/* Paper Clip Top Left */}
           <div className="absolute -top-4 left-6 sm:left-8 z-20 pointer-events-none transition-transform duration-300 group-hover:-translate-y-1">
             <PaperClip className="w-6 h-10 text-[#093624]" color="#093624" />
           </div>
 
-          {/* Hand-Drawn Offset Shadow */}
           <div 
             className="absolute inset-0 translate-x-1.5 translate-y-2 bg-[#093624]/15 transition-all duration-300 group-hover:translate-x-2.5 group-hover:translate-y-3 group-hover:rotate-[-0.5deg]"
             style={{ borderRadius: '255px 18px 225px 18px/18px 225px 18px 255px' }}
           />
 
-          {/* Main Note Card */}
           <nav 
             id="privacy-toc"
             aria-label="Table of Contents" 
@@ -147,7 +137,6 @@ export const PrivacyPolicyPage: React.FC<PrivacyPolicyPageProps> = () => {
               Table of Contents
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3">
-              {/* Left Column (01 - 08) */}
               <div className="space-y-2.5">
                 {TOC_LEFT.map((item) => (
                   <div key={item.id} className="text-sm sm:text-base">
@@ -167,7 +156,6 @@ export const PrivacyPolicyPage: React.FC<PrivacyPolicyPageProps> = () => {
                 ))}
               </div>
 
-              {/* Right Column (09 - 16) */}
               <div className="space-y-2.5">
                 {TOC_RIGHT.map((item) => (
                   <div key={item.id} className="text-sm sm:text-base">
@@ -190,12 +178,8 @@ export const PrivacyPolicyPage: React.FC<PrivacyPolicyPageProps> = () => {
           </nav>
         </div>
 
-        {/* ========================================================================= */}
-        {/* SECTIONS                                                                  */}
-        {/* ========================================================================= */}
         <div className="space-y-12 sm:space-y-14 text-base sm:text-[1.05rem] text-[#2C3830] font-sans leading-relaxed">
 
-          {/* 1. Who we are */}
           <section id="who-we-are" className="scroll-mt-28">
             <h2 className="font-display font-serif font-bold text-2xl sm:text-3xl text-[#093624] tracking-tight mb-4">
               1. Who we are
@@ -216,7 +200,6 @@ export const PrivacyPolicyPage: React.FC<PrivacyPolicyPageProps> = () => {
             </p>
           </section>
 
-          {/* 2. Personal information we collect */}
           <section id="personal-information-we-collect" className="scroll-mt-28">
             <h2 className="font-display font-serif font-bold text-2xl sm:text-3xl text-[#093624] tracking-tight mb-4">
               2. Personal information we collect
@@ -243,7 +226,6 @@ export const PrivacyPolicyPage: React.FC<PrivacyPolicyPageProps> = () => {
             </ul>
           </section>
 
-          {/* 3. How we use your information */}
           <section id="how-we-use-your-information" className="scroll-mt-28">
             <h2 className="font-display font-serif font-bold text-2xl sm:text-3xl text-[#093624] tracking-tight mb-4">
               3. How we use your information
@@ -263,7 +245,6 @@ export const PrivacyPolicyPage: React.FC<PrivacyPolicyPageProps> = () => {
             </ul>
           </section>
 
-          {/* 4. Legal bases for processing */}
           <section id="legal-bases-for-processing" className="scroll-mt-28">
             <h2 className="font-display font-serif font-bold text-2xl sm:text-3xl text-[#093624] tracking-tight mb-4">
               4. Legal bases for processing
@@ -287,7 +268,6 @@ export const PrivacyPolicyPage: React.FC<PrivacyPolicyPageProps> = () => {
             </ul>
           </section>
 
-          {/* 5. Cookies and analytics */}
           <section id="cookies-and-analytics" className="scroll-mt-28">
             <h2 className="font-display font-serif font-bold text-2xl sm:text-3xl text-[#093624] tracking-tight mb-4">
               5. Cookies and analytics
@@ -302,7 +282,6 @@ export const PrivacyPolicyPage: React.FC<PrivacyPolicyPageProps> = () => {
             </div>
           </section>
 
-          {/* 6. Marketing communications */}
           <section id="marketing-communications" className="scroll-mt-28">
             <h2 className="font-display font-serif font-bold text-2xl sm:text-3xl text-[#093624] tracking-tight mb-4">
               6. Marketing communications
@@ -312,7 +291,6 @@ export const PrivacyPolicyPage: React.FC<PrivacyPolicyPageProps> = () => {
             </p>
           </section>
 
-          {/* 7. How we share information */}
           <section id="how-we-share-information" className="scroll-mt-28">
             <h2 className="font-display font-serif font-bold text-2xl sm:text-3xl text-[#093624] tracking-tight mb-4">
               7. How we share information
@@ -334,7 +312,6 @@ export const PrivacyPolicyPage: React.FC<PrivacyPolicyPageProps> = () => {
             </p>
           </section>
 
-          {/* 8. International data transfers */}
           <section id="international-data-transfers" className="scroll-mt-28">
             <h2 className="font-display font-serif font-bold text-2xl sm:text-3xl text-[#093624] tracking-tight mb-4">
               8. International data transfers
@@ -344,7 +321,6 @@ export const PrivacyPolicyPage: React.FC<PrivacyPolicyPageProps> = () => {
             </p>
           </section>
 
-          {/* 9. Data retention */}
           <section id="data-retention" className="scroll-mt-28">
             <h2 className="font-display font-serif font-bold text-2xl sm:text-3xl text-[#093624] tracking-tight mb-4">
               9. Data retention
@@ -382,7 +358,6 @@ export const PrivacyPolicyPage: React.FC<PrivacyPolicyPageProps> = () => {
             </ul>
           </section>
 
-          {/* 10. Your rights */}
           <section id="your-rights" className="scroll-mt-28">
             <h2 className="font-display font-serif font-bold text-2xl sm:text-3xl text-[#093624] tracking-tight mb-4">
               10. Your rights
@@ -408,7 +383,6 @@ export const PrivacyPolicyPage: React.FC<PrivacyPolicyPageProps> = () => {
             </p>
           </section>
 
-          {/* 11. Security */}
           <section id="security" className="scroll-mt-28">
             <h2 className="font-display font-serif font-bold text-2xl sm:text-3xl text-[#093624] tracking-tight mb-4">
               11. Security
@@ -418,7 +392,6 @@ export const PrivacyPolicyPage: React.FC<PrivacyPolicyPageProps> = () => {
             </p>
           </section>
 
-          {/* 12. Children's privacy */}
           <section id="childrens-privacy" className="scroll-mt-28">
             <h2 className="font-display font-serif font-bold text-2xl sm:text-3xl text-[#093624] tracking-tight mb-4">
               12. Children&apos;s privacy
@@ -428,7 +401,6 @@ export const PrivacyPolicyPage: React.FC<PrivacyPolicyPageProps> = () => {
             </p>
           </section>
 
-          {/* 13. Third-party websites */}
           <section id="third-party-websites" className="scroll-mt-28">
             <h2 className="font-display font-serif font-bold text-2xl sm:text-3xl text-[#093624] tracking-tight mb-4">
               13. Third-party websites
@@ -438,7 +410,6 @@ export const PrivacyPolicyPage: React.FC<PrivacyPolicyPageProps> = () => {
             </p>
           </section>
 
-          {/* 14. Advertising, testimonials, and case studies */}
           <section id="advertising-testimonials-and-case-studies" className="scroll-mt-28">
             <h2 className="font-display font-serif font-bold text-2xl sm:text-3xl text-[#093624] tracking-tight mb-4">
               14. Advertising, testimonials, and case studies
@@ -448,7 +419,6 @@ export const PrivacyPolicyPage: React.FC<PrivacyPolicyPageProps> = () => {
             </p>
           </section>
 
-          {/* 15. Changes to this Privacy Policy */}
           <section id="changes-to-this-privacy-policy" className="scroll-mt-28">
             <h2 className="font-display font-serif font-bold text-2xl sm:text-3xl text-[#093624] tracking-tight mb-4">
               15. Changes to this Privacy Policy
@@ -458,7 +428,6 @@ export const PrivacyPolicyPage: React.FC<PrivacyPolicyPageProps> = () => {
             </p>
           </section>
 
-          {/* 16. Contact us */}
           <section id="contact-us" className="scroll-mt-28 pt-2">
             <h2 className="font-display font-serif font-bold text-2xl sm:text-3xl text-[#093624] tracking-tight mb-4">
               16. Contact us
@@ -467,20 +436,16 @@ export const PrivacyPolicyPage: React.FC<PrivacyPolicyPageProps> = () => {
               If you have questions, concerns, or requests about this Privacy Policy or our data practices, contact us at:
             </p>
 
-            {/* Contact Card — Redesigned to match scrapbook note card */}
             <div className="group relative transition-all duration-300 max-w-md">
-              {/* Paper Clip Top Left */}
               <div className="absolute -top-4 left-6 z-20 pointer-events-none transition-transform duration-300 group-hover:-translate-y-1">
                 <PaperClip className="w-6 h-10 text-[#093624]" color="#093624" />
               </div>
 
-              {/* Hand-Drawn Offset Shadow */}
               <div 
                 className="absolute inset-0 translate-x-1.5 translate-y-2 bg-[#093624]/15 transition-all duration-300 group-hover:translate-x-2.5 group-hover:translate-y-3 group-hover:rotate-[-0.5deg]"
                 style={{ borderRadius: '255px 18px 225px 18px/18px 225px 18px 255px' }}
               />
 
-              {/* Main Note Card */}
               <div 
                 className="relative z-10 p-6 sm:p-8 bg-white/95 text-[#093624] border-2 border-[#093624] transition-all duration-300 group-hover:-translate-y-1 group-hover:bg-[#FFFDF6] flex flex-col justify-start"
                 style={{ borderRadius: '255px 22px 225px 22px/22px 225px 22px 255px' }}

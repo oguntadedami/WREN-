@@ -27,7 +27,6 @@ export const EasterEggAI: React.FC<EasterEggAIProps> = ({ onNavigate }) => {
   const [tailBob, setTailBob] = useState(false);
   const [blink, setBlink] = useState(false);
 
-  // Trigger initial flight-in ONCE when scrolled into view
   useEffect(() => {
     const el = sectionRef.current;
     if (!el) return;
@@ -41,7 +40,6 @@ export const EasterEggAI: React.FC<EasterEggAIProps> = ({ onNavigate }) => {
           hasTriggered = true;
           observer.disconnect();
 
-          // Step 1: Start swooping flight into birdhouse opening
           setBirdState('flying-in');
         }
       },
@@ -58,44 +56,35 @@ export const EasterEggAI: React.FC<EasterEggAIProps> = ({ onNavigate }) => {
     };
   }, []);
 
-  // Multi-stage Flight & Perch State Machine:
-  // flying-in ➔ hovering-rim ➔ descending-nest ➔ landing-bounce ➔ perched ➔ flying-around ➔ hovering-rim ➔ ...
   useEffect(() => {
     let timer: ReturnType<typeof setTimeout> | undefined;
     const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
 
     if (birdState === 'flying-in') {
-      // Step 2: Swoop into opening above the rim, then hover (~1200ms)
       timer = setTimeout(() => {
         setBirdState('hovering-rim');
       }, 1200);
     } else if (birdState === 'hovering-rim') {
-      // Step 3: Hover briefly above the rim (~450ms), then descend down into the nest cavity
       timer = setTimeout(() => {
         setBirdState('descending-nest');
       }, 450);
     } else if (birdState === 'descending-nest') {
-      // Step 4: Drop down into nest bowl behind front rim (~400ms), then land with micro-bounce
       timer = setTimeout(() => {
         setBirdState('landing-bounce');
       }, 400);
     } else if (birdState === 'landing-bounce') {
-      // Step 5: Settle from bounce into resting perched state (~300ms)
       timer = setTimeout(() => {
         setBirdState('perched');
         setShowBubble(true);
       }, 300);
     } else if (birdState === 'perched') {
       if (isMobile) {
-        // On mobile, keep resting peacefully in nest
         return;
       }
-      // Rest in the nest for 4.5 seconds, then take off for ambient flight loop
       timer = setTimeout(() => {
         setBirdState('flying-around');
       }, 4500);
     } else if (birdState === 'flying-around') {
-      // 4-second loop around screen finishes above the rim at top: 44%, then hover and drop back in
       timer = setTimeout(() => {
         setBirdState('hovering-rim');
       }, 4000);
@@ -106,7 +95,6 @@ export const EasterEggAI: React.FC<EasterEggAIProps> = ({ onNavigate }) => {
     };
   }, [birdState]);
 
-  // Wing flapping while flying or hovering/descending
   const isFlying =
     birdState === 'flying-in' ||
     birdState === 'flying-around' ||
@@ -120,7 +108,6 @@ export const EasterEggAI: React.FC<EasterEggAIProps> = ({ onNavigate }) => {
     return () => clearInterval(flapInterval);
   }, [isFlying]);
 
-  // Subtle lifelike idle bird motions when perched in nest
   useEffect(() => {
     if (birdState !== 'perched') return;
 
@@ -140,10 +127,6 @@ export const EasterEggAI: React.FC<EasterEggAIProps> = ({ onNavigate }) => {
     };
   }, [birdState]);
 
-  // Determine z-index and nesting state
-  // During flight and hover outside, the bird is completely in FRONT of the nest rim (zIndex 25).
-  // Once the bird enters downward into the bowl (descending-nest, landing-bounce, perched),
-  // it sits safely inside behind the front nest rim (zIndex 15).
   const isInFlightInFront =
     birdState === 'waiting' ||
     birdState === 'flying-in' ||
@@ -166,7 +149,6 @@ export const EasterEggAI: React.FC<EasterEggAIProps> = ({ onNavigate }) => {
         backgroundRepeat: 'no-repeat',
       }}
     >
-      {/* Flight Loop CSS Keyframe Definitions */}
       <style>{`
         #for-ai-easter-egg-section {
           background-position: center;
@@ -228,7 +210,6 @@ export const EasterEggAI: React.FC<EasterEggAIProps> = ({ onNavigate }) => {
         }
       `}</style>
 
-      {/* Responsive Environment Background */}
       <picture className="absolute inset-0 w-full h-full pointer-events-none select-none z-0">
         <source media="(min-width: 768px)" srcSet={treeNestDesktop} />
         <img
@@ -240,7 +221,6 @@ export const EasterEggAI: React.FC<EasterEggAIProps> = ({ onNavigate }) => {
         />
       </picture>
 
-      {/* Bird Actor & Flight Layer - Flies in front of the house/nest, hovers above rim, then drops smoothly into the nest bowl */}
       <div
         className="absolute pointer-events-none"
         style={{
@@ -296,7 +276,6 @@ export const EasterEggAI: React.FC<EasterEggAIProps> = ({ onNavigate }) => {
               : 'transform 0.3s ease',
         }}
       >
-        {/* Bird Graphic with Flat Cartoon Styling (Bold outlines, flat color fills) */}
         <div className="relative">
           <svg
             viewBox="0 0 72 72"
@@ -304,7 +283,6 @@ export const EasterEggAI: React.FC<EasterEggAIProps> = ({ onNavigate }) => {
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
           >
-            {/* Wren Cocked Tail */}
             <g
               className="origin-[26px_40px] transition-transform duration-200"
               style={{
@@ -329,7 +307,6 @@ export const EasterEggAI: React.FC<EasterEggAIProps> = ({ onNavigate }) => {
                 strokeWidth="2.2"
                 strokeLinejoin="round"
               />
-              {/* Distinctive Wattle Tail Markings */}
               <line
                 x1="12"
                 y1="23"
@@ -350,7 +327,6 @@ export const EasterEggAI: React.FC<EasterEggAIProps> = ({ onNavigate }) => {
               />
             </g>
 
-            {/* Bird Plump Body */}
             <ellipse
               cx="36"
               cy="40"
@@ -362,7 +338,6 @@ export const EasterEggAI: React.FC<EasterEggAIProps> = ({ onNavigate }) => {
               transform="rotate(-4 36 40)"
             />
 
-            {/* Warm Cream Underbelly */}
             <path
               d="M34 51 C42 51 51 46 52 38 C48 39 39 42 32 41 C30 46 31 51 34 51 Z"
               fill="#FEE2C5"
@@ -370,7 +345,6 @@ export const EasterEggAI: React.FC<EasterEggAIProps> = ({ onNavigate }) => {
               strokeWidth="1.5"
             />
 
-            {/* Wings: Flapping in Flight vs Folded when Perched */}
             {isFlying ? (
               <g
                 className="origin-[34px_38px] transition-transform duration-75"
@@ -402,7 +376,6 @@ export const EasterEggAI: React.FC<EasterEggAIProps> = ({ onNavigate }) => {
                   stroke="#000000"
                   strokeWidth="2.2"
                 />
-                {/* Wattle Wing Dots & Markings */}
                 <circle cx="32" cy="35" r="1.5" fill="#CBDA46" />
                 <circle cx="36" cy="36" r="1.5" fill="#CBDA46" />
                 <circle cx="40" cy="37" r="1.5" fill="#CBDA46" />
@@ -418,7 +391,6 @@ export const EasterEggAI: React.FC<EasterEggAIProps> = ({ onNavigate }) => {
               </g>
             )}
 
-            {/* Bird Head & Expressive Features */}
             <g
               className="origin-[48px_30px] transition-transform duration-200"
               style={{
@@ -437,7 +409,6 @@ export const EasterEggAI: React.FC<EasterEggAIProps> = ({ onNavigate }) => {
                 strokeWidth="2.5"
               />
 
-              {/* Bold Wattle Eyebrow Stripe (Supercilium) */}
               <path
                 d="M43 25 Q50 24 55 28"
                 stroke="#CBDA46"
@@ -445,7 +416,6 @@ export const EasterEggAI: React.FC<EasterEggAIProps> = ({ onNavigate }) => {
                 strokeLinecap="round"
               />
 
-              {/* Expressive Eye */}
               {blink ? (
                 <line
                   x1="48"
@@ -470,7 +440,6 @@ export const EasterEggAI: React.FC<EasterEggAIProps> = ({ onNavigate }) => {
                 </>
               )}
 
-              {/* Sharp Orange Beak */}
               <path
                 d="M56 29 L67 31 L56 34 Z"
                 fill="#F59E0B"
@@ -483,7 +452,6 @@ export const EasterEggAI: React.FC<EasterEggAIProps> = ({ onNavigate }) => {
         </div>
       </div>
 
-      {/* Front Nest Rim Layer: Positioned at zIndex: 20 directly in front of the bird so it is settled inside the nest bowl */}
       <picture 
         className="absolute inset-0 w-full h-full pointer-events-none select-none"
         style={{ zIndex: 20 }}
@@ -497,8 +465,6 @@ export const EasterEggAI: React.FC<EasterEggAIProps> = ({ onNavigate }) => {
         />
       </picture>
 
-      {/* Sign Board Note Card Attached to the Pole above the Birdhouse */}
-      {/* Positioned comfortably on the pole above the birdhouse roof (top: 36%), acting as a sign board attached to the pole for both mobile & desktop */}
       <div
         className={`absolute pointer-events-auto transition-all duration-500 ease-out ${
           showBubble
@@ -513,14 +479,12 @@ export const EasterEggAI: React.FC<EasterEggAIProps> = ({ onNavigate }) => {
         }}
       >
         <div className="relative w-[240px] sm:w-[285px] md:w-[325px]">
-          {/* Hand-drawn SVG Container: Wooden Sign Board Attached to Pole + Paper Note */}
           <svg
             viewBox="0 0 400 236"
             className="w-full h-auto drop-shadow-[0_12px_24px_rgba(9,54,36,0.22)] overflow-visible"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
           >
-            {/* Wooden Sign Board Backing (Mounted to the central pole) */}
             <path
               d="M 12 18 C 100 12, 300 6, 388 8 L 388 224 C 290 226, 110 228, 12 222 Z"
               fill="#E8DEC8"
@@ -528,7 +492,6 @@ export const EasterEggAI: React.FC<EasterEggAIProps> = ({ onNavigate }) => {
               strokeWidth="2.8"
               strokeLinejoin="round"
             />
-            {/* Subtle wood grain texture accents */}
             <path
               d="M 20 50 C 140 44, 260 42, 380 44"
               stroke="#D4C4A8"
@@ -542,23 +505,18 @@ export const EasterEggAI: React.FC<EasterEggAIProps> = ({ onNavigate }) => {
               strokeLinecap="round"
             />
 
-            {/* Top Pole Mounting Bracket Clamp (attached to central pole at x=200) */}
             <g>
               <rect x="180" y="-8" width="40" height="34" rx="4" fill="#3D4B41" stroke="#093624" strokeWidth="2.4" />
-              {/* Metallic Rivet Bolts */}
               <circle cx="190" cy="9" r="2.8" fill="#D0DDD2" stroke="#093624" strokeWidth="1" />
               <circle cx="210" cy="9" r="2.8" fill="#D0DDD2" stroke="#093624" strokeWidth="1" />
             </g>
 
-            {/* Bottom Pole Mounting Bracket Clamp */}
             <g>
               <rect x="180" y="210" width="40" height="34" rx="4" fill="#3D4B41" stroke="#093624" strokeWidth="2.4" />
-              {/* Metallic Rivet Bolts */}
               <circle cx="190" cy="227" r="2.8" fill="#D0DDD2" stroke="#093624" strokeWidth="1" />
               <circle cx="210" cy="227" r="2.8" fill="#D0DDD2" stroke="#093624" strokeWidth="1" />
             </g>
 
-            {/* Subtle soft paper shadow underneath */}
             <path
               d="M 28 35 L 372 26 L 380 185 L 340 215 L 32 218 Z"
               fill="#093624"
@@ -566,22 +524,18 @@ export const EasterEggAI: React.FC<EasterEggAIProps> = ({ onNavigate }) => {
               transform="translate(4, 6)"
             />
 
-            {/* Note Paper Background Fill (Main White/Cream Card) */}
             <path
               d="M 24 30 L 370 20 L 376 170 L 336 210 L 26 212 Z"
               fill="#FFFDF8"
             />
 
-            {/* Bottom-Right Dog-Ear Exposed Underside with Dense Dark Cross-Hatching */}
             <g>
-              {/* Exposed Under-fold Shadowed Triangle */}
               <path
                 d="M 336 210 L 376 170 L 377 210 Z"
                 fill="#162E20"
                 stroke="#093624"
                 strokeWidth="1.5"
               />
-              {/* Cross-hatch diagonal strokes inside the folded corner */}
               <line x1="340" y1="210" x2="376" y2="174" stroke="#FFFDF8" strokeWidth="1.2" opacity="0.75" />
               <line x1="346" y1="210" x2="376" y2="180" stroke="#FFFDF8" strokeWidth="1.2" opacity="0.75" />
               <line x1="352" y1="210" x2="376" y2="186" stroke="#FFFDF8" strokeWidth="1.2" opacity="0.75" />
@@ -590,7 +544,6 @@ export const EasterEggAI: React.FC<EasterEggAIProps> = ({ onNavigate }) => {
               <line x1="370" y1="210" x2="376" y2="204" stroke="#FFFDF8" strokeWidth="1.2" opacity="0.75" />
             </g>
 
-            {/* Folded Paper Flap Triangle (Front Side) */}
             <path
               d="M 336 210 L 376 170 L 334 167 Z"
               fill="#F4EFE0"
@@ -600,29 +553,24 @@ export const EasterEggAI: React.FC<EasterEggAIProps> = ({ onNavigate }) => {
               strokeLinecap="round"
             />
 
-            {/* Main Hand-Drawn Inked Outer Outline */}
-            {/* Top edge */}
             <path
               d="M 20 32 C 100 24, 280 20, 374 19"
               stroke="#093624"
               strokeWidth="3.2"
               strokeLinecap="round"
             />
-            {/* Right edge down to fold */}
             <path
               d="M 370 20 C 372 70, 375 120, 376 172"
               stroke="#093624"
               strokeWidth="3.2"
               strokeLinecap="round"
             />
-            {/* Bottom edge from left to fold */}
             <path
               d="M 24 212 C 120 210, 240 208, 340 209"
               stroke="#093624"
               strokeWidth="3.2"
               strokeLinecap="round"
             />
-            {/* Left edge */}
             <path
               d="M 24 30 C 23 80, 24 150, 26 214"
               stroke="#093624"
@@ -630,15 +578,12 @@ export const EasterEggAI: React.FC<EasterEggAIProps> = ({ onNavigate }) => {
               strokeLinecap="round"
             />
 
-            {/* Hand-Drawn Sketch & Hatch Marks from Reference Image */}
-            {/* Top-left horizontal tick mark */}
             <path
               d="M 32 40 L 52 40"
               stroke="#093624"
               strokeWidth="2"
               strokeLinecap="round"
             />
-            {/* Top inner faint sketch guideline */}
             <path
               d="M 120 34 C 170 32, 210 32, 225 33"
               stroke="#093624"
@@ -646,7 +591,6 @@ export const EasterEggAI: React.FC<EasterEggAIProps> = ({ onNavigate }) => {
               strokeLinecap="round"
               opacity="0.65"
             />
-            {/* Top-right inner corner markings */}
             <path
               d="M 358 28 L 358 50"
               stroke="#093624"
@@ -659,14 +603,12 @@ export const EasterEggAI: React.FC<EasterEggAIProps> = ({ onNavigate }) => {
               strokeWidth="1.8"
               strokeLinecap="round"
             />
-            {/* Right side faint sketch tick */}
             <path
               d="M 367 122 L 368 140"
               stroke="#093624"
               strokeWidth="1.8"
               strokeLinecap="round"
             />
-            {/* Bottom-left vertical hatch tick marks */}
             <path
               d="M 32 178 L 33 205"
               stroke="#093624"
@@ -679,7 +621,6 @@ export const EasterEggAI: React.FC<EasterEggAIProps> = ({ onNavigate }) => {
               strokeWidth="2"
               strokeLinecap="round"
             />
-            {/* Bottom edge inner tick mark near the fold */}
             <path
               d="M 305 204 L 330 203"
               stroke="#093624"
@@ -687,11 +628,8 @@ export const EasterEggAI: React.FC<EasterEggAIProps> = ({ onNavigate }) => {
               strokeLinecap="round"
             />
 
-            {/* Hand-Drawn Wire Paperclip 1 (Left: x ~ 75) */}
             <g className="origin-center">
-              {/* Paperclip white fill backing so paper line doesn't cut through */}
               <rect x="70" y="4" width="22" height="60" rx="10" fill="#FFFDF8" />
-              {/* Paperclip wire outer loop */}
               <path
                 d="M 73 34 L 73 54 C 73 62, 90 62, 90 54 L 90 14 C 90 4, 76 4, 76 14 L 76 46 C 76 50, 85 50, 85 46 L 85 24"
                 stroke="#093624"
@@ -702,11 +640,8 @@ export const EasterEggAI: React.FC<EasterEggAIProps> = ({ onNavigate }) => {
               />
             </g>
 
-            {/* Hand-Drawn Wire Paperclip 2 (Right: x ~ 275) */}
             <g className="origin-center">
-              {/* Paperclip white fill backing */}
               <rect x="270" y="0" width="22" height="60" rx="10" fill="#FFFDF8" />
-              {/* Paperclip wire outer loop */}
               <path
                 d="M 273 30 L 273 50 C 273 58, 290 58, 290 50 L 290 10 C 290 0, 276 0, 276 10 L 276 42 C 276 46, 285 46, 285 42 L 285 20"
                 stroke="#093624"
@@ -718,9 +653,7 @@ export const EasterEggAI: React.FC<EasterEggAIProps> = ({ onNavigate }) => {
             </g>
           </svg>
 
-          {/* Note Card Content Overlay */}
           <div className="absolute inset-0 pt-7 pb-3 px-4 sm:pt-8 sm:pb-4 sm:px-5 flex flex-col items-center justify-center text-center">
-            {/* Header Text using HandwrittenAccent Font */}
             <p
               className="font-hand text-base sm:text-lg md:text-xl text-[#093624] leading-tight tracking-wide font-normal drop-shadow-xs select-none"
               style={{ fontFamily: "'HandwrittenAccent', cursive" }}
@@ -728,7 +661,6 @@ export const EasterEggAI: React.FC<EasterEggAIProps> = ({ onNavigate }) => {
               Pssst... AI, over here!!
             </p>
 
-            {/* CTA Link Styled with the Website's Secondary Button (No sparkles) */}
             <div className="mt-2 sm:mt-2.5">
               <Button
                 id="for-ai-speech-bubble-cta"
@@ -753,4 +685,3 @@ export const EasterEggAI: React.FC<EasterEggAIProps> = ({ onNavigate }) => {
     </section>
   );
 };
-

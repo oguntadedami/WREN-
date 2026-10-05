@@ -49,7 +49,6 @@ const faqData: FAQItem[] = [
 ];
 
 export const FAQ: React.FC = () => {
-  // Allow multiple items or single open item (default first open for immediate clarity)
   const [openItems, setOpenItems] = useState<Record<string, boolean>>({
     "faq-1": true
   });
@@ -66,29 +65,24 @@ export const FAQ: React.FC = () => {
       id="faq-section"
       className="py-20 sm:py-28 lg:py-32 bg-[#F7F4E9] notebook-grid-bg border-b border-[#093624]/10 relative select-none overflow-hidden"
     >
-      {/* Decorative Washi Tape & Paper Accents */}
       <div className="absolute top-10 right-8 z-10 pointer-events-none hidden lg:block">
         <Tape className="w-28 h-8 text-[#CBDA46]/80 rotate-6" />
       </div>
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
-        {/* Section Header with "got questions?" handwritten script and washi tape subtitle */}
         <div className="text-center mb-16 sm:mb-20">
           
-          {/* Script Eyebrow */}
           <div className="inline-block mb-1">
             <span className="font-serif italic text-lg sm:text-xl text-[#D97706] font-semibold tracking-wide">
               got questions?
             </span>
           </div>
 
-          {/* Main Big Headline */}
           <h2 className="font-display font-black text-4xl sm:text-5xl md:text-6xl text-[#093624] tracking-tight">
             We have answers
           </h2>
 
-          {/* Subtitle Washi Tape Strip */}
           <div className="mt-4 inline-block">
             <span className="inline-flex items-center font-mono text-xs sm:text-sm font-bold text-[#093624] bg-[#FFEBB8] border border-[#093624]/30 px-4 py-1.5 rounded-sm shadow-[2px_2px_0px_#093624] -rotate-1">
               everything you'd grill us on, right here.
@@ -96,7 +90,6 @@ export const FAQ: React.FC = () => {
           </div>
         </div>
 
-        {/* Accordion List */}
         <div className="space-y-5 sm:space-y-6">
           {faqData.map((item, index) => {
             const isOpen = !!openItems[item.id];
@@ -106,7 +99,6 @@ export const FAQ: React.FC = () => {
                 key={item.id}
                 className="relative group transition-all duration-200"
               >
-                {/* Accordion Card */}
                 <div 
                   className={`rounded-2xl border-2 border-[#093624] transition-all duration-200 overflow-hidden ${
                     isOpen 
@@ -114,7 +106,6 @@ export const FAQ: React.FC = () => {
                       : 'bg-[#FBF9F3] shadow-[4px_4px_0px_#093624] hover:bg-white hover:shadow-[6px_6px_0px_#093624] hover:-translate-y-0.5'
                   }`}
                 >
-                  {/* Card Header / Question Row */}
                   <button
                     id={`faq-btn-${item.id}`}
                     onClick={() => toggleItem(item.id)}
@@ -122,18 +113,15 @@ export const FAQ: React.FC = () => {
                     className="w-full text-left p-5 sm:p-7 flex items-center justify-between gap-4 cursor-pointer focus:outline-none"
                   >
                     <div className="flex items-start sm:items-center gap-3.5 sm:gap-4.5">
-                      {/* Number Badge */}
                       <span className="font-mono font-bold text-xs sm:text-sm text-[#D97706] bg-[#D97706]/10 px-2 py-0.5 rounded border border-[#D97706]/30 shrink-0 mt-0.5 sm:mt-0">
                         {item.number}
                       </span>
                       
-                      {/* Question Text */}
                       <h3 className="font-display font-black text-base sm:text-xl text-[#093624] leading-snug">
                         {item.question}
                       </h3>
                     </div>
 
-                    {/* Expand/Collapse Inked Icon Toggle */}
                     <div 
                       className={`w-8 h-8 sm:w-9 sm:h-9 rounded-xl border-2 border-[#093624] flex items-center justify-center shrink-0 transition-all duration-200 ${
                         isOpen 
@@ -149,7 +137,6 @@ export const FAQ: React.FC = () => {
                     </div>
                   </button>
 
-                  {/* Collapsible Answer Body */}
                   {isOpen && (
                     <div className="px-5 pb-6 sm:px-7 sm:pb-7 pt-0 border-t border-[#093624]/10 mt-1">
                       <div className="pt-4 sm:pt-5 text-sm sm:text-base text-[#2D4537] leading-relaxed font-sans max-w-3xl">
@@ -160,7 +147,6 @@ export const FAQ: React.FC = () => {
 
                 </div>
 
-                {/* Subtle paperclip detail on alternating cards */}
                 {index === 1 && (
                   <div className="absolute -top-3 right-6 z-20 pointer-events-none opacity-80">
                     <PaperClip className="w-5 h-9 text-[#64748B]" />
@@ -171,7 +157,6 @@ export const FAQ: React.FC = () => {
           })}
         </div>
 
-        {/* Bottom Reassurance Note */}
         <div className="mt-14 sm:mt-16 text-center">
           <p className="text-xs sm:text-sm font-mono text-[#6F7A6E]">
             Have a question that isn't answered here?{' '}

@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { MarkerUnderline, PaperClip, StampBadge } from './ScrapbookAssets';
 
-// Washi Tape Component with ripped ends
 const WashiTape: React.FC<{
   className?: string;
   color?: string;
@@ -20,7 +19,6 @@ const WashiTape: React.FC<{
   />
 );
 
-// Wren Bird Visual Graphic Component
 interface WrenBirdGraphicProps {
   isFlying: boolean;
   wingFlap: boolean;
@@ -52,7 +50,6 @@ const WrenBirdGraphic: React.FC<WrenBirdGraphicProps> = ({
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
-        {/* Wren Tail (Characteristic cocked upright tail) */}
         <g
           className="transition-transform duration-200 origin-[22px_36px]"
           style={{
@@ -65,7 +62,6 @@ const WrenBirdGraphic: React.FC<WrenBirdGraphicProps> = ({
               : 'rotate(-4deg)'
           }}
         >
-          {/* Tail feathers */}
           <path
             d="M20 36 L6 20 C5 19 8 18 10 21 L22 33 Z"
             fill="#093624"
@@ -74,12 +70,10 @@ const WrenBirdGraphic: React.FC<WrenBirdGraphicProps> = ({
             d="M22 36 L11 16 C10 15 13 14 15 18 L24 33 Z"
             fill="#0E4830"
           />
-          {/* Tail feather barbs / lime accent stripes */}
           <line x1="10" y1="21" x2="14" y2="24" stroke="#CBDA46" strokeWidth="1.2" strokeLinecap="round" />
           <line x1="14" y1="26" x2="18" y2="29" stroke="#CBDA46" strokeWidth="1.2" strokeLinecap="round" />
         </g>
 
-        {/* Bird Body */}
         <ellipse
           cx="32"
           cy={isPecking ? "38" : "36"}
@@ -89,15 +83,12 @@ const WrenBirdGraphic: React.FC<WrenBirdGraphicProps> = ({
           transform={isPecking ? "rotate(15 32 38)" : "rotate(-5 32 36)"}
           className="transition-all duration-150"
         />
-        {/* Warm Cream/Chest Underbelly */}
         <path
           d="M30 46 C36 46 44 42 45 35 C42 36 34 39 28 38 C26 42 27 46 30 46 Z"
           fill="#FEE2C5"
         />
 
-        {/* Wings */}
         {isFlying ? (
-          /* Flapping Wings */
           <g
             className="origin-[30px_34px] transition-transform duration-75"
             style={{
@@ -116,7 +107,6 @@ const WrenBirdGraphic: React.FC<WrenBirdGraphicProps> = ({
             />
           </g>
         ) : (
-          /* Folded Wing on Body */
           <g>
             <path
               d="M24 34 C23 29 27 25 35 28 C37 32 35 38 29 40 C26 40 24 37 24 34 Z"
@@ -129,7 +119,6 @@ const WrenBirdGraphic: React.FC<WrenBirdGraphicProps> = ({
           </g>
         )}
 
-        {/* Bird Head */}
         <g
           className="transition-transform duration-200 origin-[42px_28px]"
           style={{
@@ -141,25 +130,21 @@ const WrenBirdGraphic: React.FC<WrenBirdGraphicProps> = ({
           }}
         >
           <circle cx="42" cy="28" r="8" fill="#093624" />
-          {/* Supercilium (Pale Eyebrow Stripe) */}
           <path
             d="M38 24 Q44 23 48 26"
             stroke="#CBDA46"
             strokeWidth="1.6"
             strokeLinecap="round"
           />
-          {/* Eye */}
           <circle cx="43" cy="27" r="1.8" fill="#000000" />
           <circle cx="43.6" cy="26.4" r="0.6" fill="#FFFFFF" />
 
-          {/* Beak */}
           <path
             d="M48 27 L57 29 L48 31 Z"
             fill="#D97706"
           />
         </g>
 
-        {/* Feet clutching the card edge / paperclip / tape */}
         {!isFlying && (
           <g className="origin-[32px_45px]">
             <path
@@ -178,7 +163,6 @@ const WrenBirdGraphic: React.FC<WrenBirdGraphicProps> = ({
         )}
       </svg>
 
-      {/* Playful Floating Action Particle (Notes & Sparkles) */}
       {!isFlying && actionNote && (
         <div className="absolute -top-4 right-0 animate-bounce text-sm font-bold text-[#093624] select-none filter drop-shadow-xs">
           {actionNote}
@@ -188,7 +172,6 @@ const WrenBirdGraphic: React.FC<WrenBirdGraphicProps> = ({
   );
 };
 
-// Bird Phase type across 6 blocks
 type TourPhase = 
   | 'away'
   | 'flying-to-0'
@@ -208,7 +191,6 @@ type TourPhase =
 export const WhatWeDo: React.FC = () => {
   const [activeCard, setActiveCard] = useState<number | null>(null);
 
-  // Section and Block Card Refs for real-time coordinate tracking
   const sectionRef = useRef<HTMLElement>(null);
   const cardRefs = [
     useRef<HTMLDivElement>(null), // 0: End-to-end executions
@@ -219,7 +201,6 @@ export const WhatWeDo: React.FC = () => {
     useRef<HTMLDivElement>(null), // 5: Clean reporting of everything happening
   ];
 
-  // Bird Animation State
   const [phase, setPhase] = useState<TourPhase>('away');
   const [wingFlap, setWingFlap] = useState(true);
   const [headTurn, setHeadTurn] = useState(0);
@@ -232,7 +213,6 @@ export const WhatWeDo: React.FC = () => {
     facingRight: true,
   });
 
-  // Calculate target position for a given block index
   const getBlockSpot = useCallback((index: number): { x: number; y: number; facingRight: boolean } => {
     if (!sectionRef.current) return { x: 0, y: 0, facingRight: true };
     const sectionRect = sectionRef.current.getBoundingClientRect();
@@ -241,39 +221,38 @@ export const WhatWeDo: React.FC = () => {
     if (!cardEl) return { x: 0, y: 0, facingRight: true };
     const cardRect = cardEl.getBoundingClientRect();
 
-    // Spot coordinates relative to section container
     switch (index) {
-      case 0: // Block 0: End-to-end executions (lands top-right near tape/sparkle)
+      case 0:
         return {
           x: cardRect.right - sectionRect.left - (window.innerWidth < 640 ? 50 : 80),
           y: cardRect.top - sectionRect.top - 8,
-          facingRight: false, // faces inward towards the title
+          facingRight: false,
         };
-      case 1: // Block 1: Playbook (lands on the top-left paperclip)
+      case 1:
         return {
           x: cardRect.left - sectionRect.left + (window.innerWidth < 640 ? 36 : 48),
           y: cardRect.top - sectionRect.top - 12,
           facingRight: true,
         };
-      case 2: // Block 2: Zero AI (lands on top-right washi tape)
+      case 2:
         return {
           x: cardRect.right - sectionRect.left - (window.innerWidth < 640 ? 44 : 58),
           y: cardRect.top - sectionRect.top - 10,
           facingRight: false,
         };
-      case 3: // Block 3: Mirror Voice (lands on top-left washi tape)
+      case 3:
         return {
           x: cardRect.left - sectionRect.left + (window.innerWidth < 640 ? 38 : 52),
           y: cardRect.top - sectionRect.top - 10,
           facingRight: true,
         };
-      case 4: // Block 4: Workflows (lands on top-right paperclip)
+      case 4:
         return {
           x: cardRect.right - sectionRect.left - (window.innerWidth < 640 ? 40 : 54),
           y: cardRect.top - sectionRect.top - 12,
           facingRight: false,
         };
-      case 5: // Block 5: Reporting (lands on top center washi tape)
+      case 5:
         return {
           x: cardRect.left - sectionRect.left + cardRect.width * 0.5,
           y: cardRect.top - sectionRect.top - 10,
@@ -284,7 +263,6 @@ export const WhatWeDo: React.FC = () => {
     }
   }, []);
 
-  // Update coordinates dynamically on resize
   const updateCurrentPosition = useCallback(() => {
     if (phase === 'away') return;
     
@@ -303,29 +281,19 @@ export const WhatWeDo: React.FC = () => {
     return () => window.removeEventListener('resize', updateCurrentPosition);
   }, [updateCurrentPosition]);
 
-  // Main Orchestration Timeline
-  // Timing rules:
-  // 4 seconds (4000ms) on each block
-  // 1.1s flying between blocks
-  // 1.5s fly-away
-  // 6.0 seconds (6000ms) away rest, then loop repeat
   useEffect(() => {
     let timeoutId: NodeJS.Timeout;
 
     const runFlightLoop = () => {
-      // Step 0: Fly in to Block 0
       setPhase('flying-to-0');
       const spot0 = getBlockSpot(0);
       setBirdCoords(spot0);
 
-      // Land on Block 0 after 1300ms
       timeoutId = setTimeout(() => {
         setPhase('perched-0');
         setActionNote('♪');
 
-        // Stay on Block 0 for 4000ms
         timeoutId = setTimeout(() => {
-          // Fly to Block 1 (1100ms)
           setPhase('flying-to-1');
           const spot1 = getBlockSpot(1);
           setBirdCoords(spot1);
@@ -334,9 +302,7 @@ export const WhatWeDo: React.FC = () => {
             setPhase('perched-1');
             setActionNote('♫');
 
-            // Stay on Block 1 for 4000ms
             timeoutId = setTimeout(() => {
-              // Fly to Block 2 (1100ms)
               setPhase('flying-to-2');
               const spot2 = getBlockSpot(2);
               setBirdCoords(spot2);
@@ -345,9 +311,7 @@ export const WhatWeDo: React.FC = () => {
                 setPhase('perched-2');
                 setActionNote('♪');
 
-                // Stay on Block 2 for 4000ms
                 timeoutId = setTimeout(() => {
-                  // Fly to Block 3 (1100ms)
                   setPhase('flying-to-3');
                   const spot3 = getBlockSpot(3);
                   setBirdCoords(spot3);
@@ -356,9 +320,7 @@ export const WhatWeDo: React.FC = () => {
                     setPhase('perched-3');
                     setActionNote('♬');
 
-                    // Stay on Block 3 for 4000ms
                     timeoutId = setTimeout(() => {
-                      // Fly to Block 4 (1100ms)
                       setPhase('flying-to-4');
                       const spot4 = getBlockSpot(4);
                       setBirdCoords(spot4);
@@ -367,9 +329,7 @@ export const WhatWeDo: React.FC = () => {
                         setPhase('perched-4');
                         setActionNote('♩');
 
-                        // Stay on Block 4 for 4000ms
                         timeoutId = setTimeout(() => {
-                          // Fly to Block 5 (1100ms)
                           setPhase('flying-to-5');
                           const spot5 = getBlockSpot(5);
                           setBirdCoords(spot5);
@@ -378,9 +338,7 @@ export const WhatWeDo: React.FC = () => {
                             setPhase('perched-5');
                             setActionNote('🌟');
 
-                            // Stay on Block 5 for 4000ms
                             timeoutId = setTimeout(() => {
-                              // Fly away offscreen (1500ms)
                               setPhase('flying-away');
                               if (sectionRef.current) {
                                 const sectionRect = sectionRef.current.getBoundingClientRect();
@@ -392,29 +350,26 @@ export const WhatWeDo: React.FC = () => {
                               }
 
                               timeoutId = setTimeout(() => {
-                                // Rest away for 4 seconds (4000ms)
                                 setPhase('away');
 
                                 timeoutId = setTimeout(() => {
-                                  // Repeat loop!
                                   runFlightLoop();
                                 }, 4000);
                               }, 1500);
-                            }, 4000); // 4s on Block 5
-                          }, 1100); // fly to 5
-                        }, 4000); // 4s on Block 4
-                      }, 1100); // fly to 4
-                    }, 4000); // 4s on Block 3
-                  }, 1100); // fly to 3
-                }, 4000); // 4s on Block 2
-              }, 1100); // fly to 2
-            }, 4000); // 4s on Block 1
-          }, 1100); // fly to 1
-        }, 4000); // 4s on Block 0
-      }, 1300); // fly to 0
+                            }, 4000);
+                          }, 1100);
+                        }, 4000);
+                      }, 1100);
+                    }, 4000);
+                  }, 1100);
+                }, 4000);
+              }, 1100);
+            }, 4000);
+          }, 1100);
+        }, 4000);
+      }, 1300);
     };
 
-    // Initial trigger shortly after mount
     const startDelay = setTimeout(() => {
       runFlightLoop();
     }, 600);
@@ -425,7 +380,6 @@ export const WhatWeDo: React.FC = () => {
     };
   }, [getBlockSpot]);
 
-  // Flight wing flapping effect
   const isFlying = phase.startsWith('flying-');
   useEffect(() => {
     if (!isFlying) return;
@@ -435,12 +389,10 @@ export const WhatWeDo: React.FC = () => {
     return () => clearInterval(flapInterval);
   }, [isFlying]);
 
-  // Perched playful behaviors (head cocks, pecks, tail bobs)
   useEffect(() => {
     if (isFlying || phase === 'away') return;
 
     const gestureInterval = setInterval(() => {
-      // Randomize playful gesture
       const rand = Math.random();
       if (rand < 0.35) {
         setIsPecking(true);
@@ -456,7 +408,6 @@ export const WhatWeDo: React.FC = () => {
     return () => clearInterval(gestureInterval);
   }, [isFlying, phase]);
 
-  // Currently perched block index (if any)
   const currentPerchedIndex = phase.startsWith('perched-') 
     ? parseInt(phase.replace('perched-', ''), 10) 
     : null;
@@ -467,7 +418,6 @@ export const WhatWeDo: React.FC = () => {
       id="what-we-do-section" 
       className="py-20 sm:py-28 lg:py-32 bg-[#F7F4E9] notebook-grid-bg border-b border-[#093624]/10 relative overflow-hidden select-none"
     >
-      {/* Background Decorative Scrapbook Accents */}
       <div className="absolute top-12 left-6 sm:left-12 pointer-events-none opacity-20 hidden md:block rotate-[-12deg]">
         <div className="w-20 h-28 border-2 border-dashed border-[#093624] rounded-lg p-2 flex flex-col justify-between">
           <div className="w-full h-1 bg-[#093624]/30 rounded-full" />
@@ -481,7 +431,6 @@ export const WhatWeDo: React.FC = () => {
         <StampBadge text="SYSTEM ENGINE" color="#093624" className="w-24 h-24" />
       </div>
 
-      {/* FLYING WREN BIRD ACTOR */}
       {phase !== 'away' && (
         <div
           id="results-animated-wren"
@@ -512,7 +461,6 @@ export const WhatWeDo: React.FC = () => {
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
-        {/* Section Header */}
         <div className="text-center mb-14 sm:mb-16 relative">
           <h2 className="font-display font-extrabold text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-[#093624] tracking-tight leading-[1.15] mb-6">
             We own it <span className="relative inline-block px-1">
@@ -526,10 +474,8 @@ export const WhatWeDo: React.FC = () => {
           </p>
         </div>
 
-        {/* 3x2 SCRAPBOOK GRID (6 BOXES) */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
 
-          {/* 1. End-to-end executions (CARD 0) */}
           <div 
             ref={cardRefs[0]}
             onMouseEnter={() => setActiveCard(0)}
@@ -538,10 +484,8 @@ export const WhatWeDo: React.FC = () => {
               currentPerchedIndex === 0 ? '-translate-y-1' : ''
             }`}
           >
-            {/* Top Washi Tape */}
             <WashiTape className="w-28 h-5 -top-2.5 left-1/2 -translate-x-1/2" color="rgba(203, 218, 70, 0.5)" angle="-rotate-2" />
 
-            {/* Hand-Drawn Offset Shadow */}
             <div 
               className={`absolute inset-0 translate-x-1.5 translate-y-2 bg-[#093624]/15 transition-all duration-300 group-hover:translate-x-2.5 group-hover:translate-y-3 group-hover:rotate-[-0.5deg] ${
                 currentPerchedIndex === 0 ? 'translate-x-3 translate-y-3.5 bg-[#093624]/25' : ''
@@ -549,7 +493,6 @@ export const WhatWeDo: React.FC = () => {
               style={{ borderRadius: '255px 18px 225px 18px/18px 225px 18px 255px' }}
             />
 
-            {/* Main Note Card */}
             <div 
               className={`relative z-10 p-7 sm:p-8 bg-white/95 text-[#093624] border-2 border-[#093624] transition-all duration-300 group-hover:-translate-y-1.5 group-hover:bg-[#FFFDF6] flex flex-col justify-start h-full ${
                 currentPerchedIndex === 0 ? '-translate-y-1.5 bg-[#FFFDF6]' : ''
@@ -568,7 +511,6 @@ export const WhatWeDo: React.FC = () => {
             </div>
           </div>
           
-          {/* 2. You get the exact playbook from day one (CARD 1) */}
           <div 
             ref={cardRefs[1]}
             onMouseEnter={() => setActiveCard(1)}
@@ -577,14 +519,12 @@ export const WhatWeDo: React.FC = () => {
               currentPerchedIndex === 1 ? '-translate-y-1' : ''
             }`}
           >
-            {/* Paper Clip Top Left */}
             <div className={`absolute -top-4 left-6 z-20 pointer-events-none transition-transform duration-300 ${
               currentPerchedIndex === 1 ? '-translate-y-1.5 rotate-6' : 'group-hover:-translate-y-1'
             }`}>
               <PaperClip className="w-6 h-10" color="#093624" />
             </div>
 
-            {/* Hand-Drawn Offset Shadow */}
             <div 
               className={`absolute inset-0 translate-x-1.5 translate-y-2 bg-[#093624]/15 transition-all duration-300 group-hover:translate-x-2.5 group-hover:translate-y-3 group-hover:rotate-[-0.5deg] ${
                 currentPerchedIndex === 1 ? 'translate-x-3 translate-y-3.5 bg-[#093624]/25' : ''
@@ -592,14 +532,12 @@ export const WhatWeDo: React.FC = () => {
               style={{ borderRadius: '255px 18px 225px 18px/18px 225px 18px 255px' }}
             />
 
-            {/* Main Note Card */}
             <div 
               className={`relative z-10 p-7 sm:p-8 bg-white/95 text-[#093624] border-2 border-[#093624] transition-all duration-300 group-hover:-translate-y-1.5 group-hover:bg-[#FFFDF6] flex flex-col justify-start h-full ${
                 currentPerchedIndex === 1 ? '-translate-y-1.5 bg-[#FFFDF6] border-[#093624]' : ''
               }`}
               style={{ borderRadius: '255px 22px 225px 22px/22px 225px 22px 255px' }}
             >
-              {/* Corner Notebook Peeling Shadow */}
               <div className="absolute bottom-0 right-0 w-10 h-10 overflow-hidden pointer-events-none">
                 <div className="absolute bottom-0 right-0 w-8 h-8 bg-[#093624]/5 border-t border-l border-[#093624]/20 transform -rotate-45 translate-x-4 translate-y-4 transition-transform group-hover:scale-125" />
               </div>
@@ -621,7 +559,6 @@ export const WhatWeDo: React.FC = () => {
             </div>
           </div>
 
-          {/* 3. Content process with zero AI attribution (CARD 2) */}
           <div 
             ref={cardRefs[2]}
             onMouseEnter={() => setActiveCard(2)}
@@ -630,10 +567,8 @@ export const WhatWeDo: React.FC = () => {
               currentPerchedIndex === 2 ? '-translate-y-1' : ''
             }`}
           >
-            {/* Corner Washi Tape Top Right */}
             <WashiTape className="w-24 h-5 -top-2.5 right-6" color="rgba(203, 218, 70, 0.55)" angle="rotate-2" />
 
-            {/* Hand-Drawn Offset Shadow */}
             <div 
               className={`absolute inset-0 translate-x-1.5 translate-y-2 bg-[#093624]/15 transition-all duration-300 group-hover:translate-x-2.5 group-hover:translate-y-3 group-hover:rotate-[0.5deg] ${
                 currentPerchedIndex === 2 ? 'translate-x-3 translate-y-3.5 bg-[#093624]/25' : ''
@@ -641,7 +576,6 @@ export const WhatWeDo: React.FC = () => {
               style={{ borderRadius: '255px 18px 225px 18px/18px 225px 18px 255px' }}
             />
 
-            {/* Main Note Card */}
             <div 
               className={`relative z-10 p-7 sm:p-8 bg-white/95 text-[#093624] border-2 border-[#093624] transition-all duration-300 group-hover:-translate-y-1.5 group-hover:bg-[#FFFDF6] flex flex-col justify-start h-full ${
                 currentPerchedIndex === 2 ? '-translate-y-1.5 bg-[#FFFDF6]' : ''
@@ -665,7 +599,6 @@ export const WhatWeDo: React.FC = () => {
             </div>
           </div>
 
-          {/* 4. We mirror your voice exactly the way it is. (CARD 3) */}
           <div 
             ref={cardRefs[3]}
             onMouseEnter={() => setActiveCard(3)}
@@ -674,10 +607,8 @@ export const WhatWeDo: React.FC = () => {
               currentPerchedIndex === 3 ? '-translate-y-1' : ''
             }`}
           >
-            {/* Corner Washi Tape Top Left */}
             <WashiTape className="w-24 h-5 -top-2.5 left-6" color="rgba(217, 119, 6, 0.3)" angle="-rotate-3" />
 
-            {/* Hand-Drawn Offset Shadow */}
             <div 
               className={`absolute inset-0 translate-x-1.5 translate-y-2 bg-[#093624]/15 transition-all duration-300 group-hover:translate-x-2.5 group-hover:translate-y-3 group-hover:rotate-[-0.5deg] ${
                 currentPerchedIndex === 3 ? 'translate-x-3 translate-y-3.5 bg-[#093624]/25' : ''
@@ -685,7 +616,6 @@ export const WhatWeDo: React.FC = () => {
               style={{ borderRadius: '255px 18px 225px 18px/18px 225px 18px 255px' }}
             />
 
-            {/* Main Note Card */}
             <div 
               className={`relative z-10 p-7 sm:p-8 bg-white/95 text-[#093624] border-2 border-[#093624] transition-all duration-300 group-hover:-translate-y-1.5 group-hover:bg-[#FFFDF6] flex flex-col justify-start h-full ${
                 currentPerchedIndex === 3 ? '-translate-y-1.5 bg-[#FFFDF6]' : ''
@@ -704,7 +634,6 @@ export const WhatWeDo: React.FC = () => {
             </div>
           </div>
 
-          {/* 5. Workflows and automations built into the system from day one (CARD 4) */}
           <div 
             ref={cardRefs[4]}
             onMouseEnter={() => setActiveCard(4)}
@@ -713,14 +642,12 @@ export const WhatWeDo: React.FC = () => {
               currentPerchedIndex === 4 ? '-translate-y-1' : ''
             }`}
           >
-            {/* Paper Clip Top Right */}
             <div className={`absolute -top-4 right-8 z-20 pointer-events-none transition-transform duration-300 ${
               currentPerchedIndex === 4 ? '-translate-y-1.5 -rotate-6' : 'group-hover:-translate-y-1'
             }`}>
               <PaperClip className="w-6 h-10" color="#093624" />
             </div>
 
-            {/* Hand-Drawn Offset Shadow */}
             <div 
               className={`absolute inset-0 translate-x-1.5 translate-y-2 bg-[#093624]/15 transition-all duration-300 group-hover:translate-x-2.5 group-hover:translate-y-3 group-hover:rotate-[0.5deg] ${
                 currentPerchedIndex === 4 ? 'translate-x-3 translate-y-3.5 bg-[#093624]/25' : ''
@@ -728,7 +655,6 @@ export const WhatWeDo: React.FC = () => {
               style={{ borderRadius: '255px 18px 225px 18px/18px 225px 18px 255px' }}
             />
 
-            {/* Main Note Card */}
             <div 
               className={`relative z-10 p-7 sm:p-8 bg-white/95 text-[#093624] border-2 border-[#093624] transition-all duration-300 group-hover:-translate-y-1.5 group-hover:bg-[#FFFDF6] flex flex-col justify-start h-full ${
                 currentPerchedIndex === 4 ? '-translate-y-1.5 bg-[#FFFDF6]' : ''
@@ -747,7 +673,6 @@ export const WhatWeDo: React.FC = () => {
             </div>
           </div>
 
-          {/* 6. Clean reporting of everything happening (CARD 5) */}
           <div 
             ref={cardRefs[5]}
             onMouseEnter={() => setActiveCard(5)}
@@ -756,10 +681,8 @@ export const WhatWeDo: React.FC = () => {
               currentPerchedIndex === 5 ? '-translate-y-1' : ''
             }`}
           >
-            {/* Top Center Washi Tape */}
             <WashiTape className="w-28 h-5 -top-2.5 left-1/2 -translate-x-1/2" color="rgba(203, 218, 70, 0.4)" angle="rotate-1" />
 
-            {/* Hand-Drawn Offset Shadow */}
             <div 
               className={`absolute inset-0 translate-x-1.5 translate-y-2 bg-[#093624]/15 transition-all duration-300 group-hover:translate-x-2.5 group-hover:translate-y-3 group-hover:rotate-[-0.3deg] ${
                 currentPerchedIndex === 5 ? 'translate-x-3.5 translate-y-3.5 bg-[#093624]/25' : ''
@@ -767,7 +690,6 @@ export const WhatWeDo: React.FC = () => {
               style={{ borderRadius: '255px 18px 225px 18px/18px 225px 18px 255px' }}
             />
 
-            {/* Main Note Card */}
             <div 
               className={`relative z-10 p-7 sm:p-8 bg-white/95 text-[#093624] border-2 border-[#093624] transition-all duration-300 group-hover:-translate-y-1.5 group-hover:bg-[#FFFDF6] flex flex-col justify-start h-full ${
                 currentPerchedIndex === 5 ? '-translate-y-1.5 bg-[#FFFDF6]' : ''

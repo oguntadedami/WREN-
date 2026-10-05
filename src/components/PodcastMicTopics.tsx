@@ -9,18 +9,11 @@ interface PodcastMicTopicsProps {
   onPressPlay: (topicTitle?: string) => void;
 }
 
-// Coordinate helper
 interface Point {
   x: number;
   y: number;
 }
 
-/**
- * Computes a point displaced along the edge normal.
- * u: fraction along the edge (0 to 1)
- * v: fraction of tab depth (0 on edge, 1 at peak of tab, > 0 = outward in left-normal direction)
- * tabType: +1 for tab (outward), -1 for blank (inward), 0 for flat
- */
 function getPoint(
   p1: Point,
   p2: Point,
@@ -36,7 +29,6 @@ function getPoint(
 
   const tx = vx / L;
   const ty = vy / L;
-  // Normal pointing to the left of the direction of travel (in screen coordinates where Y is down)
   const nx = ty;
   const ny = -tx;
 
@@ -50,10 +42,6 @@ function getPoint(
   };
 }
 
-/**
- * Generates an interlocking jigsaw edge path from p1 to p2.
- * Chunky, rounded interlocking tab matching the reference style.
- */
 function generateEdgePath(
   p1: Point,
   p2: Point,
@@ -93,9 +81,6 @@ function generateEdgePath(
   ].join(' ');
 }
 
-/**
- * Generates the full closed SVG path string for a jigsaw puzzle piece with rounded outer corners.
- */
 function generatePuzzlePiecePath(
   width: number,
   height: number,
@@ -105,26 +90,22 @@ function generatePuzzlePiecePath(
   tabDepthX: number = 28,
   tabDepthY: number = 26
 ): string {
-  const r = 20; // Radius for outer perimeter corners
+  const r = 20;
 
   const isTopLeftOuter = row === 0 && col === 0;
   const isTopRightOuter = row === 0 && col === 2;
   const isBottomRightOuter = row === 1 && col === 2;
   const isBottomLeftOuter = row === 1 && col === 0;
 
-  // Top edge points
   const topStart = isTopLeftOuter ? { x: r, y: 0 } : { x: 0, y: 0 };
   const topEnd = isTopRightOuter ? { x: width - r, y: 0 } : { x: width, y: 0 };
 
-  // Right edge points
   const rightStart = isTopRightOuter ? { x: width, y: r } : { x: width, y: 0 };
   const rightEnd = isBottomRightOuter ? { x: width, y: height - r } : { x: width, y: height };
 
-  // Bottom edge points (right to left)
   const bottomStart = isBottomRightOuter ? { x: width - r, y: height } : { x: width, y: height };
   const bottomEnd = isBottomLeftOuter ? { x: r, y: height } : { x: 0, y: height };
 
-  // Left edge points (bottom to top)
   const leftStart = isBottomLeftOuter ? { x: 0, y: height - r } : { x: 0, y: height };
   const leftEnd = isTopLeftOuter ? { x: 0, y: r } : { x: 0, y: 0 };
 
@@ -135,7 +116,6 @@ function generatePuzzlePiecePath(
 
   const segments: string[] = [];
 
-  // Top-left start
   if (isTopLeftOuter) {
     segments.push(`M 0 ${r}`);
     segments.push(`A ${r} ${r} 0 0 1 ${r} 0`);
@@ -143,40 +123,31 @@ function generatePuzzlePiecePath(
     segments.push(`M 0 0`);
   }
 
-  // Top edge
   segments.push(topEdge);
 
-  // Top-right corner
   if (isTopRightOuter) {
     segments.push(`A ${r} ${r} 0 0 1 ${width} ${r}`);
   }
 
-  // Right edge
   segments.push(rightEdge);
 
-  // Bottom-right corner
   if (isBottomRightOuter) {
     segments.push(`A ${r} ${r} 0 0 1 ${width - r} ${height}`);
   }
 
-  // Bottom edge
   segments.push(bottomEdge);
 
-  // Bottom-left corner
   if (isBottomLeftOuter) {
     segments.push(`A ${r} ${r} 0 0 1 0 ${height - r}`);
   }
 
-  // Left edge
   segments.push(leftEdge);
 
   segments.push('Z');
   return segments.join(' ');
 }
 
-// 2 rows x 3 columns puzzle configuration
 const PUZZLE_PIECES = [
-  // ROW 1
   {
     id: 'founder-stories',
     row: 0,
@@ -184,7 +155,7 @@ const PUZZLE_PIECES = [
     title: 'Real founder stories',
     category: 'Founder Stories',
     blurb: 'The wins, the lessons, and the other things happening behind the scenes.',
-    bgColor: '#093624', // --color-bottle
+    bgColor: '#093624',
     depthColor: '#03140C',
     titleColor: '#F7F4E9',
     edges: { top: 0, right: 1, bottom: 1, left: 0 },
@@ -198,7 +169,7 @@ const PUZZLE_PIECES = [
     title: 'GTM in the wild',
     category: 'GTM & Pipeline',
     blurb: 'What people are trying, testing, breaking, and figuring out.',
-    bgColor: '#15543D', // --color-pine
+    bgColor: '#15543D',
     depthColor: '#0C2D21',
     titleColor: '#F7F4E9',
     edges: { top: 0, right: 1, bottom: -1, left: -1 },
@@ -212,7 +183,7 @@ const PUZZLE_PIECES = [
     title: 'Sales conversations',
     category: 'Sales Conversations',
     blurb: 'The stuff buyers say, the stuff sellers hear, and everything in between.',
-    bgColor: '#B6C73A', // --color-wattle-deep
+    bgColor: '#B6C73A',
     depthColor: '#8C9A24',
     titleColor: '#093624',
     edges: { top: 0, right: 0, bottom: 1, left: -1 },
@@ -220,7 +191,6 @@ const PUZZLE_PIECES = [
     arrivalThreshold: 0.70,
   },
 
-  // ROW 2
   {
     id: 'deep-dives',
     row: 1,
@@ -228,7 +198,7 @@ const PUZZLE_PIECES = [
     title: 'Deep dives',
     category: 'Deep Dives',
     blurb: 'Pulling apart an idea, strategy, business, or trend until it makes sense.',
-    bgColor: '#6F7A6E', // --color-sage
+    bgColor: '#6F7A6E',
     depthColor: '#475046',
     titleColor: '#F7F4E9',
     edges: { top: -1, right: -1, bottom: 0, left: 0 },
@@ -242,7 +212,7 @@ const PUZZLE_PIECES = [
     title: 'Unpopular opinions',
     category: 'Unpopular Opinions',
     blurb: 'The things everyone seems to agree on that we aren’t so sure about.',
-    bgColor: '#05281A', // --color-bottle-deep
+    bgColor: '#05281A',
     depthColor: '#010A06',
     titleColor: '#F7F4E9',
     edges: { top: 1, right: 1, bottom: 0, left: 1 },
@@ -256,7 +226,7 @@ const PUZZLE_PIECES = [
     title: 'Rabbit holes',
     category: 'Rabbit Holes',
     blurb: 'Random ideas worth exploring because... well, why not?',
-    bgColor: '#CBDA46', // --color-wattle
+    bgColor: '#CBDA46',
     depthColor: '#9CAD24',
     titleColor: '#093624',
     edges: { top: -1, right: 0, bottom: 0, left: -1 },
@@ -265,7 +235,6 @@ const PUZZLE_PIECES = [
   },
 ];
 
-// Reference dimensions of a single piece cell in viewBox units
 const PIECE_WIDTH = 320;
 const PIECE_HEIGHT = 240;
 
@@ -285,7 +254,6 @@ export const PodcastMicTopics: React.FC<PodcastMicTopicsProps> = ({
     false, false, false, false, false, false
   ]);
 
-  // Pre-generate SVG paths for the 6 interlocking pieces with 3D rounded corners
   const piecePaths = useRef<string[]>(
     PUZZLE_PIECES.map((piece) =>
       generatePuzzlePiecePath(
@@ -294,13 +262,12 @@ export const PodcastMicTopics: React.FC<PodcastMicTopicsProps> = ({
         piece.edges,
         piece.row,
         piece.col,
-        28, // tabDepthX for vertical seams
-        26  // tabDepthY for horizontal seams
+        28,
+        26
       )
     )
   ).current;
 
-  // Detect mobile screen for responsive offset adjustments
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
@@ -310,7 +277,6 @@ export const PodcastMicTopics: React.FC<PodcastMicTopicsProps> = ({
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  // Listen for prefers-reduced-motion
   useEffect(() => {
     const mql = window.matchMedia('(prefers-reduced-motion: reduce)');
     setReducedMotion(mql.matches);
@@ -323,7 +289,6 @@ export const PodcastMicTopics: React.FC<PodcastMicTopicsProps> = ({
     return () => mql.removeEventListener('change', handleChange);
   }, []);
 
-  // Close active popover on window click outside
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       const target = e.target as HTMLElement | null;
@@ -335,7 +300,6 @@ export const PodcastMicTopics: React.FC<PodcastMicTopicsProps> = ({
     return () => window.removeEventListener('click', handleClickOutside);
   }, []);
 
-  // GSAP ScrollTrigger timeline setup
   useEffect(() => {
     if (reducedMotion) {
       setAssembledPieces([true, true, true, true, true, true]);
@@ -374,7 +338,6 @@ export const PodcastMicTopics: React.FC<PodcastMicTopicsProps> = ({
         },
       });
 
-      // Animate each piece from scattered off-position into locked grid
       PUZZLE_PIECES.forEach((piece, idx) => {
         const el = pieceRefs.current[idx];
         if (!el) return;
@@ -389,7 +352,6 @@ export const PodcastMicTopics: React.FC<PodcastMicTopicsProps> = ({
         const durationMove = durationTotal * 0.85;
         const durationSnap = durationTotal * 0.15;
 
-        // Phase 1: Move from scattered to slight overshoot
         tl.fromTo(
           el,
           {
@@ -411,7 +373,6 @@ export const PodcastMicTopics: React.FC<PodcastMicTopicsProps> = ({
           tStart
         );
 
-        // Phase 2: Snap firmly into locked grid position
         tl.to(
           el,
           {
@@ -436,10 +397,8 @@ export const PodcastMicTopics: React.FC<PodcastMicTopicsProps> = ({
       id="podcast-topics-section"
       className="relative w-full min-h-[100vh] min-h-[100dvh] bg-[#F7F4E9] text-[#093624] notebook-grid-bg border-b border-[#093624]/10 select-none overflow-visible z-20"
     >
-      {/* Viewport Container (100% vh with generous vertical breathing room for hover drawers) */}
       <div className="w-full min-h-[100vh] min-h-[100dvh] flex flex-col justify-between pt-8 sm:pt-10 md:pt-12 pb-24 sm:pb-28 md:pb-32 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         
-        {/* Section Header: Headline only, subheading removed */}
         <div className="text-center max-w-2xl mx-auto mb-4 sm:mb-6 shrink-0">
           <div className="flex justify-center mb-2 pointer-events-none">
             <Tape className="w-20 sm:w-24 h-5" color="#CBDA46" />
@@ -450,7 +409,6 @@ export const PodcastMicTopics: React.FC<PodcastMicTopicsProps> = ({
           </h2>
         </div>
 
-        {/* 2-Row x 3-Column Jigsaw Puzzle Stage */}
         <div className="relative w-full max-w-5xl mx-auto flex-1 flex items-center justify-center my-auto py-4 sm:py-6 md:py-8">
           <div
             ref={puzzleWrapRef}
@@ -461,11 +419,9 @@ export const PodcastMicTopics: React.FC<PodcastMicTopicsProps> = ({
               const isPopoverOpen = activePopover === idx;
               const isSelected = selectedCategory === piece.category;
 
-              // Grid position percentages
               const leftPercent = piece.col * 33.333333;
               const topPercent = piece.row * 50;
 
-              // Alignment for popover caret so it stays within container bounds
               const popoverAlignClass =
                 piece.col === 0
                   ? 'left-0 sm:left-1/2 sm:-translate-x-1/2'
@@ -517,13 +473,11 @@ export const PodcastMicTopics: React.FC<PodcastMicTopicsProps> = ({
                     }
                   }}
                 >
-                  {/* SVG Jigsaw Puzzle Piece Path with 3D Depth Extrusion */}
                   <svg
                     viewBox={`0 0 ${PIECE_WIDTH} ${PIECE_HEIGHT}`}
                     className="absolute inset-0 w-full h-full overflow-visible pointer-events-none drop-shadow-[0_4px_10px_rgba(9,54,36,0.14)]"
                     preserveAspectRatio="none"
                   >
-                    {/* 3D Depth Extrusion Rim (shifted down by 7px) */}
                     <path
                       d={piecePaths[idx]}
                       transform="translate(0, 7)"
@@ -534,7 +488,6 @@ export const PodcastMicTopics: React.FC<PodcastMicTopicsProps> = ({
                       vectorEffect="non-scaling-stroke"
                     />
 
-                    {/* Main Piece Face */}
                     <path
                       d={piecePaths[idx]}
                       fill={piece.bgColor}
@@ -550,7 +503,6 @@ export const PodcastMicTopics: React.FC<PodcastMicTopicsProps> = ({
                     />
                   </svg>
 
-                  {/* Puzzle Piece Face Content: Title Only (Uppercase, Bold, Display) */}
                   <div className="relative z-10 w-full h-full flex items-center justify-center p-3 sm:p-5 md:p-6 text-center pointer-events-none">
                     <h3
                       className="font-display font-black text-xs sm:text-base md:text-lg lg:text-xl uppercase tracking-tight leading-tight sm:leading-snug max-w-[85%]"
@@ -560,7 +512,6 @@ export const PodcastMicTopics: React.FC<PodcastMicTopicsProps> = ({
                     </h3>
                   </div>
 
-                  {/* Popover on Hover/Tap: Strategically placed OUTSIDE the puzzle to avoid overlapping neighboring pieces */}
                   {isAssembled && isPopoverOpen && (
                     <div
                       className={`absolute ${popoverAlignClass} ${
@@ -570,7 +521,6 @@ export const PodcastMicTopics: React.FC<PodcastMicTopicsProps> = ({
                       } w-64 sm:w-72 md:w-80 p-4 rounded-xl bg-[#F7F4E9] border-2 border-[#093624] shadow-2xl shadow-[#093624]/20 z-50 pointer-events-auto animate-in fade-in zoom-in-95 duration-150`}
                       onClick={(e) => e.stopPropagation()}
                     >
-                      {/* Triangle Pointer Caret pointing directly into the active piece */}
                       <div
                         className={`absolute ${caretAlignClass} ${
                           piece.row === 0
@@ -579,7 +529,6 @@ export const PodcastMicTopics: React.FC<PodcastMicTopicsProps> = ({
                         } w-3.5 h-3.5 rotate-45 bg-[#F7F4E9] border-[#093624]`}
                       />
 
-                      {/* Explicit Piece Title Badge */}
                       <div className="flex items-center gap-2 mb-2 pb-2 border-b border-[#093624]/15">
                         <span
                           className="w-2.5 h-2.5 rounded-full shrink-0 shadow-xs"
@@ -593,7 +542,6 @@ export const PodcastMicTopics: React.FC<PodcastMicTopicsProps> = ({
                         </span>
                       </div>
 
-                      {/* Text Body */}
                       <p className="font-sans text-xs sm:text-sm text-[#093624]/90 font-medium leading-relaxed">
                         {piece.blurb}
                       </p>
@@ -605,7 +553,6 @@ export const PodcastMicTopics: React.FC<PodcastMicTopicsProps> = ({
           </div>
         </div>
 
-        {/* Minimal Bottom Spacer */}
         <div className="h-4 sm:h-6" />
 
       </div>

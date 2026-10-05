@@ -165,7 +165,6 @@ export default function App() {
           setCurrentPage('home');
         }
       } catch {
-        // Ignore iframe restriction
       }
     };
 
@@ -178,13 +177,11 @@ export default function App() {
   }, [currentPage]);
 
   useEffect(() => {
-    // Configure GSAP ScrollTrigger for buttery smooth performance across devices
     ScrollTrigger.config({
       ignoreMobileResize: true,
       autoRefreshEvents: 'visibilitychange,DOMContentLoaded,load,resize',
     });
 
-    // Initialize Lenis for luxurious, butter-smooth inertial scrolling & gliding
     const lenis = new Lenis({
       duration: 1.45,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -199,19 +196,15 @@ export default function App() {
     lenisRef.current = lenis;
     (window as unknown as { lenis?: Lenis | null }).lenis = lenis;
 
-    // Connect Lenis scroll events to GSAP ScrollTrigger
     lenis.on('scroll', ScrollTrigger.update);
 
-    // Drive Lenis RAF loop through GSAP's high-precision ticker to eliminate frame tearing
     const updateTicker = (time: number) => {
       lenis.raf(time * 1000);
     };
     gsap.ticker.add(updateTicker);
     gsap.ticker.lagSmoothing(0);
 
-    // Global listener for smooth anchor navigation and SPA routing
     const handleAnchorClick = (e: MouseEvent) => {
-      // Check for SPA route links
       const caseStudiesItemTarget = (e.target as HTMLElement).closest('a[href^="/case-studies/"]');
       if (caseStudiesItemTarget) {
         const href = caseStudiesItemTarget.getAttribute('href');
@@ -316,13 +309,11 @@ export default function App() {
             lenis.scrollTo(targetElement as HTMLElement, { offset: -30, duration: 1.35 });
           }
         } catch {
-          // Ignore invalid CSS selector in href
         }
       }
     };
     document.addEventListener('click', handleAnchorClick);
 
-    // Refresh ScrollTrigger calculations after initial paint and asset layout
     const refreshTimer = setTimeout(() => {
       ScrollTrigger.refresh();
     }, 300);
@@ -338,7 +329,6 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    // Scroll to top immediately when switching between distinct pages and recalculate ScrollTrigger
     if (lenisRef.current) {
       lenisRef.current.scrollTo(0, { immediate: true });
     } else {
@@ -421,10 +411,8 @@ export default function App() {
         window.location.hash = '';
       }
     } catch {
-      // Ignore iframe restriction
     }
 
-    // Scroll handling
     setTimeout(() => {
       if (page === 'home' && sectionId) {
         const el = document.getElementById(sectionId);
@@ -437,7 +425,6 @@ export default function App() {
           return;
         }
       }
-      // Otherwise scroll to top
       if (lenisRef.current) {
         lenisRef.current.scrollTo(0, { immediate: true });
       } else {
@@ -463,7 +450,6 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-[#F7F4E9] text-[#0E1A15] relative selection:bg-[#CBDA46] selection:text-[#093624]">
-      {/* Floating Glass Navigation */}
       <Navbar 
         onOpenBooking={handleOpenBooking} 
         currentPage={currentPage}
@@ -583,50 +569,36 @@ export default function App() {
             </main>
           ) : (
             <main>
-              {/* Section 2: Hero with Clothesline Layout */}
               <Hero onOpenBooking={handleOpenBooking} />
 
-              {/* Section 3: Our Systems — Interactive Engine Showcase */}
               <OurSystems onOpenBooking={handleOpenBooking} />
 
-              {/* Section 4: The Challenge — Sticky Dark Editorial Window */}
               <TheChallenge onOpenBooking={handleOpenBooking} />
 
-              {/* Section 5: What We Do / How We Get Results */}
               <WhatWeDo />
 
-              {/* Section 6: Testimonials — Scrapbook Cards */}
               <Testimonials onOpenBooking={handleOpenBooking} />
 
-              {/* Section 7: Our Process — Horizontal Timeline Strip */}
               <OurProcess />
 
-              {/* Section 8: Reality Check — Pinned Full-Bleed Dark Text Reveal */}
               <RealityCheck onNavigate={handleNavigate} />
 
-              {/* Section 9: Case Studies */}
               <CaseStudies onNavigate={handleNavigate} />
 
-              {/* Section 10: Pricing */}
               <Pricing onOpenBooking={handleOpenBooking} />
 
-              {/* Section 11: Tool Stack — Marquee */}
               <ToolStack />
 
-              {/* Section 12: CTA — Embedded Calendar Scheduler */}
               <BookingCTA />
 
-              {/* Section 13: FAQ — The Nosy Section */}
               <FAQ />
 
-              {/* Section 14: Easter Egg — AI Memo */}
               <EasterEggAI onNavigate={handleNavigate} />
             </main>
           )}
         </motion.div>
       </AnimatePresence>
 
-      {/* Footer */}
       <Footer 
         onOpenBooking={handleOpenBooking} 
         currentPage={currentPage}

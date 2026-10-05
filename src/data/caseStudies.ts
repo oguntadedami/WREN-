@@ -1,13 +1,3 @@
-// Mock case study data — sourced directly from the real Notion database
-// export (Judith's rewritten copy), matching the flat schema documented in
-// Wren_Case_Studies_Notion_Schema.md. This file exists ONLY so the dynamic
-// template can be built and tested before wiring up the live Notion fetch.
-//
-// getCaseStudies() is the single function the rest of the app calls — when
-// switching to live data later, only the inside of this function changes
-// (swap the return statement for an actual fetch to the Notion-backed
-// endpoint). Nothing else in the app should need to change.
-
 export interface CaseStudyStat {
   value: string;
   label: string;
@@ -649,10 +639,6 @@ const mockCaseStudies: CaseStudy[] = [
   }
 ];
 
-// This is the ONE function the rest of the app should call. Swapping this
-// to live Notion data later means replacing the body of this function with
-// a real fetch call that returns the same CaseStudy[] shape — no other file
-// needs to change.
 export function getCaseStudies(): CaseStudy[] {
   return mockCaseStudies.filter((cs) => cs.published);
 }
@@ -661,7 +647,6 @@ export function getCaseStudyBySlug(slug: string): CaseStudy | undefined {
   return getCaseStudies().find((cs) => cs.slug === slug);
 }
 
-// Backward-compatibility exports for existing components (CaseStudiesPage, CaseStudyDetailPage)
 import { CaseStudy as LegacyCaseStudy, CaseStudyDetail as LegacyCaseStudyDetail } from '../types';
 import caseStudiesRaw from './caseStudies.json';
 
@@ -757,4 +742,3 @@ export function getCaseStudyDetail(slug: string): LegacyCaseStudyDetail | null {
   if (!cs) return null;
   return adaptToLegacyDetail(cs);
 }
-

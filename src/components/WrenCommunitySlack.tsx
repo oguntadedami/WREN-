@@ -151,7 +151,6 @@ const ALL_CHANNELS = [...CHANNELS_DATA, SECRET_CHANNEL];
 
 export const WrenCommunitySlack: React.FC = () => {
   const [activeChannelId, setActiveChannelId] = useState<string>('LinkedIn-friends');
-  // Track channels that have already resolved their typing animation once
   const [typedChannels, setTypedChannels] = useState<Set<string>>(new Set());
   const [isTyping, setIsTyping] = useState<boolean>(false);
   const [showReaction, setShowReaction] = useState<boolean>(false);
@@ -177,7 +176,6 @@ export const WrenCommunitySlack: React.FC = () => {
 
     const hasTyped = typedChannels.has(channelId);
     if (!hasTyped) {
-      // First visit: show typing indicator briefly, then show text, then reaction pops in
       setIsTyping(true);
       setShowReaction(false);
 
@@ -185,13 +183,11 @@ export const WrenCommunitySlack: React.FC = () => {
         setIsTyping(false);
         setTypedChannels(prev => new Set(prev).add(channelId));
 
-        // Reaction pops in a beat later
         reactionTimerRef.current = setTimeout(() => {
           setShowReaction(true);
         }, 220);
       }, 500);
     } else {
-      // Repeat visit: no typing indicator, show text immediately and pop reactions promptly
       setIsTyping(false);
       setShowReaction(false);
 
@@ -201,7 +197,6 @@ export const WrenCommunitySlack: React.FC = () => {
     }
   };
 
-  // Initial trigger for the first active channel
   useEffect(() => {
     setIsTyping(true);
     setShowReaction(false);
@@ -246,10 +241,8 @@ export const WrenCommunitySlack: React.FC = () => {
 
   return (
     <div className="w-full bg-[#FFFFFF] rounded-2xl sm:rounded-3xl border-2 sm:border-[2.5px] border-[#093624] shadow-[6px_6px_0px_#093624] overflow-hidden flex flex-col transition-all">
-      {/* Slack Window Chrome Header */}
       <div className="bg-[#093624] text-[#F7F4E9] px-4 py-3 sm:px-5 sm:py-3.5 flex items-center justify-between border-b border-[#093624]">
         <div className="flex items-center gap-3">
-          {/* Mac-style colored dots */}
           <div className="flex items-center gap-1.5 mr-1 sm:mr-2">
             <span className="w-2.5 h-2.5 rounded-full bg-[#FF6B6B] border border-black/20 inline-block" />
             <span className="w-2.5 h-2.5 rounded-full bg-[#FFD166] border border-black/20 inline-block" />
@@ -277,9 +270,7 @@ export const WrenCommunitySlack: React.FC = () => {
         </div>
       </div>
 
-      {/* Main Two-Pane Body */}
       <div className="flex flex-col md:flex-row min-h-[460px] sm:min-h-[500px]">
-        {/* Left Sidebar: Channel List */}
         <div className="w-full md:w-72 lg:w-80 bg-[#0C291C] border-b md:border-b-0 md:border-r border-[#093624]/20 flex flex-col shrink-0 p-3.5 sm:p-4.5">
           <div className="flex items-center justify-between px-2 pb-3 mb-2 border-b border-white/10">
             <span className="font-mono text-[11px] uppercase tracking-wider text-[#CBDA46] font-semibold flex items-center gap-1.5">
@@ -291,7 +282,6 @@ export const WrenCommunitySlack: React.FC = () => {
             </span>
           </div>
 
-          {/* Channel buttons list */}
           <div className="flex md:flex-col gap-1.5 overflow-x-auto md:overflow-x-visible pb-2 md:pb-0 scrollbar-none">
             {CHANNELS_DATA.map(channel => {
               const isActive = channel.id === activeChannelId;
@@ -319,9 +309,7 @@ export const WrenCommunitySlack: React.FC = () => {
               );
             })}
 
-            {/* Blurred, Unlabeled Channel Rows Fading Out Under Gradient ("Nope, there's more...") */}
             <div className="relative pt-2 shrink-0 md:shrink">
-              {/* Subtle section header */}
               <div className="hidden md:flex items-center justify-between px-2 pb-1.5 text-[10px] font-mono uppercase tracking-wider text-[#CBDA46]/70">
                 <span className="flex items-center gap-1 font-semibold">
                   <Lock className="w-2.5 h-2.5" />
@@ -330,7 +318,6 @@ export const WrenCommunitySlack: React.FC = () => {
                 <span className="text-[9px] text-[#F7F4E9]/40 font-mono">secret</span>
               </div>
 
-              {/* 4 Blurred, tantalizing rows */}
               <div className="relative flex md:flex-col gap-1.5 overflow-hidden rounded-xl p-0.5">
                 {[
                   { id: 'secret-1', blur: 'blur-[3px]', opacity: 'opacity-70', name: 'angel-syndicate-alpha' },
@@ -360,7 +347,6 @@ export const WrenCommunitySlack: React.FC = () => {
                   </button>
                 ))}
 
-                {/* Gradient Fade-out: visible enough to be tantalizing, unreadable enough to stay a secret */}
                 <div 
                   className="absolute inset-0 bg-gradient-to-r md:bg-gradient-to-b from-transparent via-[#0C291C]/50 to-[#0C291C] pointer-events-none"
                   aria-hidden="true"
@@ -384,9 +370,7 @@ export const WrenCommunitySlack: React.FC = () => {
           </div>
         </div>
 
-        {/* Right Pane: Message Feed */}
         <div className="flex-1 bg-[#FAF8F3] flex flex-col justify-between p-4 sm:p-6 lg:p-7">
-          {/* Top Channel Info Bar */}
           <div className="flex items-center justify-between pb-3.5 mb-4 sm:mb-6 border-b border-[#093624]/10">
             <div className="flex items-center gap-2 sm:gap-2.5 truncate">
               <div className="w-7 h-7 rounded-lg bg-[#093624] text-[#CBDA46] flex items-center justify-center font-mono font-bold text-sm shrink-0">
@@ -426,17 +410,13 @@ export const WrenCommunitySlack: React.FC = () => {
             </div>
           </div>
 
-          {/* Middle: Message Bubble / Thread */}
           <div className="flex-1 flex flex-col justify-center py-2">
             <div className="flex items-start gap-3 sm:gap-4 group">
-              {/* Avatar */}
               <div className={`w-10 h-10 sm:w-11 sm:h-11 rounded-xl ${activeChannel.avatarBg} flex items-center justify-center font-display font-extrabold text-sm sm:text-base border border-[#093624]/20 shadow-xs shrink-0 select-none`}>
                 {activeChannel.avatarInitials}
               </div>
 
-              {/* Message Content Container */}
               <div className="flex-1 min-w-0">
-                {/* Header: Sender Name + Role Badge + Timestamp */}
                 <div className="flex items-center gap-2 mb-1.5 flex-wrap">
                   <span className="font-display font-bold text-sm sm:text-base text-[#093624]">
                     {activeChannel.sender}
@@ -449,9 +429,7 @@ export const WrenCommunitySlack: React.FC = () => {
                   </span>
                 </div>
 
-                {/* Message Body or Typing Indicator */}
                 {isTyping ? (
-                  /* Slack-style Typing Dots Animation */
                   <div className="inline-flex items-center gap-1.5 px-4 py-3 rounded-2xl bg-white border border-[#093624]/15 shadow-xs">
                     <span className="w-2 h-2 rounded-full bg-[#093624]/50 animate-bounce" style={{ animationDelay: '0ms' }} />
                     <span className="w-2 h-2 rounded-full bg-[#093624]/50 animate-bounce" style={{ animationDelay: '150ms' }} />
@@ -462,14 +440,12 @@ export const WrenCommunitySlack: React.FC = () => {
                   </div>
                 ) : (
                   <div className="space-y-3">
-                    {/* Verbatim Message Bubble */}
                     <div className="bg-[#FFFFFF] border border-[#093624]/15 rounded-2xl rounded-tl-sm p-4 sm:p-5 md:p-6 shadow-xs max-w-4xl transition-all">
                       <p className="font-sans text-sm sm:text-base md:text-[17px] text-[#0E1A15] leading-relaxed font-normal">
                         {activeChannel.messageText}
                       </p>
                     </div>
 
-                    {/* Emoji Reactions Popping in a beat later */}
                     <div 
                       className={`flex flex-wrap items-center gap-2 pt-1 transition-all duration-300 transform ${
                         showReaction 
@@ -494,7 +470,6 @@ export const WrenCommunitySlack: React.FC = () => {
                         </button>
                       ))}
 
-                      {/* Add reaction trigger button */}
                       <button
                         type="button"
                         onClick={() => handleToggleReaction('🙌')}
@@ -511,7 +486,6 @@ export const WrenCommunitySlack: React.FC = () => {
             </div>
           </div>
 
-          {/* Bottom Mock Slack Compose Input */}
           <div className="mt-4 pt-3 border-t border-[#093624]/10">
             <div className="bg-white rounded-xl border border-[#093624]/20 p-2.5 shadow-2xs">
               <div className="text-xs text-[#093624]/40 font-mono py-1 px-1.5 select-none truncate">

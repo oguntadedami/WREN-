@@ -40,7 +40,7 @@ export const OurSystems: React.FC<OurSystemsProps> = ({ onOpenBooking }) => {
         "Message",
         "Structure your offer",
       ],
-      tapeColor: "#CBDA46", // Brand Wattle Lime
+      tapeColor: "#CBDA46",
       circleColor: "#CBDA46",
       dotColor: "#CBDA46",
     },
@@ -60,7 +60,7 @@ export const OurSystems: React.FC<OurSystemsProps> = ({ onOpenBooking }) => {
         "Capture & route buying signals",
         "Warm outbound",
       ],
-      tapeColor: "#FF7A5C", // Warm Coral Terracotta
+      tapeColor: "#FF7A5C",
       circleColor: "#FF7A5C",
       dotColor: "#FF7A5C",
     },
@@ -78,7 +78,7 @@ export const OurSystems: React.FC<OurSystemsProps> = ({ onOpenBooking }) => {
         "Generate demand and qualified pipeline",
         "Pipeline management, reporting & optimization",
       ],
-      tapeColor: "#38BDF8", // Crisp Sky Blue
+      tapeColor: "#38BDF8",
       circleColor: "#38BDF8",
       dotColor: "#38BDF8",
     }
@@ -93,26 +93,21 @@ export const OurSystems: React.FC<OurSystemsProps> = ({ onOpenBooking }) => {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
-        {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-10">
-          {/* Eyebrow */}
           <p className="font-mono text-xs sm:text-sm font-semibold tracking-widest text-[#6F7A6E] uppercase mb-3">
             HOW WE RUN IT
           </p>
 
-          {/* Main Title - Split cleanly into two lines */}
           <h2 className="font-serif font-bold text-3xl sm:text-5xl md:text-6xl text-[#093624] tracking-tight leading-[1.15]">
             <span className="block">How the Founder-Led</span>
             <span className="block">GTM Engine works</span>
           </h2>
 
-          {/* Subheading */}
           <p className="mt-4 sm:mt-5 text-base sm:text-lg md:text-[1.15rem] text-[#15543D] font-normal leading-relaxed max-w-2xl mx-auto">
             From your unfiltered thoughts to a predictable pipeline of high-intent enterprise buyers, executed completely for you.
           </p>
         </div>
 
-        {/* Pill Tabs Bar - Optimized and compacted on mobile screens */}
         <div className="flex justify-center mb-8 sm:mb-10 px-2">
           <div className="inline-flex items-center p-1 sm:p-1.5 rounded-full bg-white/75 border border-[#093624]/15 shadow-xs backdrop-blur-xs max-w-full overflow-x-auto scrollbar-none">
             {steps.map((step, idx) => {
@@ -143,29 +138,23 @@ export const OurSystems: React.FC<OurSystemsProps> = ({ onOpenBooking }) => {
           </div>
         </div>
 
-        {/* Main Card */}
         <div className="relative max-w-4xl mx-auto">
-          {/* Washi tape tab sticking out top-left - dynamic color per step */}
           <div 
             className="absolute -top-3 sm:-top-3.5 left-8 sm:left-12 w-14 sm:w-16 h-5 sm:h-5.5 border border-[#093624]/15 rounded-t-xs z-20 shadow-2xs transition-colors duration-300"
             style={{ backgroundColor: currentStep.tapeColor }}
             aria-hidden="true"
           />
 
-          {/* Card Body */}
           <div 
             key={currentStep.stepNumber}
             className="relative z-10 bg-[#EAF1E7] border border-[#093624]/15 rounded-[24px] sm:rounded-[32px] p-6 sm:p-10 md:p-12 shadow-xl shadow-[#093624]/5 animate-in fade-in duration-200"
           >
-            {/* Top Row: Category Tag on Left, Step Number Circle on Right */}
             <div className="flex items-center justify-between gap-4">
-              {/* Category Pill with Clock Icon */}
               <div className="inline-flex items-center gap-2 px-3.5 sm:px-4 py-1.5 rounded-full bg-white/90 border border-[#093624]/10 text-xs sm:text-sm font-medium text-[#093624] shadow-xs">
                 <Clock className="w-3.5 h-3.5 text-[#093624]/70" />
                 <span>{currentStep.category}</span>
               </div>
 
-              {/* Step Number Round Badge - matching washi tape color */}
               <div 
                 className="w-11 h-11 sm:w-12 sm:h-12 rounded-full border border-[#093624]/10 flex items-center justify-center font-serif font-bold text-lg sm:text-xl text-[#093624] shadow-xs shrink-0 transition-colors duration-300"
                 style={{ backgroundColor: currentStep.circleColor }}
@@ -174,20 +163,16 @@ export const OurSystems: React.FC<OurSystemsProps> = ({ onOpenBooking }) => {
               </div>
             </div>
 
-            {/* Title */}
             <h3 className="font-serif font-bold text-2xl sm:text-3xl md:text-4xl text-[#093624] tracking-tight mt-5 sm:mt-6">
               {currentStep.title}
             </h3>
 
-            {/* Description */}
             <p className="mt-2.5 sm:mt-3 text-[#15543D] text-sm sm:text-base md:text-[17px] font-normal leading-relaxed max-w-2xl">
               {currentStep.description}
             </p>
 
-            {/* Subtle Divider */}
             <div className="w-full border-b border-[#093624]/10 my-6 sm:my-8" />
 
-            {/* Checklist Items: 3 Columns on desktop, 2 on tablet, 1 on mobile */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-3.5">
               {currentStep.items.map((item, i) => (
                 <div
@@ -202,7 +187,6 @@ export const OurSystems: React.FC<OurSystemsProps> = ({ onOpenBooking }) => {
               ))}
             </div>
 
-            {/* Bottom Nav Bar inside card: dashed divider above, < Previous and Next > buttons */}
             <div className="border-t border-dashed border-[#093624]/15 pt-5 sm:pt-6 mt-6 sm:mt-8 flex items-center justify-end gap-2.5">
               <button
                 id="systems-prev-btn"
@@ -229,7 +213,6 @@ export const OurSystems: React.FC<OurSystemsProps> = ({ onOpenBooking }) => {
           </div>
         </div>
 
-        {/* Centered CTA Button below card */}
         <div className="mt-10 sm:mt-12 flex justify-center">
           <Button
             id="systems-cta-tell-me-more"

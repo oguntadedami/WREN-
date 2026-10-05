@@ -3,7 +3,6 @@ import { createRoot } from 'react-dom/client';
 import App from './App.tsx';
 import './index.css';
 
-// Prevent uncaught error crashes in restricted iframe environments
 if (typeof window !== 'undefined') {
   window.addEventListener('unhandledrejection', (event) => {
     if (!event.reason) {

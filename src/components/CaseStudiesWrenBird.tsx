@@ -29,76 +29,65 @@ export const CaseStudiesWrenBird: React.FC<CaseStudiesWrenBirdProps> = ({
     let timer: NodeJS.Timeout;
 
     const runFlightChoreography = () => {
-      // Step 1: Fly in to Card 0 (Mischief Makers)
       setPhase('flying-to-card-0');
       onPerchedCardChange?.(null);
 
       timer = setTimeout(() => {
-        // Step 2: Perched at Card 0 (3.8s)
         setPhase('perched-card-0');
         setSingNote('♪');
         onPerchedCardChange?.(0);
 
         timer = setTimeout(() => {
           setSingNote(null);
-          // Step 3: Swoop across to Card 1 (carril.)
           setPhase('flying-to-card-1');
           onPerchedCardChange?.(null);
 
           timer = setTimeout(() => {
-            // Step 4: Perched at Card 1 (3.8s)
             setPhase('perched-card-1');
             setSingNote('♫');
             onPerchedCardChange?.(1);
 
             timer = setTimeout(() => {
               setSingNote(null);
-              // Step 5: Glide diagonally down to Card 2 (Seamailer)
               setPhase('flying-to-card-2');
               onPerchedCardChange?.(null);
 
               timer = setTimeout(() => {
-                // Step 6: Perched at Card 2 (3.8s)
                 setPhase('perched-card-2');
                 setSingNote('♬');
                 onPerchedCardChange?.(2);
 
                 timer = setTimeout(() => {
                   setSingNote(null);
-                  // Step 7: Hop across to Card 3 (ToolBus AI)
                   setPhase('flying-to-card-3');
                   onPerchedCardChange?.(null);
 
                   timer = setTimeout(() => {
-                    // Step 8: Perched at Card 3 (3.8s)
                     setPhase('perched-card-3');
                     setSingNote('♪');
                     onPerchedCardChange?.(3);
 
                     timer = setTimeout(() => {
                       setSingNote(null);
-                      // Step 9: Fly away offscreen
                       setPhase('flying-away');
                       onPerchedCardChange?.(null);
 
                       timer = setTimeout(() => {
-                        // Step 10: Rest offscreen for 3.5s then loop
                         setPhase('away');
                         timer = setTimeout(() => {
                           runFlightChoreography();
                         }, 3500);
-                      }, 1300); // flight away duration
-                    }, 3800); // perched at 3
-                  }, 1200); // fly to 3
-                }, 3800); // perched at 2
-              }, 1400); // fly to 2
-            }, 3800); // perched at 1
-          }, 1200); // fly to 1
-        }, 3800); // perched at 0
-      }, 1400); // fly to 0
+                      }, 1300);
+                    }, 3800);
+                  }, 1200);
+                }, 3800);
+              }, 1400);
+            }, 3800);
+          }, 1200);
+        }, 3800);
+      }, 1400);
     };
 
-    // Initial start after short delay
     const initialTimer = setTimeout(() => {
       runFlightChoreography();
     }, 600);
@@ -116,7 +105,6 @@ export const CaseStudiesWrenBird: React.FC<CaseStudiesWrenBirdProps> = ({
     phase === 'flying-to-card-3' ||
     phase === 'flying-away';
 
-  // Flap wings rapidly while flying
   useEffect(() => {
     if (!isFlying) return;
     const flapInterval = setInterval(() => {
@@ -125,7 +113,6 @@ export const CaseStudiesWrenBird: React.FC<CaseStudiesWrenBirdProps> = ({
     return () => clearInterval(flapInterval);
   }, [isFlying]);
 
-  // Subtle lifelike bird behaviors when perched
   useEffect(() => {
     if (isFlying || phase === 'away') return;
     const idleInterval = setInterval(() => {
@@ -139,7 +126,6 @@ export const CaseStudiesWrenBird: React.FC<CaseStudiesWrenBirdProps> = ({
     return null;
   }
 
-  // Positioning coordinates for desktop 2x2 grid & responsive fallbacks
   let positionStyles: React.CSSProperties = {};
   let facingRight = true;
   let transitionStyle = 'all 1.4s cubic-bezier(0.25, 1, 0.5, 1)';
@@ -158,7 +144,7 @@ export const CaseStudiesWrenBird: React.FC<CaseStudiesWrenBirdProps> = ({
 
     case 'perched-card-0':
       positionStyles = {
-        top: '125px', // Sits snugly on Card 0 top edge
+        top: '125px',
         left: '23%',
         transform: 'translate(-50%, -85%) scale(1) rotate(0deg)',
         opacity: 1,
@@ -169,7 +155,7 @@ export const CaseStudiesWrenBird: React.FC<CaseStudiesWrenBirdProps> = ({
 
     case 'flying-to-card-1':
       positionStyles = {
-        top: '95px', // Arcs gently across top
+        top: '95px',
         left: '73%',
         transform: 'translate(-50%, -75%) scale(1) rotate(8deg)',
         opacity: 1,
@@ -180,18 +166,18 @@ export const CaseStudiesWrenBird: React.FC<CaseStudiesWrenBirdProps> = ({
 
     case 'perched-card-1':
       positionStyles = {
-        top: '125px', // Sits snugly on Card 1 top edge
+        top: '125px',
         left: '74%',
         transform: 'translate(-50%, -85%) scale(1) rotate(0deg)',
         opacity: 1,
       };
-      facingRight = false; // looks back toward Mischief Makers
+      facingRight = false;
       transitionStyle = 'top 0.25s ease-out, transform 0.25s ease-out';
       break;
 
     case 'flying-to-card-2':
       positionStyles = {
-        top: '55%', // Diagonals across center
+        top: '55%',
         left: '22%',
         transform: 'translate(-50%, -75%) scale(1) rotate(-8deg)',
         opacity: 1,
@@ -202,7 +188,7 @@ export const CaseStudiesWrenBird: React.FC<CaseStudiesWrenBirdProps> = ({
 
     case 'perched-card-2':
       positionStyles = {
-        top: '58%', // Sits snugly on Card 2 top edge
+        top: '58%',
         left: '23%',
         transform: 'translate(-50%, -85%) scale(1) rotate(0deg)',
         opacity: 1,
@@ -213,7 +199,7 @@ export const CaseStudiesWrenBird: React.FC<CaseStudiesWrenBirdProps> = ({
 
     case 'flying-to-card-3':
       positionStyles = {
-        top: '54%', // Hops over to Card 3
+        top: '54%',
         left: '73%',
         transform: 'translate(-50%, -75%) scale(1) rotate(10deg)',
         opacity: 1,
@@ -224,7 +210,7 @@ export const CaseStudiesWrenBird: React.FC<CaseStudiesWrenBirdProps> = ({
 
     case 'perched-card-3':
       positionStyles = {
-        top: '58%', // Sits snugly on Card 3 top edge
+        top: '58%',
         left: '74%',
         transform: 'translate(-50%, -85%) scale(1) rotate(0deg)',
         opacity: 1,
@@ -265,7 +251,6 @@ export const CaseStudiesWrenBird: React.FC<CaseStudiesWrenBirdProps> = ({
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
-          {/* Wren Tail (Characteristic upright cocked tail) */}
           <g
             className="transition-transform duration-200 origin-[22px_36px]"
             style={{
@@ -298,7 +283,6 @@ export const CaseStudiesWrenBird: React.FC<CaseStudiesWrenBirdProps> = ({
             />
           </g>
 
-          {/* Bird Body */}
           <ellipse
             cx="32"
             cy="36"
@@ -308,13 +292,11 @@ export const CaseStudiesWrenBird: React.FC<CaseStudiesWrenBirdProps> = ({
             transform="rotate(-5 32 36)"
           />
 
-          {/* Warm Cream Underbelly */}
           <path
             d="M30 46 C36 46 44 42 45 35 C42 36 34 39 28 38 C26 42 27 46 30 46 Z"
             fill="#FEE2C5"
           />
 
-          {/* Wings */}
           {isFlying ? (
             <g
               className="origin-[30px_34px] transition-transform duration-75"
@@ -356,7 +338,6 @@ export const CaseStudiesWrenBird: React.FC<CaseStudiesWrenBirdProps> = ({
             </g>
           )}
 
-          {/* Bird Head */}
           <g
             className="transition-transform duration-300 origin-[42px_28px]"
             style={{
@@ -378,7 +359,6 @@ export const CaseStudiesWrenBird: React.FC<CaseStudiesWrenBirdProps> = ({
             <path d="M48 27 L57 29 L48 31 Z" fill="#D97706" />
           </g>
 
-          {/* Clutching feet when perched */}
           {!isFlying && (
             <g className="origin-[32px_45px]">
               <path
@@ -397,7 +377,6 @@ export const CaseStudiesWrenBird: React.FC<CaseStudiesWrenBirdProps> = ({
           )}
         </svg>
 
-        {/* Musical chirp particle */}
         {!isFlying && singNote && (
           <div className="absolute -top-3.5 right-0 animate-bounce text-sm font-bold text-[#093624] select-none">
             {singNote}

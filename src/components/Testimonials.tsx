@@ -20,7 +20,6 @@ interface TestimonialItem {
   };
 }
 
-// Festival Wristband / Ribbon Segment Ticker
 const FestivalWristbandMarquee: React.FC = () => {
   const items = [
     { tag: "#SYSTEMS", text: "BUILT TO BE USED", color: "bg-[#F59E0B]", textColor: "text-[#093624]" },
@@ -31,7 +30,6 @@ const FestivalWristbandMarquee: React.FC = () => {
 
   return (
     <div className="absolute top-8 sm:top-10 -left-12 -right-12 overflow-hidden pointer-events-none z-0 transform -rotate-1.5 opacity-90 select-none">
-      {/* Wristband Shadow */}
       <div className="relative py-2">
         <div 
           className="flex w-[200%] animate-marquee"
@@ -40,7 +38,6 @@ const FestivalWristbandMarquee: React.FC = () => {
           {[...items, ...items, ...items, ...items].map((item, idx) => (
             <div key={idx} className="flex items-stretch shrink-0 border-y-2 border-[#093624] shadow-[0_3px_6px_rgba(0,0,0,0.12)]">
               
-              {/* Colored Ribbon Segment */}
               <div className={`${item.color} ${item.textColor} px-6 sm:px-8 py-2.5 sm:py-3 flex items-center gap-3`}>
                 <span className="text-xs sm:text-sm font-display font-black tracking-wider uppercase opacity-95">
                   {item.tag}
@@ -50,7 +47,6 @@ const FestivalWristbandMarquee: React.FC = () => {
                   —
                 </span>
 
-                {/* Little Sunburst / Star Icon like the image */}
                 <svg viewBox="0 0 24 24" className="w-4 h-4 sm:w-5 sm:h-5 fill-current animate-spin-slow opacity-80" xmlns="http://www.w3.org/2000/svg">
                   <circle cx="12" cy="12" r="4" />
                   <path d="M12 2v3m0 14v3M2 12h3m14 0h3m-3.5-6.5l-2.1 2.1M6.6 17.4l-2.1 2.1m14.9 0l-2.1-2.1M6.6 6.6L4.5 4.5" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
@@ -61,7 +57,6 @@ const FestivalWristbandMarquee: React.FC = () => {
                 </span>
               </div>
 
-              {/* Perforated Barcode / Serial Number Tab */}
               <div className="bg-[#FFFDF6] border-x-2 border-dashed border-[#093624]/40 px-3 py-1 flex items-center justify-center">
                 <span className="text-[10px] font-mono font-bold text-[#093624]/70 rotate-90 tracking-widest">
                   44816
@@ -176,22 +171,18 @@ export const Testimonials: React.FC<TestimonialsProps> = ({ onOpenBooking }) => 
       id="testimonials-section" 
       className="pt-24 pb-20 sm:pt-32 sm:pb-28 lg:pt-36 lg:pb-32 bg-[#F7F4E9] notebook-grid-bg border-b border-[#093624]/10 relative overflow-hidden select-none"
     >
-      {/* Top Festival Wristband Marquee Banner */}
       <FestivalWristbandMarquee />
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
-        {/* Section Header */}
         <div className="relative max-w-3xl mx-auto text-center mb-14 sm:mb-18 mt-8 sm:mt-10">
           
-          {/* Top Pill Badge: TESTIMONIALS */}
           <div className="inline-flex items-center gap-1.5 px-4 py-1 rounded-full bg-white/90 border border-[#093624]/20 shadow-xs mb-4">
             <span className="text-xs font-bold tracking-widest text-[#093624] uppercase font-mono">
               TESTIMONIALS
             </span>
           </div>
 
-          {/* Main Headline */}
           <h2 className="font-display font-extrabold text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-[#093624] tracking-tight leading-[1.15]">
             What they're <span className="relative inline-block px-1">
               saying.
@@ -200,7 +191,6 @@ export const Testimonials: React.FC<TestimonialsProps> = ({ onOpenBooking }) => 
           </h2>
         </div>
 
-        {/* 2x2 Grid of Testimonials */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
           {testimonials.map((card) => {
             const isLiked = likedCards[card.id];
@@ -212,24 +202,19 @@ export const Testimonials: React.FC<TestimonialsProps> = ({ onOpenBooking }) => 
                 id={card.id}
                 className={`group relative rounded-2xl ${card.theme.bg} border-2 border-[#093624] shadow-[4px_4px_0px_#093624] hover:shadow-[6px_6px_0px_#093624] hover:-translate-y-1.5 transition-all duration-300 overflow-hidden flex flex-col justify-between`}
               >
-                {/* Retro OS Window Titlebar */}
                 <div className={`px-4 py-2.5 ${card.theme.headerBg} border-b-2 border-[#093624] flex items-center justify-between`}>
-                  {/* Traffic Light Dots */}
                   <div className="flex items-center gap-1.5">
                     <span className="w-2.5 h-2.5 rounded-full bg-[#EF4444] border border-[#093624]/40" />
                     <span className="w-2.5 h-2.5 rounded-full bg-[#F59E0B] border border-[#093624]/40" />
                     <span className="w-2.5 h-2.5 rounded-full bg-[#10B981] border border-[#093624]/40" />
                   </div>
-                  {/* Window Close Cross */}
                   <span className="text-xs font-bold text-[#093624]/50 group-hover:text-[#093624] transition-colors">
                     ✕
                   </span>
                 </div>
 
-                {/* Card Content Area */}
                 <div className="p-6 sm:p-7 flex-1 flex flex-col justify-between">
                   <div>
-                    {/* Author Row (No photo) */}
                     <div className="flex items-start justify-between gap-3 mb-5">
                       <div>
                         <h3 className="font-sans font-bold text-lg text-[#093624] leading-tight">
@@ -240,7 +225,6 @@ export const Testimonials: React.FC<TestimonialsProps> = ({ onOpenBooking }) => 
                         </p>
                       </div>
 
-                      {/* Follow / Connect Button */}
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
@@ -255,18 +239,15 @@ export const Testimonials: React.FC<TestimonialsProps> = ({ onOpenBooking }) => 
                       </button>
                     </div>
 
-                    {/* Headline Quote */}
                     <h4 className="font-display font-bold text-lg sm:text-xl text-[#093624] tracking-tight mb-3">
                       {card.headline}
                     </h4>
 
-                    {/* Body Text */}
                     <p className={`text-sm sm:text-base ${card.theme.text} leading-relaxed font-normal mb-6`}>
                       {card.body}
                     </p>
                   </div>
 
-                  {/* Timestamp & Engagement Metrics Footer */}
                   <div className="pt-3 border-t border-[#093624]/10 flex items-center justify-between text-xs text-[#093624]/60 font-mono">
                     <div>{card.date}</div>
                     <div className="flex items-center gap-4 text-xs">
@@ -291,7 +272,6 @@ export const Testimonials: React.FC<TestimonialsProps> = ({ onOpenBooking }) => 
           })}
         </div>
 
-        {/* Testimonials CTA */}
         <div className="mt-14 sm:mt-16 max-w-2xl mx-auto flex justify-center text-center">
           <Button
             variant="secondary"
