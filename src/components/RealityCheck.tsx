@@ -248,7 +248,11 @@ const RealityCheckBird: React.FC<{ reducedMotion: boolean; isMobile: boolean }> 
   );
 };
 
-export const RealityCheck: React.FC = () => {
+interface RealityCheckProps {
+  onNavigate?: (page: 'home' | 'about' | 'podcast' | 'for-ai' | 'community' | 'contact' | 'privacy-policy' | 'terms' | 'security' | 'case-studies' | 'case-study-detail' | 'free-stuff' | 'launch-checklist' | 'gtm-calculator' | '404', sectionId?: string) => void;
+}
+
+export const RealityCheck: React.FC<RealityCheckProps> = ({ onNavigate }) => {
   const sectionRef = useRef<HTMLElement>(null);
   const wordsContainerRef = useRef<HTMLHeadingElement>(null);
   const [ctaVisible, setCtaVisible] = useState(false);
@@ -335,16 +339,14 @@ export const RealityCheck: React.FC = () => {
     };
   }, [reducedMotion, isMobile]);
 
-  const scrollToBook = () => {
-    const lenis = (window as unknown as { lenis?: { scrollTo: (target: Element | string, options?: { offset?: number; duration?: number }) => void } }).lenis;
-    const el =
-      document.getElementById('booking-section') ||
-      document.getElementById('calendly-booking-section');
-    if (el) {
-      if (lenis) {
-        lenis.scrollTo(el, { offset: -20, duration: 1.35 });
-      } else {
-        el.scrollIntoView({ behavior: 'smooth' });
+  const handleCtaClick = () => {
+    if (onNavigate) {
+      onNavigate('podcast');
+    } else {
+      try {
+        window.location.hash = '#podcast';
+      } catch {
+        // fallback
       }
     }
   };
@@ -427,7 +429,7 @@ export const RealityCheck: React.FC = () => {
               variant="primary"
               size="lg"
               showSparkles={false}
-              onClick={scrollToBook}
+              onClick={handleCtaClick}
               className="btn-primary shadow-xl cursor-pointer"
             >
               Let's find your people

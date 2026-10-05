@@ -602,7 +602,7 @@ export default function App() {
               <OurProcess />
 
               {/* Section 8: Reality Check — Pinned Full-Bleed Dark Text Reveal */}
-              <RealityCheck />
+              <RealityCheck onNavigate={handleNavigate} />
 
               {/* Section 9: Case Studies */}
               <CaseStudies onNavigate={handleNavigate} />

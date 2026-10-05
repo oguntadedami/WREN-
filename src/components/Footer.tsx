@@ -120,25 +120,31 @@ export const Footer: React.FC<FooterProps> = ({ onOpenBooking, onNavigate, curre
           {/* Right: Primary and Secondary CTA Buttons */}
           <div className="flex flex-wrap sm:flex-nowrap items-center gap-3.5 sm:gap-4 self-start md:self-center">
             
-            {/* Primary Button: See our work (no sparkle/star) */}
+            {/* Primary Button: See our work (links to case studies page) */}
             <Button
               id="footer-see-our-work-btn"
               variant="primary"
               size="sm"
               showSparkles={false}
-              onClick={() => scrollTo('case-studies-section')}
+              onClick={() => navigateTo('case-studies')}
               className="shadow-sm"
             >
               See our work
             </Button>
 
-            {/* Secondary Button: Book a call (no star/sparkle) */}
+            {/* Secondary Button: Book a call (links to booking section on homepage) */}
             <Button
               id="footer-book-a-call-btn"
               variant="secondary"
               size="sm"
               showSparkles={false}
-              onClick={() => scrollTo('booking-section')}
+              onClick={() => {
+                if (onOpenBooking) {
+                  onOpenBooking();
+                } else {
+                  scrollTo('booking-section');
+                }
+              }}
               className="shadow-sm"
             >
               Book a call
@@ -307,6 +313,17 @@ export const Footer: React.FC<FooterProps> = ({ onOpenBooking, onNavigate, curre
                   GTM Calculator
                 </button>
               </li>
+              <li>
+                <a 
+                  href="https://wren.fillout.com/tool-request-form"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-white transition-colors cursor-pointer text-left inline-flex items-center gap-1 group"
+                >
+                  <span>Got a tool idea? (tell us about it)</span>
+                  <ArrowUpRight className="w-3.5 h-3.5 text-[#A3C2A3] group-hover:text-[#CBDA46] transition-colors shrink-0" />
+                </a>
+              </li>
             </ul>
           </div>
 
@@ -329,6 +346,14 @@ export const Footer: React.FC<FooterProps> = ({ onOpenBooking, onNavigate, curre
               <li>
                 <button onClick={() => scrollTo('case-studies-section')} className="hover:text-white transition-colors cursor-pointer text-left">
                   Blog
+                </button>
+              </li>
+              <li>
+                <button 
+                  type="button"
+                  className="hover:text-white transition-colors cursor-pointer text-left"
+                >
+                  Events (coming soon)
                 </button>
               </li>
               <li>

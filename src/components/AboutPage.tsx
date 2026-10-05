@@ -237,7 +237,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({
       {/* Cream Checked Grid Background                                             */}
       {/* ========================================================================= */}
       <section 
-        className="relative w-full pt-28 sm:pt-36 pb-16 sm:pb-24 px-4 sm:px-6 lg:px-8 border-b border-[#093624]/10 bg-[#FAF7EE] overflow-hidden"
+        className="relative w-full min-h-[80vh] flex flex-col items-center justify-center pt-24 sm:pt-28 pb-12 sm:pb-16 px-4 sm:px-6 lg:px-8 border-b border-[#093624]/10 bg-[#FAF7EE] overflow-hidden"
         style={{
           backgroundImage: `
             linear-gradient(to right, rgba(9, 54, 36, 0.065) 1.5px, transparent 1.5px),
@@ -246,15 +246,15 @@ export const AboutPage: React.FC<AboutPageProps> = ({
           backgroundSize: '28px 28px'
         }}
       >
-        <div className="max-w-4xl mx-auto text-center space-y-6 relative z-10">
+        <div className="max-w-4xl mx-auto text-center space-y-6 relative z-10 w-full">
           
           {/* Main Headline */}
           <h1 className="font-serif font-black text-4xl sm:text-5xl lg:text-6xl text-[#093624] tracking-tight leading-[1.1]">
             Who the heck are we?
           </h1>
 
-          {/* Subtext 1 */}
-          <p className="font-serif italic text-lg sm:text-xl text-[#093624]/85">
+          {/* Subtext 1 - Normal font (not italicized) */}
+          <p className="font-serif not-italic text-lg sm:text-xl text-[#093624]/85">
             Well, well, well....
           </p>
 
@@ -393,14 +393,6 @@ export const AboutPage: React.FC<AboutPageProps> = ({
 
         <div className="max-w-[1240px] mx-auto relative z-10">
           
-          {/* Top-Right Change Photos pill matching screenshot */}
-          <div className="flex justify-end mb-2 sm:mb-3">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-white/20 bg-white/5 backdrop-blur-xs text-white/90 text-xs font-sans font-medium select-none shadow-xs">
-              <span>📷</span>
-              <span>Change Photos</span>
-            </div>
-          </div>
-
           {/* Section Header */}
           <div className="text-center mb-10 sm:mb-14">
             <h2 className="font-serif font-black text-3xl sm:text-4xl lg:text-5xl text-white tracking-tight leading-tight">
