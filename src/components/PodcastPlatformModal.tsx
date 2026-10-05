@@ -83,12 +83,10 @@ export const PodcastPlatformModal: React.FC<PodcastPlatformModalProps> = ({
         className="relative w-full max-w-lg bg-[#F7F4E9] rounded-2xl border-2 border-[#093624] p-6 sm:p-8 shadow-[8px_8px_0px_#093624] notebook-grid-bg animate-in zoom-in-95 duration-200"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Scrapbook Tape Accent */}
         <div className="absolute -top-3.5 left-8 -rotate-2 z-10 pointer-events-none">
           <Tape className="w-24 h-6" color="#CBDA46" />
         </div>
 
-        {/* Close Button */}
         <button
           onClick={onClose}
           aria-label="Close platform picker"
@@ -97,7 +95,6 @@ export const PodcastPlatformModal: React.FC<PodcastPlatformModalProps> = ({
           <X className="w-5 h-5" />
         </button>
 
-        {/* Header */}
         <div className="mb-6 pt-2">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#093624]/10 text-[#093624] text-xs font-mono font-bold tracking-wider uppercase mb-2">
             <Radio className="w-3.5 h-3.5 text-[#093624]" />
@@ -113,7 +110,6 @@ export const PodcastPlatformModal: React.FC<PodcastPlatformModalProps> = ({
           )}
         </div>
 
-        {/* Platform List: 3 Official Platforms */}
         <div className="flex flex-col gap-3">
           {platforms.map((p) => (
             <a

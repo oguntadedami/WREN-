@@ -85,7 +85,6 @@ const SUB_PROCESSORS = [
 ];
 
 export const SecurityPage: React.FC<SecurityPageProps> = ({ onOpenBooking, onNavigate }) => {
-  // Scroll to top or anchor on mount
   useEffect(() => {
     const hash = window.location.hash;
     if (hash && hash.length > 1 && hash !== '#security') {
@@ -134,9 +133,6 @@ export const SecurityPage: React.FC<SecurityPageProps> = ({ onOpenBooking, onNav
     <div className="min-h-screen bg-[#F7F4E9] text-[#0E1A15] pt-28 sm:pt-36 pb-24 sm:pb-32 px-4 sm:px-6 lg:px-8 notebook-grid">
       <div className="max-w-4xl mx-auto">
         
-        {/* ========================================================================= */}
-        {/* HEADER                                                                    */}
-        {/* ========================================================================= */}
         <header id="security-header" className="mb-14 sm:mb-16">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-[#EEF2CC] border border-[#093624]/15 text-xs font-mono font-bold tracking-widest text-[#093624] uppercase mb-4 select-none">
             <ShieldCheck className="w-3.5 h-3.5 text-[#093624]" />
@@ -172,9 +168,6 @@ export const SecurityPage: React.FC<SecurityPageProps> = ({ onOpenBooking, onNav
           </p>
         </header>
 
-        {/* ========================================================================= */}
-        {/* SECURITY PILLARS SUMMARY CARD                                             */}
-        {/* ========================================================================= */}
         <div className="relative group mb-14">
           <div 
             className="absolute pointer-events-none z-20 backdrop-blur-xs shadow-xs -rotate-1 w-28 sm:w-32 h-6 -top-3 right-8 sm:right-14 bg-[rgba(203,218,70,0.92)]"
@@ -239,9 +232,6 @@ export const SecurityPage: React.FC<SecurityPageProps> = ({ onOpenBooking, onNav
           </div>
         </div>
 
-        {/* ========================================================================= */}
-        {/* TABLE OF CONTENTS                                                         */}
-        {/* ========================================================================= */}
         <nav 
           id="security-toc"
           aria-label="Table of Contents" 
@@ -251,7 +241,6 @@ export const SecurityPage: React.FC<SecurityPageProps> = ({ onOpenBooking, onNav
             Table of Contents
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3">
-            {/* Left Column (01 - 06) */}
             <div className="space-y-2.5">
               {TOC_LEFT.map((item) => (
                 <div key={item.id} className="text-sm sm:text-base">
@@ -271,7 +260,6 @@ export const SecurityPage: React.FC<SecurityPageProps> = ({ onOpenBooking, onNav
               ))}
             </div>
 
-            {/* Right Column (07 - 12) */}
             <div className="space-y-2.5">
               {TOC_RIGHT.map((item) => (
                 <div key={item.id} className="text-sm sm:text-base">
@@ -293,15 +281,11 @@ export const SecurityPage: React.FC<SecurityPageProps> = ({ onOpenBooking, onNav
           </div>
         </nav>
 
-        {/* ========================================================================= */}
-        {/* MAIN BODY SECTIONS                                                        */}
-        {/* ========================================================================= */}
         <div className="space-y-16 sm:space-y-20 text-[#2C3830] font-sans text-base sm:text-lg leading-relaxed">
           
-          {/* Section 01 */}
           <section id="security-philosophy" className="scroll-mt-24 pt-2 border-t border-[#093624]/10">
             <div className="font-mono text-xs font-bold text-[#15543D] uppercase tracking-widest mb-1.5">
-              01 // CORE VALUES
+              01
             </div>
             <h2 className="font-serif font-bold text-2xl sm:text-3xl text-[#093624] mb-4">
               1. Our security philosophy
@@ -317,10 +301,9 @@ export const SecurityPage: React.FC<SecurityPageProps> = ({ onOpenBooking, onNav
             </p>
           </section>
 
-          {/* Section 02 */}
           <section id="data-classification" className="scroll-mt-24 pt-2 border-t border-[#093624]/10">
             <div className="font-mono text-xs font-bold text-[#15543D] uppercase tracking-widest mb-1.5">
-              02 // DATA HANDLING
+              02
             </div>
             <h2 className="font-serif font-bold text-2xl sm:text-3xl text-[#093624] mb-4">
               2. Data classification &amp; handling
@@ -332,7 +315,7 @@ export const SecurityPage: React.FC<SecurityPageProps> = ({ onOpenBooking, onNav
             <div className="space-y-3.5 my-5">
               <div className="p-4 rounded-xl bg-white border border-[#093624]/15">
                 <span className="font-mono text-xs font-bold text-[#E53E3E] uppercase tracking-wider block mb-1">
-                  TIER 1 // RESTRICTED / CONFIDENTIAL CLIENT DATA
+                  TIER 1
                 </span>
                 <p className="text-sm text-[#2C3830]">
                   Unreleased product designs, roadmap milestones, pitch decks, sales call recordings, revenue pipeline metrics, customer contract values, and proprietary ICP lists. Restricted solely to assigned senior strategists under active NDA.
@@ -341,7 +324,7 @@ export const SecurityPage: React.FC<SecurityPageProps> = ({ onOpenBooking, onNav
 
               <div className="p-4 rounded-xl bg-white border border-[#093624]/15">
                 <span className="font-mono text-xs font-bold text-[#D97706] uppercase tracking-wider block mb-1">
-                  TIER 2 // INTERNAL BUSINESS OPERATIONS
+                  TIER 2
                 </span>
                 <p className="text-sm text-[#2C3830]">
                   Agreed deliverables, draft copy, positioning matrices, project schedules, and billing records. Accessible only by authorized studio personnel.
@@ -350,7 +333,7 @@ export const SecurityPage: React.FC<SecurityPageProps> = ({ onOpenBooking, onNav
 
               <div className="p-4 rounded-xl bg-white border border-[#093624]/15">
                 <span className="font-mono text-xs font-bold text-[#15543D] uppercase tracking-wider block mb-1">
-                  TIER 3 // PUBLIC MARKETING ASSETS
+                  TIER 3
                 </span>
                 <p className="text-sm text-[#2C3830]">
                   Approved and published founder LinkedIn posts, released podcast episodes, approved client case studies, and open-access checklists.
@@ -359,10 +342,9 @@ export const SecurityPage: React.FC<SecurityPageProps> = ({ onOpenBooking, onNav
             </div>
           </section>
 
-          {/* Section 03 */}
           <section id="infrastructure-security" className="scroll-mt-24 pt-2 border-t border-[#093624]/10">
             <div className="font-mono text-xs font-bold text-[#15543D] uppercase tracking-widest mb-1.5">
-              03 // CLOUD &amp; HOSTING
+              03
             </div>
             <h2 className="font-serif font-bold text-2xl sm:text-3xl text-[#093624] mb-4">
               3. Infrastructure &amp; cloud hosting
@@ -383,10 +365,9 @@ export const SecurityPage: React.FC<SecurityPageProps> = ({ onOpenBooking, onNav
             </ul>
           </section>
 
-          {/* Section 04 */}
           <section id="access-controls" className="scroll-mt-24 pt-2 border-t border-[#093624]/10">
             <div className="font-mono text-xs font-bold text-[#15543D] uppercase tracking-widest mb-1.5">
-              04 // ACCESS MANAGEMENT
+              04
             </div>
             <h2 className="font-serif font-bold text-2xl sm:text-3xl text-[#093624] mb-4">
               4. Access controls &amp; authentication
@@ -410,10 +391,9 @@ export const SecurityPage: React.FC<SecurityPageProps> = ({ onOpenBooking, onNav
             </div>
           </section>
 
-          {/* Section 05 */}
           <section id="encryption-standards" className="scroll-mt-24 pt-2 border-t border-[#093624]/10">
             <div className="font-mono text-xs font-bold text-[#15543D] uppercase tracking-widest mb-1.5">
-              05 // ENCRYPTION
+              05
             </div>
             <h2 className="font-serif font-bold text-2xl sm:text-3xl text-[#093624] mb-4">
               5. Encryption in transit and at rest
@@ -434,10 +414,9 @@ export const SecurityPage: React.FC<SecurityPageProps> = ({ onOpenBooking, onNav
             </ul>
           </section>
 
-          {/* Section 06 */}
           <section id="ai-governance" className="scroll-mt-24 pt-2 border-t border-[#093624]/10">
             <div className="font-mono text-xs font-bold text-[#15543D] uppercase tracking-widest mb-1.5">
-              06 // AI &amp; MACHINE LEARNING
+              06
             </div>
             <h2 className="font-serif font-bold text-2xl sm:text-3xl text-[#093624] mb-4">
               6. AI &amp; Large Language Model (LLM) governance
@@ -469,10 +448,9 @@ export const SecurityPage: React.FC<SecurityPageProps> = ({ onOpenBooking, onNav
             </ul>
           </section>
 
-          {/* Section 07 */}
           <section id="sub-processors" className="scroll-mt-24 pt-2 border-t border-[#093624]/10">
             <div className="font-mono text-xs font-bold text-[#15543D] uppercase tracking-widest mb-1.5">
-              07 // VENDORS &amp; SUB-PROCESSORS
+              07
             </div>
             <h2 className="font-serif font-bold text-2xl sm:text-3xl text-[#093624] mb-4">
               7. Sub-processors &amp; vendor management
@@ -481,7 +459,6 @@ export const SecurityPage: React.FC<SecurityPageProps> = ({ onOpenBooking, onNav
               We work with a curated set of vetted third-party service providers. Every vendor undergoes a thorough risk review regarding their security posture, encryption standards, and compliance certifications:
             </p>
 
-            {/* Sub-processors Table */}
             <div className="overflow-x-auto my-6 border border-[#093624]/15 rounded-xl bg-white shadow-xs">
               <table className="w-full text-left text-sm font-sans border-collapse">
                 <thead>
@@ -506,10 +483,9 @@ export const SecurityPage: React.FC<SecurityPageProps> = ({ onOpenBooking, onNav
             </div>
           </section>
 
-          {/* Section 08 */}
           <section id="confidentiality-nda" className="scroll-mt-24 pt-2 border-t border-[#093624]/10">
             <div className="font-mono text-xs font-bold text-[#15543D] uppercase tracking-widest mb-1.5">
-              08 // LEGAL SAFEGUARDS
+              08
             </div>
             <h2 className="font-serif font-bold text-2xl sm:text-3xl text-[#093624] mb-4">
               8. Confidentiality &amp; NDA enforcement
@@ -522,10 +498,9 @@ export const SecurityPage: React.FC<SecurityPageProps> = ({ onOpenBooking, onNav
             </p>
           </section>
 
-          {/* Section 09 */}
           <section id="incident-response" className="scroll-mt-24 pt-2 border-t border-[#093624]/10">
             <div className="font-mono text-xs font-bold text-[#15543D] uppercase tracking-widest mb-1.5">
-              09 // RESILIENCE
+              09
             </div>
             <h2 className="font-serif font-bold text-2xl sm:text-3xl text-[#093624] mb-4">
               9. Incident response protocol
@@ -544,10 +519,9 @@ export const SecurityPage: React.FC<SecurityPageProps> = ({ onOpenBooking, onNav
             </div>
           </section>
 
-          {/* Section 10 */}
           <section id="data-retention-deletion" className="scroll-mt-24 pt-2 border-t border-[#093624]/10">
             <div className="font-mono text-xs font-bold text-[#15543D] uppercase tracking-widest mb-1.5">
-              10 // OFFBOARDING &amp; PURGE
+              10
             </div>
             <h2 className="font-serif font-bold text-2xl sm:text-3xl text-[#093624] mb-4">
               10. Data retention &amp; deletion rights
@@ -563,10 +537,9 @@ export const SecurityPage: React.FC<SecurityPageProps> = ({ onOpenBooking, onNav
             </p>
           </section>
 
-          {/* Section 11 */}
           <section id="vulnerability-disclosure" className="scroll-mt-24 pt-2 border-t border-[#093624]/10">
             <div className="font-mono text-xs font-bold text-[#15543D] uppercase tracking-widest mb-1.5">
-              11 // RESEARCHERS
+              11
             </div>
             <h2 className="font-serif font-bold text-2xl sm:text-3xl text-[#093624] mb-4">
               11. Vulnerability disclosure program
@@ -584,10 +557,9 @@ export const SecurityPage: React.FC<SecurityPageProps> = ({ onOpenBooking, onNav
             </p>
           </section>
 
-          {/* Section 12 */}
           <section id="contact-security" className="scroll-mt-24 pt-2 border-t border-[#093624]/10">
             <div className="font-mono text-xs font-bold text-[#15543D] uppercase tracking-widest mb-1.5">
-              12 // GET IN TOUCH
+              12
             </div>
             <h2 className="font-serif font-bold text-2xl sm:text-3xl text-[#093624] mb-4">
               12. Contact our security team
@@ -652,7 +624,6 @@ export const SecurityPage: React.FC<SecurityPageProps> = ({ onOpenBooking, onNav
 
         </div>
 
-        {/* Back to top or home */}
         <div className="mt-16 pt-8 border-t border-[#093624]/15 flex items-center justify-between text-sm text-[#093624]">
           <a
             href="#security-header"

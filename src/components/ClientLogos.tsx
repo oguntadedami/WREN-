@@ -13,7 +13,6 @@ export {
   theToolBusLogo,
 };
 
-// Carril logo component
 export const LogoCarril: React.FC<{ className?: string; alt?: string; color?: string }> = ({
   className = "h-5 w-auto object-contain",
   alt = "carril."
@@ -26,7 +25,6 @@ export const LogoCarril: React.FC<{ className?: string; alt?: string; color?: st
   />
 );
 
-// Colorteam logo component
 export const LogoColorteam: React.FC<{ className?: string; alt?: string; color?: string }> = ({
   className = "h-5 w-auto object-contain",
   alt = "colorteam"
@@ -39,7 +37,6 @@ export const LogoColorteam: React.FC<{ className?: string; alt?: string; color?:
   />
 );
 
-// Mischief Makers logo component
 export const LogoMischiefMakers: React.FC<{ className?: string; alt?: string; color?: string }> = ({
   className = "h-4.5 w-auto object-contain",
   alt = "MISCHIEF MAKERS"
@@ -52,7 +49,6 @@ export const LogoMischiefMakers: React.FC<{ className?: string; alt?: string; co
   />
 );
 
-// Seamailer logo component
 export const LogoSeamailer: React.FC<{ className?: string; alt?: string; color?: string }> = ({
   className = "h-6 w-auto object-contain",
   alt = "Seamailer"
@@ -65,7 +61,6 @@ export const LogoSeamailer: React.FC<{ className?: string; alt?: string; color?:
   />
 );
 
-// The Tool Bus logo component
 export const LogoTheToolBus: React.FC<{ className?: string; alt?: string; color?: string }> = ({
   className = "h-6 w-auto object-contain",
   alt = "THE TOOL BUS"
@@ -85,4 +80,3 @@ export const CLIENT_LOGOS = [
   { id: 'seamailer', name: 'Seamailer', Component: LogoSeamailer, logoSrc: seamailerLogo },
   { id: 'the-tool-bus', name: 'THE TOOL BUS', Component: LogoTheToolBus, logoSrc: theToolBusLogo },
 ];
-

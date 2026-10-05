@@ -37,7 +37,6 @@ export const Navbar: React.FC<NavbarProps> = ({
   const navRef = useRef<HTMLDivElement>(null);
   const dropdownTimerRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Smooth scroll to top / home
   const scrollToTop = () => {
     setActiveDropdown(null);
     setMobileOpen(false);
@@ -53,7 +52,6 @@ export const Navbar: React.FC<NavbarProps> = ({
     }
   };
 
-  // Smooth scroll to element section
   const scrollToSection = (id: string) => {
     setActiveDropdown(null);
     setMobileOpen(false);
@@ -72,7 +70,6 @@ export const Navbar: React.FC<NavbarProps> = ({
     }
   };
 
-  // Primary conversion action: Talk to us (Inside Wren menu item)
   const handleTalkToUs = () => {
     setActiveDropdown(null);
     setMobileOpen(false);
@@ -85,14 +82,12 @@ export const Navbar: React.FC<NavbarProps> = ({
     }
   };
 
-  // Header CTA action: Show Me How (leads to the 'How We Get You There' / Our Process section on the homepage)
   const handleShowMeHow = () => {
     setActiveDropdown(null);
     setMobileOpen(false);
     scrollToSection('process-section');
   };
 
-  // Nav Groups & Exact Card Copy specified in brief
   const navGroups: NavGroup[] = [
     {
       id: 'inside-wren',
@@ -205,7 +200,6 @@ export const Navbar: React.FC<NavbarProps> = ({
     },
   ];
 
-  // Mouse enter / leave handling for smooth desktop unfold
   const handleMouseEnter = (groupId: string) => {
     if (dropdownTimerRef.current) {
       clearTimeout(dropdownTimerRef.current);
@@ -223,7 +217,6 @@ export const Navbar: React.FC<NavbarProps> = ({
   };
 
   const handleGroupClick = (groupId: string, e?: React.MouseEvent) => {
-    // If clicking "Free stuff", navigate directly to the Free Stuff page
     if (groupId === 'free-stuff') {
       setActiveDropdown(null);
       if (onNavigate) {
@@ -233,11 +226,9 @@ export const Navbar: React.FC<NavbarProps> = ({
       }
       return;
     }
-    // For other groups, toggle dropdown
     setActiveDropdown(prev => (prev === groupId ? null : groupId));
   };
 
-  // Close on Escape key
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
@@ -249,7 +240,6 @@ export const Navbar: React.FC<NavbarProps> = ({
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  // Close when clicking outside
   useEffect(() => {
     const handlePointerDown = (e: MouseEvent) => {
       if (navRef.current && !navRef.current.contains(e.target as Node)) {
@@ -260,7 +250,6 @@ export const Navbar: React.FC<NavbarProps> = ({
     return () => document.removeEventListener('mousedown', handlePointerDown);
   }, []);
 
-  // Body scroll lock on mobile menu open
   useEffect(() => {
     if (mobileOpen) {
       document.body.style.overflow = 'hidden';
@@ -282,13 +271,8 @@ export const Navbar: React.FC<NavbarProps> = ({
         className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
         onMouseLeave={handleMouseLeave}
       >
-        {/* ========================================================================= */}
-        {/* NAV BAR: Torn-paper strip nav bar (sticky/fixed to top)                  */}
-        {/* Cream background, notebook grid texture, thin Bottle green bottom border  */}
-        {/* ========================================================================= */}
         <div className="w-full bg-[#F7F4E9] notebook-grid-bg border-b border-[#093624]/20 shadow-xs relative">
           <div className="max-w-7xl mx-auto px-4 sm:px-8 py-3.5 flex items-center justify-between">
-            {/* Left: "WREN" wordmark, bold IBM Plex Serif, Bottle green */}
             <div className="flex items-center">
               <a
                 href="#"
@@ -305,7 +289,6 @@ export const Navbar: React.FC<NavbarProps> = ({
               </a>
             </div>
 
-            {/* Center/right: four nav groups, Inter medium weight, Bottle green text */}
             <nav className="hidden md:flex items-center gap-6 lg:gap-9">
               {navGroups.map((group) => {
                 const isActive = activeDropdown === group.id;
@@ -319,7 +302,6 @@ export const Navbar: React.FC<NavbarProps> = ({
                     className="relative py-1 flex items-center"
                     onMouseEnter={() => handleMouseEnter(group.id)}
                   >
-                    {/* Main Label: Click navigates if Free stuff, else opens dropdown */}
                     <button
                       type="button"
                       onClick={(e) => handleGroupClick(group.id, e)}
@@ -331,7 +313,6 @@ export const Navbar: React.FC<NavbarProps> = ({
                       <span className="relative">
                         {group.label}
                         
-                        {/* Hand-drawn Wattle squiggle underline on hover, when group is open, or when on that page */}
                         <AnimatePresence>
                           {(isActive || isHovered || isCurrentPage) && (
                             <motion.svg
@@ -358,7 +339,6 @@ export const Navbar: React.FC<NavbarProps> = ({
                       </span>
                     </button>
 
-                    {/* Chevron toggle button: clicking explicitly toggles dropdown without navigating */}
                     <button
                       type="button"
                       onClick={(e) => {
@@ -379,7 +359,6 @@ export const Navbar: React.FC<NavbarProps> = ({
               })}
             </nav>
 
-            {/* Far right: CTA button: "Show Me How" linking to book a call section */}
             <div className="hidden sm:flex items-center gap-3">
               <Button
                 variant="primary"
@@ -391,7 +370,6 @@ export const Navbar: React.FC<NavbarProps> = ({
               </Button>
             </div>
 
-            {/* Mobile Menu Hamburger Toggle: 3 short offset bars in brand colors (Bottle green, Wattle, Coral Pop) morphing into an X on open (~200ms) */}
             <div className="flex md:hidden items-center gap-2">
               <button
                 type="button"
@@ -400,7 +378,6 @@ export const Navbar: React.FC<NavbarProps> = ({
                 aria-label={mobileOpen ? 'Close navigation menu' : 'Open navigation menu'}
                 aria-expanded={mobileOpen}
               >
-                {/* Top bar: Bottle green (#093624) */}
                 <motion.span
                   animate={
                     mobileOpen
@@ -411,7 +388,6 @@ export const Navbar: React.FC<NavbarProps> = ({
                   className="h-[2.5px] bg-[#093624] rounded-full origin-center block self-start"
                 />
 
-                {/* Middle bar: Wattle (#CBDA46) - offset */}
                 <motion.span
                   animate={
                     mobileOpen
@@ -422,7 +398,6 @@ export const Navbar: React.FC<NavbarProps> = ({
                   className="h-[2.5px] bg-[#CBDA46] rounded-full origin-center block self-end"
                 />
 
-                {/* Bottom bar: Coral Pop (#FF7A5C) - offset */}
                 <motion.span
                   animate={
                     mobileOpen
@@ -437,11 +412,6 @@ export const Navbar: React.FC<NavbarProps> = ({
           </div>
         </div>
 
-        {/* ========================================================================= */}
-        {/* MEGA-MENU UNFOLD (The Signature Paper Unfold Interaction)                 */}
-        {/* transform-origin: top center, scaleY(0) + rotateX(-15deg) -> scaleY(1)   */}
-        {/* Cream background, notebook grid texture, soft drop shadow, torn bottom    */}
-        {/* ========================================================================= */}
         <div style={{ perspective: '1200px' }} className="relative z-40">
           <AnimatePresence>
             {activeGroupData && (
@@ -464,7 +434,6 @@ export const Navbar: React.FC<NavbarProps> = ({
                     transition={{ duration: 0.15 }}
                     className="max-w-6xl mx-auto"
                   >
-                    {/* Cards sit in a horizontal row (3-4 across depending on group) */}
                     <div
                       className={`grid gap-5 sm:gap-6 ${
                         activeGroupData.cards.length === 1
@@ -475,10 +444,8 @@ export const Navbar: React.FC<NavbarProps> = ({
                       }`}
                     >
                       {activeGroupData.cards.map((item, index) => {
-                        // Alternate a slight rotation on each card: -1deg, +1deg, -1deg, +1deg
                         const isEven = index % 2 === 0;
                         const rotationDeg = isEven ? -1 : 1;
-                        // Vary the background tint across cards: Cream (#FAF7EE), Pale Wattle (#EEF2CC) alternating
                         const bgTint = isEven ? '#FAF7EE' : '#EEF2CC';
 
                         return (
@@ -550,7 +517,6 @@ export const Navbar: React.FC<NavbarProps> = ({
                       })}
                     </div>
 
-                    {/* Dedicated callout banner when active group is Free Stuff */}
                     {activeGroupData.id === 'free-stuff' && (
                       <div className="mt-6 pt-4 border-t border-[#093624]/12 flex items-center justify-end">
                         <button
@@ -570,7 +536,6 @@ export const Navbar: React.FC<NavbarProps> = ({
                   </motion.div>
                 </AnimatePresence>
 
-                {/* Subtle torn/irregular bottom edge (not a clean rectangle) */}
                 <div className="absolute -bottom-3 sm:-bottom-4 left-0 right-0 w-full overflow-hidden leading-none pointer-events-none z-10">
                   <svg
                     viewBox="0 0 1200 16"
@@ -586,7 +551,6 @@ export const Navbar: React.FC<NavbarProps> = ({
         </div>
       </header>
 
-      {/* Subtle backdrop overlay when mega-menu is unfolded */}
       <AnimatePresence>
         {activeDropdown && (
           <motion.div
@@ -600,15 +564,9 @@ export const Navbar: React.FC<NavbarProps> = ({
         )}
       </AnimatePresence>
 
-      {/* ========================================================================= */}
-      {/* MOBILE NAVIGATION DRAWER (Slides in from the right, full height)          */}
-      {/* Bottle green (#093624) background with notebook grid texture              */}
-      {/* Close button (small Cream "×" in a circle) top-right of the drawer        */}
-      {/* ========================================================================= */}
       <AnimatePresence>
         {mobileOpen && (
           <>
-            {/* Backdrop: Animates opacity only */}
             <motion.div
               key="mobile-drawer-backdrop"
               initial={{ opacity: 0 }}
@@ -620,7 +578,6 @@ export const Navbar: React.FC<NavbarProps> = ({
               aria-hidden="true"
             />
 
-            {/* Drawer Panel: transform: translateX, ~300ms ease-out */}
             <motion.aside
               key="mobile-drawer-panel"
               initial={{ x: '100%' }}
@@ -632,7 +589,6 @@ export const Navbar: React.FC<NavbarProps> = ({
               aria-modal="true"
               aria-label="Navigation drawer"
             >
-              {/* Top Row: WREN wordmark + Close button (small Cream "×" in a circle) */}
               <div className="flex items-center justify-between pb-5 border-b border-[#F7F4E9]/15">
                 <span className="font-serif font-black tracking-tight text-2xl text-[#F7F4E9]">
                   WREN
@@ -647,17 +603,12 @@ export const Navbar: React.FC<NavbarProps> = ({
                 </button>
               </div>
 
-              {/* Drawer Navigation List: Restrained Torn-Paper Notes */}
               <div className="py-4 space-y-4 flex-1">
-                {/* Nav Groups: "Inside Wren", "Resources", "Free stuff", "Podcast" */}
                 {navGroups.map((group, index) => {
                   const isExpanded = mobileExpandedGroup === group.id;
 
-                  // Alternate only 2 background tints across the notes: Cream and Pale Wattle
-                  // Note 0: Cream (#F7F4E9), Note 1: Pale Wattle (#EEF2CC), Note 2: Cream (#F7F4E9), Note 3: Pale Wattle (#EEF2CC)
                   const bgTint = index % 2 === 0 ? '#F7F4E9' : '#EEF2CC';
 
-                  // Alternate only 2 fixed rotation angles: -1.5deg and +1.5deg (never randomized)
                   const rotationDeg = index % 2 === 0 ? -1.5 : 1.5;
 
                   return (
@@ -669,14 +620,12 @@ export const Navbar: React.FC<NavbarProps> = ({
                         transformOrigin: 'top center',
                       }}
                     >
-                      {/* Torn-Paper Parent Note */}
                       <div
                         className="relative shadow-[0_4px_14px_rgba(3,24,15,0.22)] border border-[#093624]/15 rounded-b-xl overflow-hidden"
                         style={{
                           backgroundColor: bgTint,
                         }}
                       >
-                        {/* Torn paper top edge SVG */}
                         <div className="w-full h-2.5 overflow-hidden leading-none pointer-events-none select-none">
                           <svg
                             viewBox="0 0 400 10"
@@ -687,7 +636,6 @@ export const Navbar: React.FC<NavbarProps> = ({
                           </svg>
                         </div>
 
-                        {/* Note Header: Group Title + Rotating "+" indicator */}
                         <button
                           type="button"
                           onClick={() =>
@@ -709,9 +657,6 @@ export const Navbar: React.FC<NavbarProps> = ({
                           </div>
                         </button>
 
-                        {/* Unfolding Sub-note directly beneath header:
-                            Butter-smooth unfold with scaleY, height, and opacity using smooth custom cubic bezier.
-                            Always Cream (#F7F4E9) background regardless of parent tint. */}
                         <AnimatePresence initial={false}>
                           {isExpanded && (
                             <motion.div
@@ -743,7 +688,6 @@ export const Navbar: React.FC<NavbarProps> = ({
                                     }}
                                     className="w-full text-left group/item cursor-pointer block py-1 transition-opacity hover:opacity-85"
                                   >
-                                    {/* Bold Title in --color-bottle (#093624) + optional badge */}
                                     <div className="flex items-center gap-2">
                                       {item.badge && (
                                         <span className="inline-flex items-center justify-center px-1.5 py-0.5 rounded-[4px] bg-[#CBDA46] border border-[#093624]/20 text-[#093624] font-mono text-[9px] font-bold tracking-wider uppercase">
@@ -754,14 +698,12 @@ export const Navbar: React.FC<NavbarProps> = ({
                                         {item.title}
                                       </span>
                                     </div>
-                                    {/* Muted italic --color-sage (#6F7A6E) tagline */}
                                     <div className="font-sans italic text-xs text-[#6F7A6E] mt-0.5 leading-relaxed">
                                       {item.tagline}
                                     </div>
                                   </button>
                                 ))}
 
-                                {/* Direct link to full Free Stuff page inside mobile note */}
                                 {group.id === 'free-stuff' && (
                                   <div className="pt-2 border-t border-[#093624]/10">
                                     <button
@@ -788,7 +730,6 @@ export const Navbar: React.FC<NavbarProps> = ({
                 })}
               </div>
 
-              {/* Bottom of Drawer: Primary Website Button CTA + Social icons */}
               <div className="pt-6 pb-2 mt-auto space-y-4">
                 <Button
                   variant="primary"
@@ -801,7 +742,6 @@ export const Navbar: React.FC<NavbarProps> = ({
                   Show Me How →
                 </Button>
 
-                {/* Small row of social icons (reused from site footer) */}
                 <div className="flex items-center justify-center gap-3 pt-1">
                   <a
                     href="https://www.linkedin.com/company/getwren"

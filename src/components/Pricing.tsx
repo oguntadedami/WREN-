@@ -19,7 +19,6 @@ interface ComparisonPlan {
   savingsBadge: string;
 }
 
-// Hand-drawn scrapbook style bullet point with organic stamped variations
 const ScrapbookBullet: React.FC<{ index?: number }> = ({ index = 0 }) => {
   const variations = [
     {
@@ -69,7 +68,6 @@ const ScrapbookBullet: React.FC<{ index?: number }> = ({ index = 0 }) => {
   );
 };
 
-// Hand-drawn uneven scrapbook tab button with organic pen strokes, no tape, no icons
 const HandDrawnScrapbookTab: React.FC<{
   label: string;
   isActive: boolean;
@@ -78,12 +76,10 @@ const HandDrawnScrapbookTab: React.FC<{
 }> = ({ label, isActive, onClick, variant }) => {
   const isBasic = variant === 'basic';
 
-  // Distinct uneven hand-inked vector contours for each tab
   const mainPath = isBasic
     ? "M 6,5 C 38,2.2 82,4.8 132,3 C 136.5,3.6 138,6.8 137.2,12 C 136,20.5 137.5,29 136,37.5 C 135,41.2 132.5,43 126,42.5 C 89,41.8 46,43.8 9,42.2 C 4.5,41.5 3,38.5 3.5,33 C 4.2,24 3,15 4.2,8 C 4.6,5.2 5,4.8 6,5 Z"
     : "M 5,3.5 C 42,5.2 88,2.8 133,4.6 C 137.2,5.2 138.8,8.2 137.8,13.5 C 136.5,22 137.8,31 136.2,38.5 C 135.2,42 132.5,43.6 127,43.2 C 86,43.8 41,42.2 8.5,43.5 C 4.2,42.8 2.8,39.5 3.5,34 C 4.5,25 3.2,16 4.5,9 C 5,5.5 5.2,3.8 5,3.5 Z";
 
-  // Sketchy secondary pen lines along edges
   const sketchPath = isBasic
     ? "M 10,7.5 C 48,5.2 92,6.5 128,5.5 M 134,13 C 133.5,22 134.5,30 133.2,36.5 M 125,40.5 C 88,39.8 48,41.5 14,40.2"
     : "M 9,6.2 C 44,7.5 92,5.2 129,6.8 M 134.5,14 C 133.8,23 134.8,31 133.2,37 M 125,40.8 C 84,41.2 44,40 12,41";
@@ -100,13 +96,11 @@ const HandDrawnScrapbookTab: React.FC<{
           : "opacity-85 hover:opacity-100 hover:-translate-y-0.5"
       }`}
     >
-      {/* Background SVG with uneven hand-drawn borders & ink shadow */}
       <svg
         className="absolute inset-0 w-full h-full pointer-events-none"
         viewBox="0 0 142 48"
         preserveAspectRatio="none"
       >
-        {/* Offset Solid Ink Shadow */}
         <path
           d={mainPath}
           fill="#093624"
@@ -114,7 +108,6 @@ const HandDrawnScrapbookTab: React.FC<{
           className="transition-transform duration-200"
         />
 
-        {/* Paper Cutout Body & Primary Hand-Drawn Inked Contour */}
         <path
           d={mainPath}
           fill={isActive ? "#CBDA46" : "#FAF7EE"}
@@ -126,7 +119,6 @@ const HandDrawnScrapbookTab: React.FC<{
           className="transition-colors duration-200"
         />
 
-        {/* Secondary Sketchy Ink Pass */}
         <path
           d={sketchPath}
           fill="none"
@@ -138,7 +130,6 @@ const HandDrawnScrapbookTab: React.FC<{
         />
       </svg>
 
-      {/* Plain Text Label (no icons, stars, or emojis) */}
       <span className="relative z-10 font-mono font-black text-xs sm:text-sm tracking-widest text-[#093624] uppercase">
         {label}
       </span>
@@ -264,7 +255,6 @@ export const Pricing: React.FC<PricingProps> = ({ onOpenBooking }) => {
       className="py-20 sm:py-28 bg-[#F7F4E9] notebook-grid-bg border-b border-[#093624]/10 relative select-none overflow-hidden"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Top Technical Metadata Bar */}
         <div className="flex items-center justify-between py-3 border-b border-[#093624]/15 mb-12 sm:mb-16 text-[11px] sm:text-xs font-mono text-[#6F7A6E] uppercase tracking-widest">
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-[#093624] animate-pulse" />
@@ -275,14 +265,12 @@ export const Pricing: React.FC<PricingProps> = ({ onOpenBooking }) => {
           </div>
         </div>
 
-        {/* Section Headline */}
         <div className="text-center max-w-3xl mx-auto mb-14 sm:mb-20">
           <h2 className="font-display font-black text-3xl sm:text-5xl md:text-6xl text-[#093624] tracking-tight">
             What it's Worth
           </h2>
         </div>
 
-        {/* 3 Pricing Cards Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 sm:gap-8 items-start max-w-6xl mx-auto">
           {plans.map((plan) => {
             return (
@@ -294,12 +282,10 @@ export const Pricing: React.FC<PricingProps> = ({ onOpenBooking }) => {
                     : 'bg-[#FBF9F3] shadow-[6px_6px_0px_#093624] hover:bg-white z-10'
                 } ${plan.rotation}`}
               >
-                {/* Paper Clip Decoration */}
                 <div className={`absolute ${plan.paperClipPos} z-30 pointer-events-none`}>
                   <PaperClip className="w-6 h-11 text-[#64748B]" />
                 </div>
 
-                {/* Most Popular Ribbon */}
                 {plan.tag && (
                   <div className="absolute -top-3.5 right-6 z-30">
                     <span className="inline-flex items-center font-mono text-[11px] font-black uppercase tracking-wider bg-[#CBDA46] text-[#093624] px-3 py-1 rounded-sm border-2 border-[#093624] shadow-[2px_2px_0px_#093624] -rotate-2">
@@ -308,11 +294,8 @@ export const Pricing: React.FC<PricingProps> = ({ onOpenBooking }) => {
                   </div>
                 )}
 
-                {/* Top Card Body */}
                 <div className="p-6 sm:p-8 pb-4">
-                  {/* Plan Title & Price Header - Stacked vertically */}
                   <div className="border-b border-[#093624]/15 pb-5">
-                    {/* Plan Name */}
                     {plan.id === 'plan-custom' ? (
                       <h3 className="font-display font-black text-2xl sm:text-3xl text-[#093624]">
                         {plan.title}
@@ -325,20 +308,17 @@ export const Pricing: React.FC<PricingProps> = ({ onOpenBooking }) => {
                       </div>
                     )}
 
-                    {/* Price per month (if applicable, e.g. Basic & Pro) */}
                     {plan.price && (
                       <div className="font-display font-black text-2xl sm:text-3xl text-[#093624] tracking-tight mt-3">
                         {plan.price}
                       </div>
                     )}
 
-                    {/* Minimum Term Underneath */}
                     <div className="mt-2 text-xs sm:text-sm font-mono font-bold text-[#6F7A6E]">
                       {plan.term}
                     </div>
                   </div>
 
-                  {/* Bullet Points List */}
                   <div className="mt-6 space-y-4">
                     {plan.bullets.map((bullet, bIdx) => (
                       <div
@@ -352,7 +332,6 @@ export const Pricing: React.FC<PricingProps> = ({ onOpenBooking }) => {
                   </div>
                 </div>
 
-                {/* Card Footer Button */}
                 <div className="p-6 sm:p-8 pt-4">
                   <Button
                     variant={plan.isHighlighted ? "primary-lime" : "secondary"}
@@ -369,9 +348,7 @@ export const Pricing: React.FC<PricingProps> = ({ onOpenBooking }) => {
           })}
         </div>
 
-        {/* If Bought Separately Section (Sits directly between cards and bottom CTA) */}
         <div className="mt-24 sm:mt-32 max-w-4xl mx-auto">
-          {/* Section Heading & Subtitle */}
           <div className="text-center mb-6 sm:mb-8">
             <h3 className="font-display font-black text-3xl sm:text-4xl md:text-5xl text-[#093624] tracking-tight">
               If bought separately?
@@ -380,7 +357,6 @@ export const Pricing: React.FC<PricingProps> = ({ onOpenBooking }) => {
               Sourcing this from different specialists, here's what it would likely cost you:
             </p>
 
-            {/* Downward Ink Hand-Drawn Arrow */}
             <div className="flex justify-center my-4">
               <svg
                 width="22"
@@ -400,7 +376,6 @@ export const Pricing: React.FC<PricingProps> = ({ onOpenBooking }) => {
               </svg>
             </div>
 
-            {/* Toggle Tabs - Uneven Hand-Drawn Scrapbook Tabs (No tape, no icons, no stars/emojis) */}
             <div className="flex items-center justify-center gap-5 sm:gap-7 pt-2">
               <HandDrawnScrapbookTab
                 label="[ BASIC ]"
@@ -417,9 +392,7 @@ export const Pricing: React.FC<PricingProps> = ({ onOpenBooking }) => {
             </div>
           </div>
 
-          {/* Scrapbook Sheet Card with pricing card box shadow */}
           <div className="relative rounded-[2.5rem] bg-[#F7F5EC] border-2 border-[#093624] p-5 sm:p-8 md:p-12 shadow-[8px_8px_0px_#093624] mt-8">
-            {/* Masking / Washi Tape Strips at top edge */}
             <div
               className="absolute -top-3.5 left-10 sm:left-16 w-24 sm:w-28 h-7 bg-[#EFE5CF]/95 border border-[#D5C7A5] -rotate-3 shadow-xs z-20 pointer-events-none"
               style={{
@@ -435,26 +408,19 @@ export const Pricing: React.FC<PricingProps> = ({ onOpenBooking }) => {
               }}
             />
 
-            {/* Hole Punch Dot */}
             <div className="w-3.5 h-3.5 rounded-full bg-[#E5DECA] border border-[#093624]/25 mb-4 shadow-inner" />
 
-            {/* Top Dashed Line */}
             <div className="border-b border-dashed border-[#093624]/20 pb-1 mb-6 sm:mb-8" />
 
-            {/* Inner Notebook Paper Sheet */}
             <div className="relative bg-white rounded-xl border border-[#093624]/15 shadow-sm p-5 sm:p-8 md:p-10 overflow-hidden">
-              {/* Vertical red margin line */}
               <div className="absolute top-0 bottom-0 left-5 sm:left-9 md:left-11 w-[1.5px] bg-red-300/80 pointer-events-none" />
 
-              {/* Table Body indented from the red line */}
               <div className="pl-4 sm:pl-7 md:pl-8">
-                {/* Column Headers */}
                 <div className="flex items-center justify-between pb-4 border-b border-[#093624]/10 text-xs sm:text-sm font-bold text-[#093624]">
                   <span>What you'd buy separately</span>
                   <span className="shrink-0 text-right">Typical monthly</span>
                 </div>
 
-                {/* Line Items with Dotted Leader */}
                 <div className="divide-y divide-[#093624]/5 sm:divide-y-0">
                   {currentComparison.items.map((item, idx) => (
                     <div
@@ -470,10 +436,8 @@ export const Pricing: React.FC<PricingProps> = ({ onOpenBooking }) => {
                   ))}
                 </div>
 
-                {/* Dashed Separator */}
                 <div className="border-t border-dashed border-[#093624]/25 my-6 sm:my-8" />
 
-                {/* Bottom Summary Block */}
                 <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-6 pt-1">
                   <div>
                     <div className="text-xs sm:text-sm font-mono text-[#6F7A6E]">
@@ -496,7 +460,6 @@ export const Pricing: React.FC<PricingProps> = ({ onOpenBooking }) => {
                     </p>
                   </div>
 
-                  {/* Red Rubber Stamp Badge */}
                   <div className="sm:self-center shrink-0">
                     <div className="inline-flex items-center gap-1.5 px-4 py-2 rounded-md border-2 border-[#D9483B] text-[#D9483B] font-display font-black text-sm sm:text-base tracking-wider uppercase -rotate-3 shadow-xs select-none bg-[#FFF8F7]/70">
                       <span className="text-base">★</span>
@@ -509,7 +472,6 @@ export const Pricing: React.FC<PricingProps> = ({ onOpenBooking }) => {
           </div>
         </div>
 
-        {/* Global Bottom CTA */}
         <div className="mt-14 sm:mt-20 text-center flex justify-center">
           <Button
             id="pricing-global-cta-btn"

@@ -35,7 +35,6 @@ const TOC_RIGHT: TocItem[] = [
 ];
 
 export const TermsPage: React.FC<TermsPageProps> = ({ onOpenBooking, onNavigate }) => {
-  // Scroll to top or anchor on mount
   useEffect(() => {
     const hash = window.location.hash;
     if (hash && hash.length > 1 && hash !== '#terms') {
@@ -84,9 +83,6 @@ export const TermsPage: React.FC<TermsPageProps> = ({ onOpenBooking, onNavigate 
     <div className="min-h-screen bg-[#F7F4E9] text-[#0E1A15] pt-28 sm:pt-36 pb-24 sm:pb-32 px-4 sm:px-6 lg:px-8 notebook-grid">
       <div className="max-w-4xl mx-auto">
         
-        {/* ========================================================================= */}
-        {/* HEADER                                                                    */}
-        {/* ========================================================================= */}
         <header id="terms-header" className="mb-14 sm:mb-16">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-[#EEF2CC] border border-[#093624]/15 text-xs font-mono font-bold tracking-widest text-[#093624] uppercase mb-4 select-none">
             <Scale className="w-3.5 h-3.5 text-[#093624]" />
@@ -123,9 +119,6 @@ export const TermsPage: React.FC<TermsPageProps> = ({ onOpenBooking, onNavigate 
           </p>
         </header>
 
-        {/* ========================================================================= */}
-        {/* HIGHLIGHT CALLOUT CARD: THE THREE CORE COMMITMENTS                        */}
-        {/* ========================================================================= */}
         <div className="relative group mb-14">
           <div 
             className="absolute pointer-events-none z-20 backdrop-blur-xs shadow-xs rotate-1 w-28 sm:w-32 h-6 -top-3 right-8 sm:right-14 bg-[rgba(203,218,70,0.92)]"
@@ -174,9 +167,6 @@ export const TermsPage: React.FC<TermsPageProps> = ({ onOpenBooking, onNavigate 
           </div>
         </div>
 
-        {/* ========================================================================= */}
-        {/* TABLE OF CONTENTS                                                         */}
-        {/* ========================================================================= */}
         <nav 
           id="terms-toc"
           aria-label="Table of Contents" 
@@ -186,7 +176,6 @@ export const TermsPage: React.FC<TermsPageProps> = ({ onOpenBooking, onNavigate 
             Table of Contents
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3">
-            {/* Left Column (01 - 07) */}
             <div className="space-y-2.5">
               {TOC_LEFT.map((item) => (
                 <div key={item.id} className="text-sm sm:text-base">
@@ -206,7 +195,6 @@ export const TermsPage: React.FC<TermsPageProps> = ({ onOpenBooking, onNavigate 
               ))}
             </div>
 
-            {/* Right Column (08 - 14) */}
             <div className="space-y-2.5">
               {TOC_RIGHT.map((item) => (
                 <div key={item.id} className="text-sm sm:text-base">
@@ -228,15 +216,11 @@ export const TermsPage: React.FC<TermsPageProps> = ({ onOpenBooking, onNavigate 
           </div>
         </nav>
 
-        {/* ========================================================================= */}
-        {/* MAIN BODY SECTIONS                                                        */}
-        {/* ========================================================================= */}
         <div className="space-y-16 sm:space-y-20 text-[#2C3830] font-sans text-base sm:text-lg leading-relaxed">
           
-          {/* Section 01 */}
           <section id="agreement-to-terms" className="scroll-mt-24 pt-2 border-t border-[#093624]/10">
             <div className="font-mono text-xs font-bold text-[#15543D] uppercase tracking-widest mb-1.5">
-              01 // FORMATION & SCOPE
+              01
             </div>
             <h2 className="font-serif font-bold text-2xl sm:text-3xl text-[#093624] mb-4">
               1. Agreement to terms
@@ -249,10 +233,9 @@ export const TermsPage: React.FC<TermsPageProps> = ({ onOpenBooking, onNavigate 
             </p>
           </section>
 
-          {/* Section 02 */}
           <section id="services-and-engagement" className="scroll-mt-24 pt-2 border-t border-[#093624]/10">
             <div className="font-mono text-xs font-bold text-[#15543D] uppercase tracking-widest mb-1.5">
-              02 // STUDIO DELIVERABLES
+              02
             </div>
             <h2 className="font-serif font-bold text-2xl sm:text-3xl text-[#093624] mb-4">
               2. Studio services &amp; engagement models
@@ -276,10 +259,9 @@ export const TermsPage: React.FC<TermsPageProps> = ({ onOpenBooking, onNavigate 
             </p>
           </section>
 
-          {/* Section 03 */}
           <section id="founder-participation" className="scroll-mt-24 pt-2 border-t border-[#093624]/10">
             <div className="font-mono text-xs font-bold text-[#15543D] uppercase tracking-widest mb-1.5">
-              03 // MUTUAL PARTNERSHIP
+              03
             </div>
             <h2 className="font-serif font-bold text-2xl sm:text-3xl text-[#093624] mb-4">
               3. Founder participation &amp; client responsibilities
@@ -303,10 +285,9 @@ export const TermsPage: React.FC<TermsPageProps> = ({ onOpenBooking, onNavigate 
             </p>
           </section>
 
-          {/* Section 04 */}
           <section id="fees-and-billing" className="scroll-mt-24 pt-2 border-t border-[#093624]/10">
             <div className="font-mono text-xs font-bold text-[#15543D] uppercase tracking-widest mb-1.5">
-              04 // FINANCIAL TERMS
+              04
             </div>
             <h2 className="font-serif font-bold text-2xl sm:text-3xl text-[#093624] mb-4">
               4. Fees, billing, and payment terms
@@ -330,10 +311,9 @@ export const TermsPage: React.FC<TermsPageProps> = ({ onOpenBooking, onNavigate 
             </div>
           </section>
 
-          {/* Section 05 */}
           <section id="intellectual-property" className="scroll-mt-24 pt-2 border-t border-[#093624]/10">
             <div className="font-mono text-xs font-bold text-[#15543D] uppercase tracking-widest mb-1.5">
-              05 // IP &amp; OWNERSHIP
+              05
             </div>
             <h2 className="font-serif font-bold text-2xl sm:text-3xl text-[#093624] mb-4">
               5. Intellectual property &amp; deliverable ownership
@@ -357,10 +337,9 @@ export const TermsPage: React.FC<TermsPageProps> = ({ onOpenBooking, onNavigate 
             </p>
           </section>
 
-          {/* Section 06 */}
           <section id="confidentiality" className="scroll-mt-24 pt-2 border-t border-[#093624]/10">
             <div className="font-mono text-xs font-bold text-[#15543D] uppercase tracking-widest mb-1.5">
-              06 // PRIVACY &amp; NDA
+              06
             </div>
             <h2 className="font-serif font-bold text-2xl sm:text-3xl text-[#093624] mb-4">
               6. Confidentiality &amp; non-disclosure
@@ -379,10 +358,9 @@ export const TermsPage: React.FC<TermsPageProps> = ({ onOpenBooking, onNavigate 
             </p>
           </section>
 
-          {/* Section 07 */}
           <section id="approvals-and-scope" className="scroll-mt-24 pt-2 border-t border-[#093624]/10">
             <div className="font-mono text-xs font-bold text-[#15543D] uppercase tracking-widest mb-1.5">
-              07 // REVISIONS &amp; DRIFT
+              07
             </div>
             <h2 className="font-serif font-bold text-2xl sm:text-3xl text-[#093624] mb-4">
               7. Approval process &amp; scope adjustments
@@ -395,10 +373,9 @@ export const TermsPage: React.FC<TermsPageProps> = ({ onOpenBooking, onNavigate 
             </p>
           </section>
 
-          {/* Section 08 */}
           <section id="warranties-and-disclaimers" className="scroll-mt-24 pt-2 border-t border-[#093624]/10">
             <div className="font-mono text-xs font-bold text-[#15543D] uppercase tracking-widest mb-1.5">
-              08 // DISCLAIMERS
+              08
             </div>
             <h2 className="font-serif font-bold text-2xl sm:text-3xl text-[#093624] mb-4">
               8. Warranties &amp; business disclaimers
@@ -417,10 +394,9 @@ export const TermsPage: React.FC<TermsPageProps> = ({ onOpenBooking, onNavigate 
             </p>
           </section>
 
-          {/* Section 09 */}
           <section id="limitation-of-liability" className="scroll-mt-24 pt-2 border-t border-[#093624]/10">
             <div className="font-mono text-xs font-bold text-[#15543D] uppercase tracking-widest mb-1.5">
-              09 // LIABILITY CAP
+              09
             </div>
             <h2 className="font-serif font-bold text-2xl sm:text-3xl text-[#093624] mb-4">
               9. Limitation of liability
@@ -441,10 +417,9 @@ export const TermsPage: React.FC<TermsPageProps> = ({ onOpenBooking, onNavigate 
             </p>
           </section>
 
-          {/* Section 10 */}
           <section id="term-and-termination" className="scroll-mt-24 pt-2 border-t border-[#093624]/10">
             <div className="font-mono text-xs font-bold text-[#15543D] uppercase tracking-widest mb-1.5">
-              10 // ENGAGEMENT LIFECYCLE
+              10
             </div>
             <h2 className="font-serif font-bold text-2xl sm:text-3xl text-[#093624] mb-4">
               10. Term, suspension, and termination
@@ -463,10 +438,9 @@ export const TermsPage: React.FC<TermsPageProps> = ({ onOpenBooking, onNavigate 
             </p>
           </section>
 
-          {/* Section 11 */}
           <section id="case-studies-and-attribution" className="scroll-mt-24 pt-2 border-t border-[#093624]/10">
             <div className="font-mono text-xs font-bold text-[#15543D] uppercase tracking-widest mb-1.5">
-              11 // CASE STUDIES &amp; LOGOS
+              11
             </div>
             <h2 className="font-serif font-bold text-2xl sm:text-3xl text-[#093624] mb-4">
               11. Case studies, attribution, and public results
@@ -482,10 +456,9 @@ export const TermsPage: React.FC<TermsPageProps> = ({ onOpenBooking, onNavigate 
             </p>
           </section>
 
-          {/* Section 12 */}
           <section id="non-solicitation" className="scroll-mt-24 pt-2 border-t border-[#093624]/10">
             <div className="font-mono text-xs font-bold text-[#15543D] uppercase tracking-widest mb-1.5">
-              12 // TALENT PROTECTION
+              12
             </div>
             <h2 className="font-serif font-bold text-2xl sm:text-3xl text-[#093624] mb-4">
               12. Non-solicitation of studio talent
@@ -495,10 +468,9 @@ export const TermsPage: React.FC<TermsPageProps> = ({ onOpenBooking, onNavigate 
             </p>
           </section>
 
-          {/* Section 13 */}
           <section id="governing-law" className="scroll-mt-24 pt-2 border-t border-[#093624]/10">
             <div className="font-mono text-xs font-bold text-[#15543D] uppercase tracking-widest mb-1.5">
-              13 // JURISDICTION
+              13
             </div>
             <h2 className="font-serif font-bold text-2xl sm:text-3xl text-[#093624] mb-4">
               13. Governing law &amp; dispute resolution
@@ -511,10 +483,9 @@ export const TermsPage: React.FC<TermsPageProps> = ({ onOpenBooking, onNavigate 
             </p>
           </section>
 
-          {/* Section 14 */}
           <section id="contact-legal" className="scroll-mt-24 pt-2 border-t border-[#093624]/10">
             <div className="font-mono text-xs font-bold text-[#15543D] uppercase tracking-widest mb-1.5">
-              14 // CONTACT
+              14
             </div>
             <h2 className="font-serif font-bold text-2xl sm:text-3xl text-[#093624] mb-4">
               14. Contact us &amp; legal notices
@@ -579,7 +550,6 @@ export const TermsPage: React.FC<TermsPageProps> = ({ onOpenBooking, onNavigate 
 
         </div>
 
-        {/* Back to top or home */}
         <div className="mt-16 pt-8 border-t border-[#093624]/15 flex items-center justify-between text-sm text-[#093624]">
           <a
             href="#terms-header"

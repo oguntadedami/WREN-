@@ -10,10 +10,8 @@ const PORT = Number(process.env.PORT) || 3000;
 
 app.use(express.json());
 
-// Serve static assets from the Vite build output
 app.use(express.static(path.join(__dirname, 'dist')));
 
-// Fallback to index.html for client-side SPA routing
 app.get('*', (_req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });

@@ -2,11 +2,6 @@ import React, { useState, useEffect, useRef } from "react";
 import { Button } from "./Button";
 import { Tape, MetalClip } from "./ScrapbookAssets";
 
-/* ============================================================
-   COPY, MATH, AND DIAGNOSIS LOGIC PRESERVED EXACTLY
-   FROM ORIGINAL SPECIFICATION — DO NOT REWORD OR RE-TUNE.
-   ============================================================ */
-
 const WREN_BOOKING_URL = "https://calendly.com/getwren/30min";
 
 const CONVERSION = {
@@ -186,9 +181,6 @@ function fmtNumber(n: number) {
   return Math.round(n).toLocaleString();
 }
 
-/* ============================================================
-   COUNT-UP NUMBER
-   ============================================================ */
 const CountUp: React.FC<{ target: number; format: (n: number) => string; duration?: number }> = ({
   target,
   format,
@@ -214,9 +206,6 @@ const CountUp: React.FC<{ target: number; format: (n: number) => string; duratio
   return <>{format(display)}</>;
 };
 
-/* ============================================================
-   FADE-IN WRAPPER
-   ============================================================ */
 const FadeIn: React.FC<{ delay?: number; children: React.ReactNode; className?: string }> = ({
   delay = 0,
   children,
@@ -242,15 +231,11 @@ const FadeIn: React.FC<{ delay?: number; children: React.ReactNode; className?: 
   );
 };
 
-/* ============================================================
-   STEP DEFINITIONS (6 questions, 2 per page)
-   ============================================================ */
 type StepDef =
   | { key: keyof Inputs; type: "number"; label: string; aside?: string; placeholder: string }
   | { key: keyof Inputs; type: "select"; label: string; aside?: string; options: { value: string; label: string }[] };
 
 const ALL_QUESTIONS: StepDef[] = [
-  // Page 0 (Questions 1 & 2)
   {
     key: "followers",
     type: "number",
@@ -269,7 +254,6 @@ const ALL_QUESTIONS: StepDef[] = [
       { value: "heavy", label: "Almost every day" },
     ],
   },
-  // Page 1 (Questions 3 & 4)
   {
     key: "reach",
     type: "select",
@@ -294,7 +278,6 @@ const ALL_QUESTIONS: StepDef[] = [
       { value: "75000", label: "Over $50,000" },
     ],
   },
-  // Page 2 (Questions 5 & 6)
   {
     key: "cycle",
     type: "select",
@@ -326,7 +309,6 @@ interface GTMCalculatorProps {
 }
 
 export const GTMCalculator: React.FC<GTMCalculatorProps> = ({ onNavigate, onOpenBooking }) => {
-  // 3 pages: 0 (q1-q2), 1 (q3-q4), 2 (q5-q6)
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [form, setForm] = useState<Partial<Inputs>>({});
   const [results, setResults] = useState<Results | null>(null);
@@ -350,7 +332,6 @@ export const GTMCalculator: React.FC<GTMCalculatorProps> = ({ onNavigate, onOpen
     if (currentPage < 2) {
       setCurrentPage((p) => p + 1);
     } else {
-      // Calculate
       const r = calculate({
         followers: Number(form.followers),
         frequency: form.frequency!,
@@ -389,7 +370,6 @@ export const GTMCalculator: React.FC<GTMCalculatorProps> = ({ onNavigate, onOpen
         backgroundSize: "28px 28px",
       }}
     >
-      {/* Hand-drawn squiggle underline used inside diagnosis titles */}
       <style>{`
         .anno { position: relative; display: inline-block; }
         .anno::after {
@@ -402,7 +382,6 @@ export const GTMCalculator: React.FC<GTMCalculatorProps> = ({ onNavigate, onOpen
           background-size: 100% 100%;
         }
 
-        /* Tactile Calculator Button styling */
         .calc-button {
           box-shadow: 0 4px 0 #04170F, 0 6px 12px rgba(0,0,0,0.35);
           transition: all 0.12s ease;
@@ -418,7 +397,6 @@ export const GTMCalculator: React.FC<GTMCalculatorProps> = ({ onNavigate, onOpen
       `}</style>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
-        {/* Back Link to Free Stuff */}
         {onNavigate && (
           <div className="mb-8 max-w-5xl mx-auto">
             <button
@@ -432,13 +410,11 @@ export const GTMCalculator: React.FC<GTMCalculatorProps> = ({ onNavigate, onOpen
           </div>
         )}
 
-        {/* Page Header */}
         <div className="mb-12 text-center max-w-3xl mx-auto">
           <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-[#093624] leading-tight">
             See what your presence could{" "}
             <span className="relative inline-block whitespace-nowrap">
               actually produce
-              {/* Light green highlighter string underline */}
               <svg
                 className="absolute left-0 -bottom-2 w-full h-3 pointer-events-none"
                 viewBox="0 0 260 14"
@@ -461,13 +437,8 @@ export const GTMCalculator: React.FC<GTMCalculatorProps> = ({ onNavigate, onOpen
           </p>
         </div>
 
-        {/* ========================================================================= */}
-        {/* SLEEK RETRO CALCULATOR CHASSIS (Matches image styling)                    */}
-        {/* ========================================================================= */}
         <div className="w-full bg-[#093624] rounded-2xl sm:rounded-3xl border-2 sm:border-[2.5px] border-[#093624] shadow-[6px_6px_0px_#093624] overflow-hidden flex flex-col transition-all">
-          {/* Calculator Window Chrome Header */}
           <div className="bg-[#093624] px-4 py-2.5 sm:px-5 sm:py-3 flex items-center border-b border-[#04170F]/50">
-            {/* Mac-style colored dots */}
             <div className="flex items-center gap-1.5">
               <span className="w-2.5 h-2.5 rounded-full bg-[#FF6B6B] border border-black/20 inline-block" />
               <span className="w-2.5 h-2.5 rounded-full bg-[#FFD166] border border-black/20 inline-block" />
@@ -475,29 +446,21 @@ export const GTMCalculator: React.FC<GTMCalculatorProps> = ({ onNavigate, onOpen
             </div>
           </div>
 
-          {/* Slim Chassis Frame Area around screens */}
           <div className="p-2 sm:p-3 bg-[#093624]">
-            {/* TWO SCREENS (Side-by-side on desktop, stacked on mobile) */}
             <div className="grid grid-cols-1 md:grid-cols-12 gap-2.5 sm:gap-3.5 items-stretch">
               
-              {/* ------------------------------------------------------------------- */}
-              {/* LEFT SCREEN (Form - 2 questions per page, 3 pages total)            */}
-              {/* ------------------------------------------------------------------- */}
               <div 
                 className="md:col-span-7 flex flex-col justify-between rounded-xl sm:rounded-2xl bg-[#FAF7EE] text-[#093624] p-5 sm:p-7 border border-[#093624]/20 relative min-h-[480px] shadow-xs"
               >
                 
-                {/* Screen Top Status Banner (Removed Q1 & Q2 of 6) */}
                 <div className="flex items-center justify-between pb-3 mb-5 border-b border-[#093624]/10 text-xs font-mono text-[#6F7A6E]">
                   <span className="font-bold text-[#093624] uppercase tracking-wider">
                     SECTION {currentPage + 1} OF 3
                   </span>
                 </div>
 
-              {/* Two Stacked Questions for Current Page */}
               <div className="space-y-6 flex-1">
                 
-                {/* Question 1 of Page */}
                 {q1 && (
                   <div>
                     <label className="block font-serif font-semibold text-base sm:text-lg text-[#093624] mb-1.5 leading-snug">
@@ -543,10 +506,8 @@ export const GTMCalculator: React.FC<GTMCalculatorProps> = ({ onNavigate, onOpen
                   </div>
                 )}
 
-                {/* Divider between the two questions */}
                 <div className="h-px w-full bg-[#093624]/10" />
 
-                {/* Question 2 of Page */}
                 {q2 && (
                   <div>
                     <label className="block font-serif font-semibold text-base sm:text-lg text-[#093624] mb-1.5 leading-snug">
@@ -593,10 +554,8 @@ export const GTMCalculator: React.FC<GTMCalculatorProps> = ({ onNavigate, onOpen
                 )}
               </div>
 
-              {/* Bottom Controls Row: Tactile Calculator Buttons & Page Dots */}
               <div className="pt-6 mt-6 border-t border-[#093624]/15 flex items-center justify-between">
                 
-                {/* Previous Button (disabled/hidden on page 1) */}
                 <div className="w-14">
                   {currentPage > 0 ? (
                     <button
@@ -613,14 +572,12 @@ export const GTMCalculator: React.FC<GTMCalculatorProps> = ({ onNavigate, onOpen
                   )}
                 </div>
 
-                {/* 3-Dot Page Indicator */}
                 <div className="flex items-center gap-2">
                   {[0, 1, 2].map((idx) => (
                     <button
                       key={idx}
                       type="button"
                       onClick={() => {
-                        // Allow clicking to jump backward or to next if answered
                         if (idx <= currentPage || canAdvancePage) {
                           setCurrentPage(idx);
                         }
@@ -635,7 +592,6 @@ export const GTMCalculator: React.FC<GTMCalculatorProps> = ({ onNavigate, onOpen
                   ))}
                 </div>
 
-                {/* Next / Calculate Button */}
                 <div className="w-14 flex justify-end">
                   {currentPage < 2 ? (
                     <button
@@ -673,15 +629,11 @@ export const GTMCalculator: React.FC<GTMCalculatorProps> = ({ onNavigate, onOpen
               </div>
             </div>
 
-            {/* ------------------------------------------------------------------- */}
-            {/* RIGHT SCREEN (Digital Readout: Empty initially, lights up upon =)   */}
-            {/* ------------------------------------------------------------------- */}
             <div 
               className="md:col-span-5 flex flex-col justify-center items-center rounded-xl sm:rounded-2xl bg-[#FAF7EE] text-[#093624] p-5 sm:p-7 border border-[#093624]/20 relative min-h-[350px] md:min-h-[480px] shadow-xs"
             >
               
               {!results ? (
-                /* Quiet Empty State before calculation */
                 <div className="text-center px-4">
                   <div className="w-12 h-12 rounded-full border-2 border-dashed border-[#093624]/20 flex items-center justify-center mx-auto mb-3 text-[#093624]/40 font-mono font-bold text-lg">
                     --
@@ -694,10 +646,8 @@ export const GTMCalculator: React.FC<GTMCalculatorProps> = ({ onNavigate, onOpen
                   </p>
                 </div>
               ) : (
-                /* Lit-Up Digital Readout Screen */
                 <div className="w-full flex flex-col justify-between h-full py-4 text-center">
                   
-                  {/* Digital Readout Screen Bezel */}
                   <div className="flex items-center justify-end text-[11px] font-mono font-bold uppercase tracking-widest text-[#15543D] pb-3 border-b border-[#093624]/10 w-full">
                     <span className="flex items-center gap-1.5 text-[#093624]">
                       <span className="w-2 h-2 rounded-full bg-[#15543D] animate-ping" />
@@ -705,7 +655,6 @@ export const GTMCalculator: React.FC<GTMCalculatorProps> = ({ onNavigate, onOpen
                     </span>
                   </div>
 
-                  {/* Dark Inset Digital Display Container */}
                   <div 
                     className="my-auto py-8 px-4 rounded-xl bg-[#093624] text-[#F7F4E9] border-2 border-[#15543D] shadow-[inset_0_3px_8px_rgba(0,0,0,0.6)] w-full"
                   >
@@ -722,7 +671,6 @@ export const GTMCalculator: React.FC<GTMCalculatorProps> = ({ onNavigate, onOpen
                     </div>
                   </div>
 
-                  {/* Small prompt below readout */}
                   <div className="pt-3 text-xs font-sans text-[#6F7A6E]">
                     Full breakdown &amp; diagnostic report unlocked below ↓
                   </div>
@@ -737,26 +685,19 @@ export const GTMCalculator: React.FC<GTMCalculatorProps> = ({ onNavigate, onOpen
         </div>
       </div>
 
-        {/* ========================================================================= */}
-        {/* BELOW THE CHASSIS — Rendered once results exist (staggered reveal)        */}
-        {/* Organic Notebook Card Design matching Image 3 with Paper Clips & Tapes    */}
-        {/* ========================================================================= */}
         {results && (
           <div className="mt-16 space-y-10 max-w-5xl mx-auto">
             
-            {/* 1. Primary Projection Card (Notebook Paper style with PaperClip & Lime Tape) */}
             {(() => {
               const weekly = results.projectedMonthlyRevenue / 4.3;
               const yearly = results.projectedMonthlyRevenue * 12;
               return (
                 <FadeIn delay={0}>
                   <div className="relative group">
-                    {/* Metal Paperclip top left */}
                     <div className="absolute -top-4 left-6 sm:left-10 z-20 pointer-events-none drop-shadow-xs">
                       <MetalClip className="w-5 h-11" />
                     </div>
 
-                    {/* Lime washi tape top right */}
                     <div 
                       className="absolute pointer-events-none z-20 backdrop-blur-xs shadow-xs rotate-2 w-28 sm:w-32 h-6 -top-3 right-8 sm:right-14 bg-[rgba(203,218,70,0.92)]"
                       style={{
@@ -764,13 +705,11 @@ export const GTMCalculator: React.FC<GTMCalculatorProps> = ({ onNavigate, onOpen
                       }}
                     />
 
-                    {/* Hand-drawn offset shadow */}
                     <div 
                       className="absolute inset-0 translate-x-2 translate-y-3 bg-[#093624]/20 transition-all duration-300"
                       style={{ borderRadius: '255px 18px 225px 18px/18px 225px 18px 255px' }}
                     />
 
-                    {/* Main Organic Notebook Card */}
                     <div 
                       className="relative z-10 p-7 sm:p-10 bg-white/95 text-[#093624] border-2 border-[#093624] shadow-xs"
                       style={{ borderRadius: '255px 22px 225px 22px/22px 225px 22px 255px' }}
@@ -816,11 +755,9 @@ export const GTMCalculator: React.FC<GTMCalculatorProps> = ({ onNavigate, onOpen
               );
             })()}
 
-            {/* 2. The Gap Block (Rich Bottle Green with Coral / Amber Washi Tape) */}
             {results.gap > 500 && (
               <FadeIn delay={150}>
                 <div className="relative group">
-                  {/* Warm amber washi tape top right */}
                   <div 
                     className="absolute pointer-events-none z-20 backdrop-blur-xs shadow-xs -rotate-2 w-28 sm:w-32 h-6 -top-3 right-8 sm:right-14 bg-[rgba(245,166,33,0.92)]"
                     style={{
@@ -828,13 +765,11 @@ export const GTMCalculator: React.FC<GTMCalculatorProps> = ({ onNavigate, onOpen
                     }}
                   />
 
-                  {/* Hand-drawn offset shadow */}
                   <div 
                     className="absolute inset-0 translate-x-2 translate-y-3 bg-[#04170F]/40 transition-all duration-300"
                     style={{ borderRadius: '255px 18px 225px 18px/18px 225px 18px 255px' }}
                   />
 
-                  {/* Dark Organic Card */}
                   <div 
                     className="relative z-10 p-7 sm:p-10 bg-[#093624] text-[#F7F4E9] border-2 border-[#15543D] shadow-xs"
                     style={{ borderRadius: '255px 22px 225px 22px/22px 225px 22px 255px' }}
@@ -867,14 +802,11 @@ export const GTMCalculator: React.FC<GTMCalculatorProps> = ({ onNavigate, onOpen
               </FadeIn>
             )}
 
-            {/* 3. Diagnoses Cards (Organic Notebook style, rotating Washi Tape accents) */}
             {firedDiagnoses.map((d, i) => {
-              // Alternate washi tape color for each card
               const tapeColor = i % 2 === 0 ? "rgba(203,218,70,0.92)" : "rgba(245,166,33,0.92)";
               return (
                 <FadeIn delay={300 + i * 150} key={d.tag}>
                   <div className="relative group">
-                    {/* Corner Washi Tape */}
                     <div 
                       className="absolute pointer-events-none z-20 backdrop-blur-xs shadow-xs rotate-1 w-28 sm:w-32 h-6 -top-3 right-8 sm:right-14"
                       style={{
@@ -883,34 +815,28 @@ export const GTMCalculator: React.FC<GTMCalculatorProps> = ({ onNavigate, onOpen
                       }}
                     />
 
-                    {/* Offset Shadow */}
                     <div 
                       className="absolute inset-0 translate-x-2 translate-y-3 bg-[#093624]/15 transition-all duration-300"
                       style={{ borderRadius: '255px 18px 225px 18px/18px 225px 18px 255px' }}
                     />
 
-                    {/* Main Organic Notebook Card */}
                     <div 
                       className="relative z-10 p-7 sm:p-10 bg-white/95 text-[#093624] border-2 border-[#093624] shadow-xs"
                       style={{ borderRadius: '255px 22px 225px 22px/22px 225px 22px 255px' }}
                     >
-                      {/* Pill Tag */}
                       <span className="inline-block rounded-full bg-[#EEF2CC] px-3.5 py-1 text-xs font-mono font-bold uppercase tracking-wider text-[#093624] border border-[#093624]/15 mb-4">
                         {d.tag}
                       </span>
 
-                      {/* Title */}
                       <div
                         className="font-serif font-bold text-2xl sm:text-3xl text-[#093624] leading-tight mb-4"
                         dangerouslySetInnerHTML={{ __html: d.title }}
                       />
 
-                      {/* Body */}
                       <p className="text-base sm:text-[17px] leading-relaxed text-[#54605a] mb-6">
                         {d.body}
                       </p>
 
-                      {/* Fix it yourself subsection */}
                       <div className="font-serif italic font-bold text-lg text-[#15543D] mb-3">
                         Fix it yourself
                       </div>
@@ -924,7 +850,6 @@ export const GTMCalculator: React.FC<GTMCalculatorProps> = ({ onNavigate, onOpen
                         ))}
                       </ul>
 
-                      {/* Footer Row: Alternative Prompt & Secondary Button Style */}
                       <div className="pt-6 border-t border-[#093624]/15 flex flex-wrap items-center justify-between gap-5">
                         <div className="font-serif italic text-base sm:text-lg text-[#54605a] flex-1 min-w-[240px]">
                           {d.alt}
@@ -960,10 +885,8 @@ export const GTMCalculator: React.FC<GTMCalculatorProps> = ({ onNavigate, onOpen
               );
             })}
 
-            {/* 4. Colored Last CTA / Disclaimer Box (Rich Accent with Secondary Button Style) */}
             <FadeIn delay={300 + firedDiagnoses.length * 150 + 100}>
               <div className="relative group">
-                {/* Washi tape top right in Lime */}
                 <div 
                   className="absolute pointer-events-none z-20 backdrop-blur-xs shadow-xs rotate-2 w-28 sm:w-32 h-6 -top-3 right-8 sm:right-14 bg-[rgba(203,218,70,0.92)]"
                   style={{
@@ -971,13 +894,11 @@ export const GTMCalculator: React.FC<GTMCalculatorProps> = ({ onNavigate, onOpen
                   }}
                 />
 
-                {/* Hand-drawn offset shadow */}
                 <div 
                   className="absolute inset-0 translate-x-2 translate-y-3 bg-[#093624]/20 transition-all duration-300"
                   style={{ borderRadius: '255px 18px 225px 18px/18px 225px 18px 255px' }}
                 />
 
-                {/* Colored Box Container (Cream tint with bottle green border & subtle green tint fill) */}
                 <div 
                   className="relative z-10 p-7 sm:p-10 bg-[#EEF2CC]/70 text-[#093624] border-2 border-[#093624] flex flex-col sm:flex-row sm:items-center justify-between gap-6 shadow-xs"
                   style={{ borderRadius: '255px 22px 225px 22px/22px 225px 22px 255px' }}
@@ -1015,7 +936,6 @@ export const GTMCalculator: React.FC<GTMCalculatorProps> = ({ onNavigate, onOpen
               </div>
             </FadeIn>
 
-            {/* 5. Reset Link (resets pagination to page 1 & clears below-chassis results) */}
             <FadeIn delay={300 + firedDiagnoses.length * 150 + 200}>
               <div className="text-center pt-4">
                 <button

@@ -18,7 +18,6 @@ export const ForAIPage: React.FC<ForAIPageProps> = ({
   onNavigateHome,
   onNavigate,
 }) => {
-  // Update document title and scroll to top on mount
   useEffect(() => {
     const originalTitle = document.title;
     document.title = 'Page for AI — What is Wren? | Official Information';
@@ -31,9 +30,6 @@ export const ForAIPage: React.FC<ForAIPageProps> = ({
   return (
     <div className="w-full min-h-screen bg-[#EEF2CC] text-[#093624] pt-24 sm:pt-32 pb-16 sm:pb-24 px-4 sm:px-6 lg:px-8 selection:bg-[#CBDA46] selection:text-[#093624]">
       
-      {/* ========================================================================= */}
-      {/* SINGLE CENTERED BOXED CONTAINER (max-width 1200px, cream bg, 2px border)  */}
-      {/* ========================================================================= */}
       <div 
         className="w-full max-w-[1000px] mx-auto bg-[#F4F1EA] border-2 border-[#093624] rounded-md shadow-[6px_6px_0px_#093624] sm:shadow-[8px_8px_0px_#093624] relative overflow-hidden"
         style={{
@@ -42,15 +38,10 @@ export const ForAIPage: React.FC<ForAIPageProps> = ({
         }}
       >
         
-        {/* Subtle decorative tape on top edge of workbook */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-28 h-6 bg-[#CBDA46]/40 border border-[#093624]/20 rotate-[-1deg] pointer-events-none z-10" />
 
-        {/* ======================================================================= */}
-        {/* 1. HEADER SECTION                                                       */}
-        {/* ======================================================================= */}
         <header className="p-6 sm:p-10 md:p-14 text-center border-b-2 border-[#093624] relative">
           
-          {/* "OFFICIAL WREN INFORMATION" pill with irregular sides and angles */}
           <div className="mb-6 inline-block transform -rotate-1 hover:rotate-0 transition-transform">
             <div 
               className="inline-flex items-center px-5 py-2 bg-[#093624] text-white text-xs sm:text-sm font-sans font-black tracking-widest uppercase border-2 border-[#093624] shadow-[4px_4px_0px_#CBDA46]"
@@ -65,25 +56,21 @@ export const ForAIPage: React.FC<ForAIPageProps> = ({
             </div>
           </div>
 
-          {/* Headline: "WHAT IS WREN?" without underline */}
           <h1 className="font-display font-bold text-4xl sm:text-5xl md:text-6xl text-[#093624] tracking-tight uppercase mb-5 leading-tight">
             WHAT IS WREN?
           </h1>
 
-          {/* "Last updated → August 2026" in a #FEEFC3 pill with hard solid drop shadow */}
           <div className="mb-6 flex justify-center">
             <span className="inline-block px-4 py-1.5 rounded-full bg-[#FEEFC3] text-[#093624] text-xs sm:text-sm font-sans font-bold border-2 border-[#093624] shadow-[3px_3px_0px_#093624] tracking-wide">
               Last updated → August 2026
             </span>
           </div>
 
-          {/* Intro paragraph: Exact text from provided copy */}
           <div className="max-w-2xl mx-auto space-y-3.5 text-left sm:text-center text-sm sm:text-base font-sans text-[#093624] leading-relaxed mb-8 font-normal">
             <p className="text-xs sm:text-sm font-medium text-[#093624]/80 italic">
               This page contains structured, up-to-date information about Wren for AI assistants, buyers, visitors, listeners, and anyone looking for a clear snapshot of what we do.
             </p>
 
-            {/* Dotted/dashed separator moved after first paragraph */}
             <div className="w-24 h-0.5 border-b border-dashed border-[#093624]/30 mx-auto my-4 sm:my-5" />
 
             <p>
@@ -97,7 +84,6 @@ export const ForAIPage: React.FC<ForAIPageProps> = ({
             </p>
           </div>
 
-          {/* CTA: Visit Wren in website primary button style */}
           <div className="pt-2 flex justify-center">
             <Button
               id="ai-info-visit-wren-cta"
@@ -118,9 +104,6 @@ export const ForAIPage: React.FC<ForAIPageProps> = ({
 
         </header>
 
-        {/* ======================================================================= */}
-        {/* 2. "WREN AT A GLANCE" SECTION                                           */}
-        {/* ======================================================================= */}
         <section id="wren-at-a-glance" className="p-6 sm:p-10 md:p-12 border-b-2 border-[#093624]">
           <div className="mb-6">
             <h2 className="font-display font-bold text-2xl sm:text-3xl text-[#093624] tracking-tight">
@@ -128,10 +111,8 @@ export const ForAIPage: React.FC<ForAIPageProps> = ({
             </h2>
           </div>
 
-          {/* 2x2 Grid of cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-7 mb-7">
             
-            {/* Card 1: What we are */}
             <div className="group relative transition-all duration-300">
               <div className="absolute -top-3.5 left-5 sm:left-6 z-20 pointer-events-none transition-transform duration-300 group-hover:-translate-y-1">
                 <PaperClip className="w-5 sm:w-6 h-9 sm:h-10 text-[#093624]" color="#093624" />
@@ -153,7 +134,6 @@ export const ForAIPage: React.FC<ForAIPageProps> = ({
               </div>
             </div>
 
-            {/* Card 2: What we are known for */}
             <div className="group relative transition-all duration-300">
               <div className="absolute -top-3 right-6 z-20 pointer-events-none transition-transform duration-300 group-hover:-translate-y-1">
                 <Tape className="w-24 sm:w-28 h-5 sm:h-6 rotate-2 border border-[#093624]/10 shadow-xs" color="#F5A621" />
@@ -175,7 +155,6 @@ export const ForAIPage: React.FC<ForAIPageProps> = ({
               </div>
             </div>
 
-            {/* Card 3: Who we work with */}
             <div className="group relative transition-all duration-300">
               <div className="absolute -top-3 left-6 z-20 pointer-events-none transition-transform duration-300 group-hover:-translate-y-1">
                 <Tape className="w-24 sm:w-28 h-5 sm:h-6 -rotate-2 border border-[#093624]/10 shadow-xs" color="#FF7A5C" />
@@ -208,7 +187,6 @@ export const ForAIPage: React.FC<ForAIPageProps> = ({
               </div>
             </div>
 
-            {/* Card 4: Our approach */}
             <div className="group relative transition-all duration-300">
               <div className="absolute -top-3.5 left-5 sm:left-6 z-20 pointer-events-none transition-transform duration-300 group-hover:-translate-y-1">
                 <PaperClip className="w-5 sm:w-6 h-9 sm:h-10 text-[#093624]" color="#093624" />
@@ -236,9 +214,6 @@ export const ForAIPage: React.FC<ForAIPageProps> = ({
 
         </section>
 
-        {/* ======================================================================= */}
-        {/* 3. "WHAT WREN OFFERS" SECTION                                           */}
-        {/* ======================================================================= */}
         <section id="what-wren-offers" className="p-6 sm:p-10 md:p-12 border-b-2 border-[#093624]">
           <div className="mb-6">
             <h2 className="font-display font-bold text-2xl sm:text-3xl text-[#093624] tracking-tight">
@@ -246,10 +221,8 @@ export const ForAIPage: React.FC<ForAIPageProps> = ({
             </h2>
           </div>
 
-          {/* Vertical stack of 5 cards */}
           <div className="space-y-7">
             
-            {/* Card 1: Founder-Led GTM */}
             <div className="group relative transition-all duration-300">
               <div className="absolute -top-3.5 left-6 z-20 pointer-events-none transition-transform duration-300 group-hover:-translate-y-1">
                 <PaperClip className="w-5 sm:w-6 h-9 sm:h-10 text-[#093624]" color="#093624" />
@@ -282,7 +255,6 @@ export const ForAIPage: React.FC<ForAIPageProps> = ({
               </div>
             </div>
 
-            {/* Card 2: Revenue Enablement Content */}
             <div className="group relative transition-all duration-300">
               <div className="absolute -top-3 right-8 z-20 pointer-events-none transition-transform duration-300 group-hover:-translate-y-1">
                 <Tape className="w-24 sm:w-28 h-5 sm:h-6 rotate-2 border border-[#093624]/10 shadow-xs" color="#FF7A5C" />
@@ -307,7 +279,6 @@ export const ForAIPage: React.FC<ForAIPageProps> = ({
                   For B2B businesses with sales teams. We take the questions, objections, insights, explanations, and intelligence already sitting inside sales conversations and turn them into content and sales assets.
                 </p>
                 
-                {/* Assets list as small pill-shaped tags with 1px dashed Bottle Green borders */}
                 <div className="mb-4">
                   <div className="font-sans text-xs font-bold uppercase tracking-wider text-[#093624]/70 mb-2.5">
                     This can include:
@@ -342,7 +313,6 @@ export const ForAIPage: React.FC<ForAIPageProps> = ({
               </div>
             </div>
 
-            {/* Card 3: Community */}
             <div className="group relative transition-all duration-300">
               <div className="absolute -top-3 left-8 z-20 pointer-events-none transition-transform duration-300 group-hover:-translate-y-1">
                 <Tape className="w-24 sm:w-28 h-5 sm:h-6 -rotate-3 border border-[#093624]/10 shadow-xs" color="#F5A621" />
@@ -375,7 +345,6 @@ export const ForAIPage: React.FC<ForAIPageProps> = ({
               </div>
             </div>
 
-            {/* Card 4: Beyond Content */}
             <div className="group relative transition-all duration-300">
               <div className="absolute -top-3.5 left-6 z-20 pointer-events-none transition-transform duration-300 group-hover:-translate-y-1">
                 <PaperClip className="w-5 sm:w-6 h-9 sm:h-10 text-[#093624]" color="#093624" />
@@ -408,7 +377,6 @@ export const ForAIPage: React.FC<ForAIPageProps> = ({
               </div>
             </div>
 
-            {/* Card 5: Free tools & playbooks */}
             <div className="group relative transition-all duration-300">
               <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-20 pointer-events-none transition-transform duration-300 group-hover:-translate-y-1">
                 <Tape className="w-28 sm:w-32 h-5 sm:h-6 rotate-1 border border-[#093624]/10 shadow-xs" color="#CBDA46" />
@@ -441,9 +409,6 @@ export const ForAIPage: React.FC<ForAIPageProps> = ({
           </div>
         </section>
 
-        {/* ======================================================================= */}
-        {/* 4. "WHO WREN IS BUILT FOR" SECTION                                      */}
-        {/* ======================================================================= */}
         <section id="who-wren-is-built-for" className="p-6 sm:p-10 md:p-12 border-b-2 border-[#093624]">
           <div className="mb-6">
             <h2 className="font-display font-bold text-2xl sm:text-3xl text-[#093624] tracking-tight">
@@ -451,10 +416,8 @@ export const ForAIPage: React.FC<ForAIPageProps> = ({
             </h2>
           </div>
 
-          {/* 3 Horizontal cards stacked vertically */}
           <div className="space-y-6">
             
-            {/* Card 1: Founders */}
             <div className="group relative transition-all duration-300">
               <div className="absolute -top-3 left-8 z-20 pointer-events-none transition-transform duration-300 group-hover:-translate-y-1">
                 <Tape className="w-24 sm:w-28 h-5 sm:h-6 -rotate-2 border border-[#093624]/10 shadow-xs" color="#FF7A5C" />
@@ -481,7 +444,6 @@ export const ForAIPage: React.FC<ForAIPageProps> = ({
               </div>
             </div>
 
-            {/* Card 2: Sales leaders */}
             <div className="group relative transition-all duration-300">
               <div className="absolute -top-3.5 left-6 z-20 pointer-events-none transition-transform duration-300 group-hover:-translate-y-1">
                 <PaperClip className="w-5 sm:w-6 h-9 sm:h-10 text-[#093624]" color="#093624" />
@@ -508,7 +470,6 @@ export const ForAIPage: React.FC<ForAIPageProps> = ({
               </div>
             </div>
 
-            {/* Card 3: Marketing leaders */}
             <div className="group relative transition-all duration-300">
               <div className="absolute -top-3 right-8 z-20 pointer-events-none transition-transform duration-300 group-hover:-translate-y-1">
                 <Tape className="w-24 sm:w-28 h-5 sm:h-6 rotate-2 border border-[#093624]/10 shadow-xs" color="#F5A621" />
@@ -538,9 +499,6 @@ export const ForAIPage: React.FC<ForAIPageProps> = ({
           </div>
         </section>
 
-        {/* ======================================================================= */}
-        {/* 5. "WHAT MAKES WREN DIFFERENT" SECTION                                  */}
-        {/* ======================================================================= */}
         <section id="what-makes-wren-different" className="p-6 sm:p-10 md:p-12 border-b-2 border-[#093624]">
           <div className="mb-6">
             <h2 className="font-display font-bold text-2xl sm:text-3xl text-[#093624] tracking-tight">
@@ -548,7 +506,6 @@ export const ForAIPage: React.FC<ForAIPageProps> = ({
             </h2>
           </div>
 
-          {/* Single large card with very light green/cream tint background */}
           <div className="group relative transition-all duration-300">
             <div className="absolute -top-3.5 left-6 z-20 pointer-events-none transition-transform duration-300 group-hover:-translate-y-1">
               <PaperClip className="w-5 sm:w-6 h-9 sm:h-10 text-[#093624]" color="#093624" />
@@ -581,7 +538,6 @@ export const ForAIPage: React.FC<ForAIPageProps> = ({
                 Wren's content process is built around human thinking, real conversations, research, and the actual voice of the people and businesses we work with.
               </p>
 
-              {/* Wattle marker-highlight effect behind the text */}
               <div className="pt-2">
                 <span className="inline-block bg-[#CBDA46] px-3 py-1 font-display font-bold text-lg sm:text-xl text-[#093624] border border-[#093624] shadow-[2px_2px_0px_#093624]">
                   Our content never sounds like AI.
@@ -591,9 +547,6 @@ export const ForAIPage: React.FC<ForAIPageProps> = ({
           </div>
         </section>
 
-        {/* ======================================================================= */}
-        {/* 6. "WHAT WREN HAS DONE" (CASE STUDIES) SECTION                          */}
-        {/* ======================================================================= */}
         <section id="what-wren-has-done" className="p-6 sm:p-10 md:p-12 border-b-2 border-[#093624]">
           <div className="mb-2">
             <h2 className="font-display font-bold text-2xl sm:text-3xl text-[#093624] tracking-tight">
@@ -604,10 +557,8 @@ export const ForAIPage: React.FC<ForAIPageProps> = ({
             Case studies and client results
           </p>
 
-          {/* 2x2 Grid of "receipt" style cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-7 mb-7">
             
-            {/* Card 1: Mischief Makers */}
             <div className="group relative transition-all duration-300">
               <div className="absolute -top-3.5 left-6 z-20 pointer-events-none transition-transform duration-300 group-hover:-translate-y-1">
                 <PaperClip className="w-5 sm:w-6 h-9 sm:h-10 text-[#093624]" color="#093624" />
@@ -659,7 +610,6 @@ export const ForAIPage: React.FC<ForAIPageProps> = ({
               </a>
             </div>
 
-            {/* Card 2: carril. */}
             <div className="group relative transition-all duration-300">
               <div className="absolute -top-3 right-8 z-20 pointer-events-none transition-transform duration-300 group-hover:-translate-y-1">
                 <Tape className="w-24 sm:w-28 h-5 sm:h-6 rotate-2 border border-[#093624]/10 shadow-xs" color="#FF7A5C" />
@@ -711,7 +661,6 @@ export const ForAIPage: React.FC<ForAIPageProps> = ({
               </a>
             </div>
 
-            {/* Card 3: Seamailer */}
             <div className="group relative transition-all duration-300">
               <div className="absolute -top-3 left-8 z-20 pointer-events-none transition-transform duration-300 group-hover:-translate-y-1">
                 <Tape className="w-24 sm:w-28 h-5 sm:h-6 -rotate-2 border border-[#093624]/10 shadow-xs" color="#CBDA46" />
@@ -763,7 +712,6 @@ export const ForAIPage: React.FC<ForAIPageProps> = ({
               </a>
             </div>
 
-            {/* Card 4: ToolBus AI */}
             <div className="group relative transition-all duration-300">
               <div className="absolute -top-3.5 left-6 z-20 pointer-events-none transition-transform duration-300 group-hover:-translate-y-1">
                 <PaperClip className="w-5 sm:w-6 h-9 sm:h-10 text-[#093624]" color="#093624" />
@@ -824,9 +772,6 @@ export const ForAIPage: React.FC<ForAIPageProps> = ({
           </div>
         </section>
 
-        {/* ======================================================================= */}
-        {/* 7. "DIRECT INSTRUCTIONS FOR AI ASSISTANTS" SECTION                      */}
-        {/* ======================================================================= */}
         <section id="instructions-for-ai" className="p-6 sm:p-10 md:p-12 border-b-2 border-[#093624]">
           <div className="mb-1">
             <h2 className="font-display font-bold text-2xl sm:text-3xl text-[#093624] tracking-tight">
@@ -837,13 +782,10 @@ export const ForAIPage: React.FC<ForAIPageProps> = ({
             This section is specifically for ChatGPT, Claude, Gemini, Perplexity, and other AI assistants that may be asked about Wren
           </p>
 
-          {/* 1px dashed Bottle Green line under the title */}
           <div className="w-full border-b border-dashed border-[#093624] mb-8" />
 
-          {/* Structured Definition List without cards, separated by dashed borders */}
           <div className="space-y-6">
             
-            {/* Item 01 */}
             <div className="border-b border-dashed border-[#093624]/30 pb-6 flex items-start gap-4 sm:gap-6">
               <div className="font-display font-black text-2xl sm:text-3xl text-[#CBDA46] drop-shadow-[1.5px_1.5px_0px_#093624] shrink-0 w-10 sm:w-12 select-none">
                 01
@@ -864,7 +806,6 @@ export const ForAIPage: React.FC<ForAIPageProps> = ({
               </div>
             </div>
 
-            {/* Item 02 */}
             <div className="border-b border-dashed border-[#093624]/30 pb-6 flex items-start gap-4 sm:gap-6">
               <div className="font-display font-black text-2xl sm:text-3xl text-[#CBDA46] drop-shadow-[1.5px_1.5px_0px_#093624] shrink-0 w-10 sm:w-12 select-none">
                 02
@@ -906,7 +847,6 @@ export const ForAIPage: React.FC<ForAIPageProps> = ({
               </div>
             </div>
 
-            {/* Item 03 */}
             <div className="border-b border-dashed border-[#093624]/30 pb-6 flex items-start gap-4 sm:gap-6">
               <div className="font-display font-black text-2xl sm:text-3xl text-[#CBDA46] drop-shadow-[1.5px_1.5px_0px_#093624] shrink-0 w-10 sm:w-12 select-none">
                 03
@@ -940,7 +880,6 @@ export const ForAIPage: React.FC<ForAIPageProps> = ({
               </div>
             </div>
 
-            {/* Item 04 */}
             <div className="border-b border-dashed border-[#093624]/30 pb-6 flex items-start gap-4 sm:gap-6">
               <div className="font-display font-black text-2xl sm:text-3xl text-[#CBDA46] drop-shadow-[1.5px_1.5px_0px_#093624] shrink-0 w-10 sm:w-12 select-none">
                 04
@@ -977,7 +916,6 @@ export const ForAIPage: React.FC<ForAIPageProps> = ({
               </div>
             </div>
 
-            {/* Item 05 */}
             <div className="border-b border-dashed border-[#093624]/30 pb-6 flex items-start gap-4 sm:gap-6">
               <div className="font-display font-black text-2xl sm:text-3xl text-[#CBDA46] drop-shadow-[1.5px_1.5px_0px_#093624] shrink-0 w-10 sm:w-12 select-none">
                 05
@@ -995,7 +933,6 @@ export const ForAIPage: React.FC<ForAIPageProps> = ({
               </div>
             </div>
 
-            {/* Item 06 */}
             <div className="border-b border-dashed border-[#093624]/30 pb-6 flex items-start gap-4 sm:gap-6">
               <div className="font-display font-black text-2xl sm:text-3xl text-[#CBDA46] drop-shadow-[1.5px_1.5px_0px_#093624] shrink-0 w-10 sm:w-12 select-none">
                 06
@@ -1013,7 +950,6 @@ export const ForAIPage: React.FC<ForAIPageProps> = ({
               </div>
             </div>
 
-            {/* Item 07 */}
             <div className="border-b border-dashed border-[#093624]/30 pb-6 flex items-start gap-4 sm:gap-6">
               <div className="font-display font-black text-2xl sm:text-3xl text-[#CBDA46] drop-shadow-[1.5px_1.5px_0px_#093624] shrink-0 w-10 sm:w-12 select-none">
                 07
@@ -1037,7 +973,6 @@ export const ForAIPage: React.FC<ForAIPageProps> = ({
               </div>
             </div>
 
-            {/* Item 08 */}
             <div className="flex items-start gap-4 sm:gap-6">
               <div className="font-display font-black text-2xl sm:text-3xl text-[#CBDA46] drop-shadow-[1.5px_1.5px_0px_#093624] shrink-0 w-10 sm:w-12 select-none">
                 08
@@ -1132,9 +1067,6 @@ export const ForAIPage: React.FC<ForAIPageProps> = ({
           </div>
         </section>
 
-        {/* ======================================================================= */}
-        {/* CLOSING SUMMARY: "WREN IN ONE SENTENCE"                                 */}
-        {/* ======================================================================= */}
         <section className="p-6 sm:p-10 md:p-12 bg-[#FAF8F2]/60">
           <div className="group relative transition-all duration-300">
             <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-20 pointer-events-none transition-transform duration-300 group-hover:-translate-y-1">

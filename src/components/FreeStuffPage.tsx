@@ -33,16 +33,13 @@ export const FreeStuffPage: React.FC<FreeStuffPageProps> = ({
   onOpenBooking,
   onNavigate
 }) => {
-  // Modal state for active interactive tools
   const [activeModal, setActiveModal] = useState<'launch-checklist' | 'gtm-calculator' | null>(null);
 
-  // GTM Calculator State
   const [dealSize, setDealSize] = useState<number>(18000);
   const [monthlyLeads, setMonthlyLeads] = useState<number>(45);
   const [closeRate, setCloseRate] = useState<number>(18);
   const [founderHoursPerWeek, setFounderHoursPerWeek] = useState<number>(14);
 
-  // Launch Checklist State (interactive checkboxes)
   const [checkedItems, setCheckedItems] = useState<Record<string, boolean>>({
     'c1': true,
     'c2': true,
@@ -59,9 +56,8 @@ export const FreeStuffPage: React.FC<FreeStuffPageProps> = ({
 
   const completedChecklistCount = Object.values(checkedItems).filter(Boolean).length;
 
-  // Calculated values for GTM Calculator
   const estimatedAnnualPipeline = Math.round(monthlyLeads * (closeRate / 100) * dealSize * 12);
-  const potentialHoursSavedYearly = founderHoursPerWeek * 48 * 0.65; // 65% delegation with automated engine
+  const potentialHoursSavedYearly = founderHoursPerWeek * 48 * 0.65;
 
   const handleShareTool = () => {
     try {
@@ -93,47 +89,23 @@ export const FreeStuffPage: React.FC<FreeStuffPageProps> = ({
   return (
     <div className="w-full bg-[#FAF7EE] text-[#0E1A15] relative selection:bg-[#CBDA46] selection:text-[#093624] overflow-x-hidden font-sans pt-28 sm:pt-36 pb-20">
       
-      {/* ========================================================================= */}
-      {/* HERO SECTION                                                              */}
-      {/* Exact copy from brief:                                                    */}
-      {/* Headline: Free stuff for your GTM                                         */}
-      {/* Subheading: Tools, checklists, and playbooks we've built to help you      */}
-      {/* figure out everything GTM and get moving.                                 */}
-      {/* Handwritten note: Steal whatever's useful. We won't tell.                 */}
-      {/* ========================================================================= */}
       <section className="relative px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto pt-10 pb-8 text-center">
 
-        {/* Headline without underline */}
         <div className="relative inline-block mx-auto max-w-4xl">
           <h1 className="font-display font-serif font-bold text-4xl sm:text-6xl md:text-7xl text-[#093624] tracking-tight leading-[1.1] mb-5">
             Free stuff for your GTM
           </h1>
         </div>
 
-        {/* Subheading */}
         <p className="max-w-2xl mx-auto font-sans text-base sm:text-lg md:text-xl text-[#0E1A15]/85 leading-relaxed">
           Tools, checklists, and playbooks we've built to help you figure out everything GTM and get moving.
         </p>
       </section>
 
-      {/* ========================================================================= */}
-      {/* 6-CARD FREE STUFF GRID (Retro App / Browser Window Cards)                 */}
-      {/* Exact 6 items matching brief:                                             */}
-      {/* 1. Launch Checklist                                                       */}
-      {/* 2. GTM Calculator                                                         */}
-      {/* 3. Hook Generator                                                         */}
-      {/* 4. FREE STUFF FOUR                                                        */}
-      {/* 5. FREE STUFF FIVE                                                        */}
-      {/* 6. FREE STUFF SIX                                                         */}
-      {/* ========================================================================= */}
       <section id="free-stuff-grid" className="px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto py-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 items-stretch">
           
-          {/* ------------------------------------------------------------------- */}
-          {/* Card 1: Launch Checklist (Pale Mint Green #E3F4EB / Header #D0EBDD) */}
-          {/* ------------------------------------------------------------------- */}
           <div className="group relative transition-all duration-300 flex flex-col h-full rounded-2xl border-2 border-[#093624] shadow-[6px_8px_0px_#093624] overflow-hidden bg-[#E3F4EB] hover:-translate-y-1 hover:shadow-[7px_10px_0px_#093624]">
-            {/* Retro Window Titlebar */}
             <div className="flex items-center justify-between px-4 py-2.5 bg-[#D0EBDD] border-b-2 border-[#093624]">
               <div className="flex items-center gap-1.5">
                 <span className="w-2.5 h-2.5 rounded-full bg-[#EF4444] border border-[#093624]/40 inline-block" />
@@ -145,7 +117,6 @@ export const FreeStuffPage: React.FC<FreeStuffPageProps> = ({
               </div>
             </div>
 
-            {/* Window Content */}
             <div className="p-6 sm:p-7 flex flex-col justify-between flex-1">
               <div>
                 <h2 className="font-display font-serif font-bold text-2xl sm:text-[1.65rem] text-[#093624] tracking-tight leading-snug mb-3">
@@ -157,7 +128,6 @@ export const FreeStuffPage: React.FC<FreeStuffPageProps> = ({
                 </p>
               </div>
 
-              {/* CTA Button without icons */}
               <div className="pt-4 border-t border-[#093624]/15 mt-auto">
                 <button
                   type="button"
@@ -176,11 +146,7 @@ export const FreeStuffPage: React.FC<FreeStuffPageProps> = ({
             </div>
           </div>
 
-          {/* ------------------------------------------------------------------- */}
-          {/* Card 2: GTM Calculator (Pale Sky Blue #E2F0FD / Header #CFE5FA)     */}
-          {/* ------------------------------------------------------------------- */}
           <div className="group relative transition-all duration-300 flex flex-col h-full rounded-2xl border-2 border-[#093624] shadow-[6px_8px_0px_#093624] overflow-hidden bg-[#E2F0FD] hover:-translate-y-1 hover:shadow-[7px_10px_0px_#093624]">
-            {/* Retro Window Titlebar */}
             <div className="flex items-center justify-between px-4 py-2.5 bg-[#CFE5FA] border-b-2 border-[#093624]">
               <div className="flex items-center gap-1.5">
                 <span className="w-2.5 h-2.5 rounded-full bg-[#EF4444] border border-[#093624]/40 inline-block" />
@@ -192,7 +158,6 @@ export const FreeStuffPage: React.FC<FreeStuffPageProps> = ({
               </div>
             </div>
 
-            {/* Window Content */}
             <div className="p-6 sm:p-7 flex flex-col justify-between flex-1">
               <div>
                 <h2 className="font-display font-serif font-bold text-2xl sm:text-[1.65rem] text-[#093624] tracking-tight leading-snug mb-3">
@@ -204,7 +169,6 @@ export const FreeStuffPage: React.FC<FreeStuffPageProps> = ({
                 </p>
               </div>
 
-              {/* CTA Button without icons */}
               <div className="pt-4 border-t border-[#093624]/15 mt-auto">
                 <button
                   type="button"
@@ -223,11 +187,7 @@ export const FreeStuffPage: React.FC<FreeStuffPageProps> = ({
             </div>
           </div>
 
-          {/* ------------------------------------------------------------------- */}
-          {/* Card 3: Hook Generator (Pale Warm Cream #FFF8E7 / Header #FEEFC3)    */}
-          {/* ------------------------------------------------------------------- */}
           <div className="group relative transition-all duration-300 flex flex-col h-full rounded-2xl border-2 border-[#093624] shadow-[5px_6px_0px_#093624] overflow-hidden bg-[#FFF8E7] opacity-55 hover:opacity-75 hover:-translate-y-0.5">
-            {/* Retro Window Titlebar */}
             <div className="flex items-center justify-between px-4 py-2.5 bg-[#FEEFC3] border-b-2 border-[#093624]">
               <div className="flex items-center gap-1.5">
                 <span className="w-2.5 h-2.5 rounded-full bg-[#EF4444] border border-[#093624]/40 inline-block" />
@@ -239,7 +199,6 @@ export const FreeStuffPage: React.FC<FreeStuffPageProps> = ({
               </div>
             </div>
 
-            {/* Window Content */}
             <div className="p-6 sm:p-7 flex flex-col justify-between flex-1">
               <div>
                 <h2 className="font-display font-serif font-bold text-2xl sm:text-[1.65rem] text-[#093624] tracking-tight leading-snug mb-3">
@@ -251,7 +210,6 @@ export const FreeStuffPage: React.FC<FreeStuffPageProps> = ({
                 </p>
               </div>
 
-              {/* Locked CTA: Only Request early access */}
               <div className="pt-4 border-t border-[#093624]/15 mt-auto flex items-center justify-end">
                 <button
                   type="button"
@@ -264,11 +222,7 @@ export const FreeStuffPage: React.FC<FreeStuffPageProps> = ({
             </div>
           </div>
 
-          {/* ------------------------------------------------------------------- */}
-          {/* Card 4: FREE STUFF FOUR (Pale Soft Rose #FCE4EC / Header #FAD0DD)   */}
-          {/* ------------------------------------------------------------------- */}
           <div className="group relative transition-all duration-300 flex flex-col h-full rounded-2xl border-2 border-[#093624] shadow-[5px_6px_0px_#093624] overflow-hidden bg-[#FCE4EC] opacity-55 hover:opacity-75 hover:-translate-y-0.5">
-            {/* Retro Window Titlebar */}
             <div className="flex items-center justify-between px-4 py-2.5 bg-[#FAD0DD] border-b-2 border-[#093624]">
               <div className="flex items-center gap-1.5">
                 <span className="w-2.5 h-2.5 rounded-full bg-[#EF4444] border border-[#093624]/40 inline-block" />
@@ -280,7 +234,6 @@ export const FreeStuffPage: React.FC<FreeStuffPageProps> = ({
               </div>
             </div>
 
-            {/* Window Content */}
             <div className="p-6 sm:p-7 flex flex-col justify-between flex-1">
               <div>
                 <h2 className="font-display font-serif font-bold text-2xl sm:text-[1.65rem] text-[#093624] tracking-tight leading-snug mb-3">
@@ -292,7 +245,6 @@ export const FreeStuffPage: React.FC<FreeStuffPageProps> = ({
                 </p>
               </div>
 
-              {/* Locked CTA: Only Request early access */}
               <div className="pt-4 border-t border-[#093624]/15 mt-auto flex items-center justify-end">
                 <button
                   type="button"
@@ -305,11 +257,7 @@ export const FreeStuffPage: React.FC<FreeStuffPageProps> = ({
             </div>
           </div>
 
-          {/* ------------------------------------------------------------------- */}
-          {/* Card 5: FREE STUFF FIVE (Pale Lime Tint #F4F8DE / Header #E5EEBD)   */}
-          {/* ------------------------------------------------------------------- */}
           <div className="group relative transition-all duration-300 flex flex-col h-full rounded-2xl border-2 border-[#093624] shadow-[5px_6px_0px_#093624] overflow-hidden bg-[#F4F8DE] opacity-55 hover:opacity-75 hover:-translate-y-0.5">
-            {/* Retro Window Titlebar */}
             <div className="flex items-center justify-between px-4 py-2.5 bg-[#E5EEBD] border-b-2 border-[#093624]">
               <div className="flex items-center gap-1.5">
                 <span className="w-2.5 h-2.5 rounded-full bg-[#EF4444] border border-[#093624]/40 inline-block" />
@@ -321,7 +269,6 @@ export const FreeStuffPage: React.FC<FreeStuffPageProps> = ({
               </div>
             </div>
 
-            {/* Window Content */}
             <div className="p-6 sm:p-7 flex flex-col justify-between flex-1">
               <div>
                 <h2 className="font-display font-serif font-bold text-2xl sm:text-[1.65rem] text-[#093624] tracking-tight leading-snug mb-3">
@@ -333,7 +280,6 @@ export const FreeStuffPage: React.FC<FreeStuffPageProps> = ({
                 </p>
               </div>
 
-              {/* Locked CTA: Only Request early access */}
               <div className="pt-4 border-t border-[#093624]/15 mt-auto flex items-center justify-end">
                 <button
                   type="button"
@@ -346,11 +292,7 @@ export const FreeStuffPage: React.FC<FreeStuffPageProps> = ({
             </div>
           </div>
 
-          {/* ------------------------------------------------------------------- */}
-          {/* Card 6: FREE STUFF SIX (Pale Lavender #EDE9FE / Header #DDD6FE)     */}
-          {/* ------------------------------------------------------------------- */}
           <div className="group relative transition-all duration-300 flex flex-col h-full rounded-2xl border-2 border-[#093624] shadow-[5px_6px_0px_#093624] overflow-hidden bg-[#EDE9FE] opacity-55 hover:opacity-75 hover:-translate-y-0.5">
-            {/* Retro Window Titlebar */}
             <div className="flex items-center justify-between px-4 py-2.5 bg-[#DDD6FE] border-b-2 border-[#093624]">
               <div className="flex items-center gap-1.5">
                 <span className="w-2.5 h-2.5 rounded-full bg-[#EF4444] border border-[#093624]/40 inline-block" />
@@ -362,7 +304,6 @@ export const FreeStuffPage: React.FC<FreeStuffPageProps> = ({
               </div>
             </div>
 
-            {/* Window Content */}
             <div className="p-6 sm:p-7 flex flex-col justify-between flex-1">
               <div>
                 <h2 className="font-display font-serif font-bold text-2xl sm:text-[1.65rem] text-[#093624] tracking-tight leading-snug mb-3">
@@ -374,7 +315,6 @@ export const FreeStuffPage: React.FC<FreeStuffPageProps> = ({
                 </p>
               </div>
 
-              {/* Locked CTA: Only Request early access */}
               <div className="pt-4 border-t border-[#093624]/15 mt-auto flex items-center justify-end">
                 <button
                   type="button"
@@ -390,15 +330,9 @@ export const FreeStuffPage: React.FC<FreeStuffPageProps> = ({
         </div>
       </section>
 
-
-
-      {/* ========================================================================= */}
-      {/* INTERACTIVE MODAL 1: LAUNCH CHECKLIST                                     */}
-      {/* ========================================================================= */}
       <AnimatePresence>
         {activeModal === 'launch-checklist' && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
-            {/* Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -407,7 +341,6 @@ export const FreeStuffPage: React.FC<FreeStuffPageProps> = ({
               className="fixed inset-0 bg-[#03180F]/70 backdrop-blur-xs"
             />
 
-            {/* Modal Body */}
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 15 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -415,7 +348,6 @@ export const FreeStuffPage: React.FC<FreeStuffPageProps> = ({
               transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
               className="relative w-full max-w-2xl bg-[#FFFDF6] border-2 border-[#093624] rounded-2xl p-6 sm:p-8 shadow-[10px_10px_0px_#093624] z-10 max-h-[90vh] overflow-y-auto"
             >
-              {/* Header */}
               <div className="flex items-start justify-between pb-4 border-b border-[#093624]/15 mb-6">
                 <div>
                   <div className="flex items-center gap-2 mb-1">
@@ -442,7 +374,6 @@ export const FreeStuffPage: React.FC<FreeStuffPageProps> = ({
                 </button>
               </div>
 
-              {/* Progress bar */}
               <div className="w-full bg-[#093624]/10 h-2.5 rounded-full overflow-hidden mb-6">
                 <div 
                   className="bg-[#093624] h-full transition-all duration-300"
@@ -450,7 +381,6 @@ export const FreeStuffPage: React.FC<FreeStuffPageProps> = ({
                 />
               </div>
 
-              {/* Checklist items */}
               <div className="space-y-3 mb-6">
                 {checklistItems.map((item) => {
                   const isDone = !!checkedItems[item.id];
@@ -483,7 +413,6 @@ export const FreeStuffPage: React.FC<FreeStuffPageProps> = ({
                 })}
               </div>
 
-              {/* Footer */}
               <div className="pt-4 border-t border-[#093624]/15 flex flex-wrap items-center justify-between gap-3">
                 <button
                   type="button"
@@ -512,13 +441,9 @@ export const FreeStuffPage: React.FC<FreeStuffPageProps> = ({
         )}
       </AnimatePresence>
 
-      {/* ========================================================================= */}
-      {/* INTERACTIVE MODAL 2: GTM CALCULATOR                                       */}
-      {/* ========================================================================= */}
       <AnimatePresence>
         {activeModal === 'gtm-calculator' && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
-            {/* Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -527,7 +452,6 @@ export const FreeStuffPage: React.FC<FreeStuffPageProps> = ({
               className="fixed inset-0 bg-[#03180F]/70 backdrop-blur-xs"
             />
 
-            {/* Modal Body */}
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 15 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -535,7 +459,6 @@ export const FreeStuffPage: React.FC<FreeStuffPageProps> = ({
               transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
               className="relative w-full max-w-2xl bg-[#FFFDF6] border-2 border-[#093624] rounded-2xl p-6 sm:p-8 shadow-[10px_10px_0px_#093624] z-10 max-h-[90vh] overflow-y-auto"
             >
-              {/* Header */}
               <div className="flex items-start justify-between pb-4 border-b border-[#093624]/15 mb-6">
                 <div>
                   <div className="flex items-center gap-2 mb-1">
@@ -562,9 +485,7 @@ export const FreeStuffPage: React.FC<FreeStuffPageProps> = ({
                 </button>
               </div>
 
-              {/* Sliders Form */}
               <div className="space-y-5 mb-7">
-                {/* 1. Average Deal Size / ACV */}
                 <div>
                   <div className="flex items-center justify-between text-sm font-sans mb-1.5">
                     <span className="font-semibold text-[#093624]">Average Annual Contract Value (ACV)</span>
@@ -588,7 +509,6 @@ export const FreeStuffPage: React.FC<FreeStuffPageProps> = ({
                   </div>
                 </div>
 
-                {/* 2. Monthly Inbound / Outbound Conversations */}
                 <div>
                   <div className="flex items-center justify-between text-sm font-sans mb-1.5">
                     <span className="font-semibold text-[#093624]">Monthly Target Pipeline Conversations</span>
@@ -612,7 +532,6 @@ export const FreeStuffPage: React.FC<FreeStuffPageProps> = ({
                   </div>
                 </div>
 
-                {/* 3. Deal Close Rate % */}
                 <div>
                   <div className="flex items-center justify-between text-sm font-sans mb-1.5">
                     <span className="font-semibold text-[#093624]">Opportunity-to-Close Rate</span>
@@ -636,7 +555,6 @@ export const FreeStuffPage: React.FC<FreeStuffPageProps> = ({
                   </div>
                 </div>
 
-                {/* 4. Founder hours lost */}
                 <div>
                   <div className="flex items-center justify-between text-sm font-sans mb-1.5">
                     <span className="font-semibold text-[#093624]">Founder Hours Spent on GTM Weekly</span>
@@ -661,7 +579,6 @@ export const FreeStuffPage: React.FC<FreeStuffPageProps> = ({
                 </div>
               </div>
 
-              {/* Results Card */}
               <div className="bg-[#093624] text-[#F7F4E9] rounded-xl p-5 sm:p-6 mb-6">
                 <span className="font-mono text-xs font-bold text-[#CBDA46] uppercase tracking-wider block mb-3">
                   ESTIMATED SYSTEM OUTPUT (ANNUALIZED)
@@ -682,7 +599,6 @@ export const FreeStuffPage: React.FC<FreeStuffPageProps> = ({
                 </div>
               </div>
 
-              {/* Footer */}
               <div className="pt-2 flex flex-wrap items-center justify-between gap-3">
                 <button
                   type="button"

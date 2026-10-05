@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 
 export type ButtonVariant = 
-  | 'primary'         // Solid hand-inked bottle green with lime highlighter doodle accents & wobble shadow
-  | 'primary-lime'    // Vibrant highlighter lime marker button with dark ink sketched borders
-  | 'secondary'       // Hand-sketched outline button with marker-wash fill on hover
-  | 'secondary-dark'; // Hand-sketched chalk/cream outline for dark backdrops
+  | 'primary'
+  | 'primary-lime'
+  | 'secondary'
+  | 'secondary-dark';
 
 export type ButtonSize = 'sm' | 'md' | 'lg';
 
@@ -19,7 +19,6 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   rel?: string;
 }
 
-// Hand-drawn 4-point star sparkle doodle
 export const HandDrawnSparkle: React.FC<{ className?: string; color?: string }> = ({ 
   className = "w-4 h-4", 
   color = "currentColor" 
@@ -30,21 +29,18 @@ export const HandDrawnSparkle: React.FC<{ className?: string; color?: string }> 
     xmlns="http://www.w3.org/2000/svg" 
     className={`shrink-0 overflow-visible transition-transform duration-300 ${className}`}
   >
-    {/* Vertical hand-drawn line */}
     <path 
       d="M12 2C12.3 6.8 12.6 9.4 12 12C11.5 14.6 12.2 17.5 12 22" 
       stroke={color} 
       strokeWidth="2.2" 
       strokeLinecap="round" 
     />
-    {/* Horizontal hand-drawn line */}
     <path 
       d="M2 12C6.8 11.7 9.4 11.4 12 12C14.6 12.5 17.5 11.8 22 12" 
       stroke={color} 
       strokeWidth="2.2" 
       strokeLinecap="round" 
     />
-    {/* Diagonal organic strokes */}
     <path 
       d="M5.5 5.5L18.5 18.5" 
       stroke={color} 
@@ -59,12 +55,10 @@ export const HandDrawnSparkle: React.FC<{ className?: string; color?: string }> 
       strokeLinecap="round" 
       opacity="0.8" 
     />
-    {/* Tiny center ink dot */}
     <circle cx="12" cy="12" r="1.2" fill={color} />
   </svg>
 );
 
-// Hand-drawn mini companion sparkle
 export const HandDrawnMiniSpark: React.FC<{ className?: string; color?: string }> = ({ 
   className = "w-3 h-3", 
   color = "currentColor" 
@@ -106,7 +100,6 @@ export const Button: React.FC<ButtonProps> = ({
   onClick,
   ...props
 }) => {
-  // Size configurations
   const sizeConfig = {
     sm: {
       btn: 'h-10 px-4 text-xs tracking-wide gap-2',
@@ -127,7 +120,6 @@ export const Button: React.FC<ButtonProps> = ({
 
   const currentSize = sizeConfig[size];
 
-  // Base shared interactive classes
   const baseButtonClasses = `
     group relative inline-flex items-center justify-center select-none cursor-pointer whitespace-nowrap
     font-sans font-bold transition-all duration-300 ease-out
@@ -138,7 +130,6 @@ export const Button: React.FC<ButtonProps> = ({
     ${fullWidth ? 'w-full' : 'w-auto'}
   `;
 
-  // Render Sparkle helper
   const renderSparkle = (position: 'left' | 'right', color?: string) => {
     if (!showSparkles) return null;
     if (sparklePosition !== 'both' && sparklePosition !== position) return null;
@@ -150,13 +141,9 @@ export const Button: React.FC<ButtonProps> = ({
     );
   };
 
-  // -------------------------------------------------------------
-  // VARIANT 1: PRIMARY (Hand-Inked Forest Green with Wobble Shadow & Lime Sparkles)
-  // -------------------------------------------------------------
   if (variant === 'primary') {
     const content = (
       <>
-        {/* Layer 1: Hand-Drawn Offset Sketched Shadow */}
         <div 
           className="absolute inset-0 translate-x-1 translate-y-1.5 sm:translate-x-1.5 sm:translate-y-2 rounded-2xl bg-[#03180F] border-2 border-[#093624] transition-transform duration-300 ease-out group-hover:translate-x-2 group-hover:translate-y-2.5 group-hover:rotate-[-1deg]"
           style={{
@@ -164,7 +151,6 @@ export const Button: React.FC<ButtonProps> = ({
           }}
         />
 
-        {/* Layer 2: Main Hand-Drawn Inked Body */}
         <div 
           className="absolute inset-0 bg-[#093624] transition-all duration-300 ease-out group-hover:bg-[#05281A] group-hover:-translate-y-0.5 group-hover:-translate-x-0.5"
           style={{
@@ -172,7 +158,6 @@ export const Button: React.FC<ButtonProps> = ({
           }}
         />
 
-        {/* Layer 3: Organic Hand-Drawn SVG Border (Wavy double sketch contours) */}
         <svg 
           viewBox="0 0 200 60" 
           preserveAspectRatio="none" 
@@ -180,7 +165,6 @@ export const Button: React.FC<ButtonProps> = ({
           xmlns="http://www.w3.org/2000/svg" 
           className="absolute inset-0 w-full h-full pointer-events-none overflow-visible transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:-translate-x-0.5"
         >
-          {/* Primary hand-drawn contour */}
           <path 
             d="M8 8 C 50 4, 150 7, 192 6 C 196 18, 195 42, 193 52 C 150 56, 50 53, 7 54 C 4 42, 5 18, 8 8 Z" 
             stroke="#CBDA46" 
@@ -189,7 +173,6 @@ export const Button: React.FC<ButtonProps> = ({
             strokeLinejoin="round" 
             className="transition-all duration-300 group-hover:stroke-white"
           />
-          {/* Secondary loose sketchy pencil line */}
           <path 
             d="M12 11 C 60 9, 140 10, 188 10 C 191 22, 190 38, 187 48 C 140 50, 60 49, 12 49 C 9 38, 10 22, 12 11 Z" 
             stroke="#CBDA46" 
@@ -200,7 +183,6 @@ export const Button: React.FC<ButtonProps> = ({
           />
         </svg>
 
-        {/* Content Wrapper: Just pure text & hand-drawn sparkles */}
         <span className="relative z-10 flex items-center justify-center gap-2.5 text-[#F7F4E9] group-hover:text-white transition-colors duration-200">
           {renderSparkle('left', '#CBDA46')}
           <span className="tracking-tight">{children}</span>
@@ -224,13 +206,9 @@ export const Button: React.FC<ButtonProps> = ({
     );
   }
 
-  // -------------------------------------------------------------
-  // VARIANT 2: PRIMARY LIME (Highlighter Lime Marker Wash with Inked Outline & Dark Sparkles)
-  // -------------------------------------------------------------
   if (variant === 'primary-lime') {
     const content = (
       <>
-        {/* Layer 1: Hand-Drawn Offset Ink Shadow */}
         <div 
           className="absolute inset-0 translate-x-1.5 translate-y-1.5 rounded-2xl bg-[#041910] border-2 border-[#093624] transition-transform duration-300 group-hover:translate-x-2.5 group-hover:translate-y-2.5"
           style={{
@@ -238,7 +216,6 @@ export const Button: React.FC<ButtonProps> = ({
           }}
         />
 
-        {/* Layer 2: Highlighter Lime Body with Organic Wobbly Edge */}
         <div 
           className="absolute inset-0 bg-[#CBDA46] transition-all duration-300 ease-out group-hover:bg-[#D9E65D] group-hover:-translate-y-0.5 group-hover:-translate-x-0.5"
           style={{
@@ -246,7 +223,6 @@ export const Button: React.FC<ButtonProps> = ({
           }}
         />
 
-        {/* Layer 3: Organic Hand-Drawn SVG Inked Contour */}
         <svg 
           viewBox="0 0 200 60" 
           preserveAspectRatio="none" 
@@ -264,7 +240,6 @@ export const Button: React.FC<ButtonProps> = ({
           <path d="M12 14L16 18 M182 44L186 48" stroke="#093624" strokeWidth="1.5" strokeLinecap="round" />
         </svg>
 
-        {/* Content Wrapper: Just pure text & hand-drawn dark ink sparkles */}
         <span className="relative z-10 flex items-center justify-center gap-2.5 text-[#093624] font-black">
           {renderSparkle('left', '#093624')}
           <span className="tracking-tight">{children}</span>
@@ -288,13 +263,9 @@ export const Button: React.FC<ButtonProps> = ({
     );
   }
 
-  // -------------------------------------------------------------
-  // VARIANT 3: SECONDARY (Hand-Sketched Outline with Marker Wash Reveal & Sparkles)
-  // -------------------------------------------------------------
   if (variant === 'secondary') {
     const content = (
       <>
-        {/* Layer 1: Hand-Sketched Paper Background */}
         <div 
           className="absolute inset-0 bg-[#F7F4E9]/80 backdrop-blur-xs transition-colors duration-300"
           style={{
@@ -302,7 +273,6 @@ export const Button: React.FC<ButtonProps> = ({
           }}
         />
 
-        {/* Layer 2: Hand-Drawn Highlighter Green Ink Wash Reveal on Hover */}
         <div 
           className="absolute inset-0 bg-[#093624] transform origin-left scale-x-0 transition-transform duration-300 ease-out group-hover:scale-x-100"
           style={{
@@ -310,7 +280,6 @@ export const Button: React.FC<ButtonProps> = ({
           }}
         />
 
-        {/* Layer 3: Organic Hand-Drawn SVG Sketched Border */}
         <svg 
           viewBox="0 0 200 60" 
           preserveAspectRatio="none" 
@@ -336,7 +305,6 @@ export const Button: React.FC<ButtonProps> = ({
           />
         </svg>
 
-        {/* Content Wrapper: Just pure text & sparkles */}
         <span className="relative z-10 inline-flex items-center justify-center gap-2.5 text-[#093624] transition-colors duration-300 group-hover:text-[#F7F4E9] whitespace-nowrap">
           {renderSparkle('left', '#093624')}
           <span className="tracking-tight inline-flex items-center justify-center whitespace-nowrap">{children}</span>
@@ -360,12 +328,8 @@ export const Button: React.FC<ButtonProps> = ({
     );
   }
 
-  // -------------------------------------------------------------
-  // VARIANT 4: SECONDARY DARK (Hand-Sketched Chalk Outline for Dark Backdrops)
-  // -------------------------------------------------------------
   const darkContent = (
     <>
-      {/* Layer 1: Subtle dark card base */}
       <div 
         className="absolute inset-0 bg-white/[0.04] backdrop-blur-xs transition-colors duration-300 group-hover:bg-[#CBDA46]/15"
         style={{
@@ -373,7 +337,6 @@ export const Button: React.FC<ButtonProps> = ({
         }}
       />
 
-      {/* Layer 2: Organic Hand-Drawn SVG Sketched Border */}
       <svg 
         viewBox="0 0 200 60" 
         preserveAspectRatio="none" 
@@ -398,7 +361,6 @@ export const Button: React.FC<ButtonProps> = ({
         />
       </svg>
 
-      {/* Content Wrapper: Just pure text & sparkles */}
       <span className="relative z-10 flex items-center justify-center gap-2.5 text-[#F7F4E9] transition-colors duration-300 group-hover:text-[#CBDA46]">
         {renderSparkle('left', '#CBDA46')}
         <span className="tracking-tight">{children}</span>
@@ -422,7 +384,6 @@ export const Button: React.FC<ButtonProps> = ({
   );
 };
 
-// Convenient Named Exports
 export const PrimaryButton: React.FC<Omit<ButtonProps, 'variant'>> = (props) => (
   <Button variant="primary" {...props} />
 );

@@ -76,20 +76,14 @@ export const CommunityPage: React.FC<CommunityPageProps> = ({ onNavigate }) => {
   return (
     <div className="min-h-screen bg-[#F7F4E9] text-[#0E1A15] selection:bg-[#CBDA46]/40 selection:text-[#093624]">
       
-      {/* ========================================================================= */}
-      {/* 1. HERO SECTION: "The Marquee Break"                                     */}
-      {/* ========================================================================= */}
       <section 
         id="community-hero" 
         className="relative bg-[#F7F4E9] text-[#0E1A15] overflow-hidden pt-32 sm:pt-36 md:pt-40"
       >
-        {/* Generous Padding Centered Column */}
         <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 sm:pt-10 md:pt-14 pb-16 sm:pb-24 md:pb-28 text-center flex flex-col items-center">
 
-          {/* Headline */}
           <div className="relative mb-6 sm:mb-8 max-w-5xl">
             <h1 className="font-display font-extrabold text-[1.85rem] min-[390px]:text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[5.25rem] tracking-tight text-[#093624] leading-[1.08]">
-              {/* Line 1: fades up, strictly on one line */}
               <span 
                 className={`block whitespace-nowrap transition-all duration-700 ease-out ${
                   heroMounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
@@ -98,14 +92,12 @@ export const CommunityPage: React.FC<CommunityPageProps> = ({ onNavigate }) => {
                 Growing alone is hard.
               </span>
               
-              {/* Line 2: "So don't." springs in ~500ms after with underline draw */}
               <span 
                 className={`relative inline-block mt-2 sm:mt-3 transition-all duration-700 ease-out delay-500 ${
                   heroMounted ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-4 scale-95'
                 }`}
               >
                 So don't.
-                {/* Hand-drawn wavy underline SVG in --color-wattle-deep under "So don't." */}
                 <svg
                   viewBox="0 0 280 24"
                   fill="none"
@@ -127,7 +119,6 @@ export const CommunityPage: React.FC<CommunityPageProps> = ({ onNavigate }) => {
             </h1>
           </div>
 
-          {/* Subheading */}
           <p 
             className={`font-sans font-normal text-lg sm:text-xl md:text-2xl text-[#093624] max-w-2xl mx-auto leading-relaxed transition-all duration-700 ease-out delay-600 ${
               heroMounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'
@@ -136,7 +127,6 @@ export const CommunityPage: React.FC<CommunityPageProps> = ({ onNavigate }) => {
             A real community of founders, builders, and creators who share what they're learning, support each other's work, and show up when you need help.
           </p>
 
-          {/* CTA: Come on in (Secondary Button) */}
           <div 
             className={`mt-8 sm:mt-10 transition-all duration-700 ease-out delay-700 ${
               heroMounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'
@@ -161,7 +151,6 @@ export const CommunityPage: React.FC<CommunityPageProps> = ({ onNavigate }) => {
           </div>
         </div>
 
-        {/* Bottom Marquee Strip */}
         <div className="w-full overflow-hidden bg-[#CBDA46] text-[#093624] h-10 sm:h-11 flex items-center select-none">
           <div 
             className="animate-marquee flex items-center"
@@ -192,31 +181,21 @@ export const CommunityPage: React.FC<CommunityPageProps> = ({ onNavigate }) => {
 
       </section>
 
-      {/* ========================================================================= */}
-      {/* 2. WHY THIS COMMUNITY EXISTS (The Notepad Concept)                       */}
-      {/* ========================================================================= */}
       <section 
         id="why-this-community-exists"
         className="relative py-20 sm:py-28 md:py-32 px-4 sm:px-6 lg:px-8 border-b border-[#093624]/10 bg-[#F7F4E9] notebook-grid-bg overflow-hidden"
       >
-        {/* Centered Notepad Container */}
         <div className="relative z-10 max-w-4xl lg:max-w-5xl w-full mx-auto">
           
-          {/* ========================================================================= */}
-          {/* EXECUTIVE GREEN LEATHER NOTEBOOK FRAME */}
-          {/* ========================================================================= */}
           <div className="relative rounded-[28px] sm:rounded-[36px] bg-gradient-to-b from-[#0D442E] via-[#093624] to-[#041A10] p-3 sm:p-6 lg:p-7 shadow-[0_25px_60px_-15px_rgba(4,26,16,0.35),0_10px_20px_-5px_rgba(0,0,0,0.2)] border-2 border-[#165B3E]">
             
-            {/* Subtle executive leather stitching border */}
             <div className="absolute inset-2 sm:inset-3.5 rounded-[22px] sm:rounded-[30px] border border-dashed border-[#CBDA46]/25 pointer-events-none" />
 
-            {/* Vintage Brass Corner Protectors on the Green Cover */}
             <div className="absolute top-2 left-2 sm:top-3.5 sm:left-3.5 w-7 h-7 sm:w-9 sm:h-9 border-t-2 border-l-2 border-[#CBDA46]/60 rounded-tl-[18px] pointer-events-none" />
             <div className="absolute top-2 right-2 sm:top-3.5 sm:right-3.5 w-7 h-7 sm:w-9 sm:h-9 border-t-2 border-r-2 border-[#CBDA46]/60 rounded-tr-[18px] pointer-events-none" />
             <div className="absolute bottom-2 left-2 sm:bottom-3.5 sm:left-3.5 w-7 h-7 sm:w-9 sm:h-9 border-b-2 border-l-2 border-[#CBDA46]/60 rounded-bl-[18px] pointer-events-none" />
             <div className="absolute bottom-2 right-2 sm:bottom-3.5 sm:right-3.5 w-7 h-7 sm:w-9 sm:h-9 border-b-2 border-r-2 border-[#CBDA46]/60 rounded-br-[18px] pointer-events-none" />
 
-            {/* Top Header Leather Border Accents */}
             <div className="relative pt-1 pb-2 flex items-center justify-between px-6 sm:px-10 select-none">
               <div className="flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-[#CBDA46] shadow-[0_0_8px_#CBDA46]" />
@@ -228,23 +207,15 @@ export const CommunityPage: React.FC<CommunityPageProps> = ({ onNavigate }) => {
               </div>
             </div>
 
-            {/* ========================================================================= */}
-            {/* HUGE REALISTIC CREAM SPIRAL BANDS OVERLAP */}
-            {/* ========================================================================= */}
             <div className="relative -my-3 sm:-my-4 z-40">
               <RealisticSpiralBindingRow count={22} />
             </div>
 
-            {/* ========================================================================= */}
-            {/* INNER CREAM NOTEBOOK PAPER PAD WITH MULTI-PAGE STACK DEPTH */}
-            {/* ========================================================================= */}
             <div className="relative mt-2 rounded-[20px] sm:rounded-[24px] bg-[#FAF7EE] text-[#0E1A15] shadow-2xl border border-[#D8D0BE] overflow-hidden">
               
-              {/* Subtle multi-layer cream page stack bevel at bottom */}
               <div className="absolute -bottom-1.5 inset-x-4 h-1.5 bg-[#EAE3D2] rounded-b-[20px] shadow-sm -z-10" />
               <div className="absolute -bottom-3 inset-x-8 h-1.5 bg-[#DDD4C0] rounded-b-[20px] shadow-sm -z-20" />
 
-              {/* Journal Paper Content Area with Grid lines & Coral Margin Line */}
               <div 
                 className="relative pl-7 sm:pl-16 md:pl-20 pr-4 sm:pr-10 py-7 sm:py-12 text-[#0E1A15]"
                 style={{
@@ -253,20 +224,16 @@ export const CommunityPage: React.FC<CommunityPageProps> = ({ onNavigate }) => {
                   backgroundSize: '28px 28px',
                 }}
               >
-                {/* Classic Red / Coral Margin Rule Line - Safely in the left margin */}
                 <div className="pointer-events-none absolute bottom-0 left-4 sm:left-10 md:left-14 top-0 w-px bg-[#FF7A5C]/40" />
 
-                {/* Main Headline - Always full width and never broken by floats */}
                 <div className="mb-4 sm:mb-6">
                   <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-[#093624] tracking-tight leading-snug">
                     Why this community exists
                   </h2>
                 </div>
 
-                {/* Mobile-only Polaroid Card: Centered between headline and story for optimal readability */}
                 <div className="sm:hidden flex justify-center my-5 select-none">
                   <div className="relative bg-[#FFFFFF] p-2.5 pb-4 rounded-[3px] border border-[#093624]/20 shadow-xl shadow-[#093624]/12 w-36 rotate-[2.5deg]">
-                    {/* Washi-tape graphic */}
                     <Tape 
                       color="#BAE6FD" 
                       className="absolute -top-3.5 left-1/2 -translate-x-1/2 w-20 h-6 -rotate-2 z-30 opacity-95 shadow-xs" 
@@ -285,12 +252,10 @@ export const CommunityPage: React.FC<CommunityPageProps> = ({ onNavigate }) => {
                   </div>
                 </div>
 
-                {/* Tablet / Desktop-only Floated Polaroid Card */}
                 <div 
                   className="hidden sm:block float-right ml-6 mb-6 rotate-[3.5deg] transition-transform duration-300 hover:rotate-[1deg] group select-none relative z-20"
                 >
                   <div className="relative bg-[#FFFFFF] p-2.5 pb-4.5 rounded-[3px] border border-[#093624]/20 shadow-xl shadow-[#093624]/12 w-36 md:w-44">
-                    {/* Washi-tape graphic */}
                     <Tape 
                       color="#BAE6FD" 
                       className="absolute -top-3.5 left-1/2 -translate-x-1/2 w-20 h-6 -rotate-2 z-30 opacity-95 shadow-xs" 
@@ -307,7 +272,6 @@ export const CommunityPage: React.FC<CommunityPageProps> = ({ onNavigate }) => {
                   </div>
                 </div>
 
-                {/* Body in IBM Plex Serif regular (--color-ink) */}
                 <div className="space-y-5 font-display font-normal text-base sm:text-[17px] text-[#0E1A15] leading-relaxed max-w-2xl">
                   <p>
                     This community came out of my frustration with looking for a place where I could share an idea without wondering if someone would sell me something five minutes later.
@@ -337,10 +301,8 @@ export const CommunityPage: React.FC<CommunityPageProps> = ({ onNavigate }) => {
                   </p>
                 </div>
 
-                {/* Clear the float */}
                 <div className="clear-both" />
 
-                {/* Signature: Judith in --font-hand, --color-bottle */}
                 <div className="mt-8 pt-5 border-t border-[#093624]/15 flex flex-col items-start">
                   <span className="font-hand text-base sm:text-lg text-[#093624] transform -rotate-1 select-none inline-block">
                     Judith
@@ -359,13 +321,9 @@ export const CommunityPage: React.FC<CommunityPageProps> = ({ onNavigate }) => {
         </div>
       </section>
 
-      {/* ========================================================================= */}
-      {/* 3. WHAT THIS PLACE ISN'T                                                 */}
-      {/* ========================================================================= */}
       <section className="relative py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-[#F7F4E9] notebook-grid-bg border-b border-[#093624]/10 overflow-hidden">
         <div className="max-w-6xl mx-auto">
           
-          {/* Intro line in Inter font, small size, light green */}
           <div className="mb-2">
             <p className="font-sans font-medium text-sm sm:text-base text-[#749622] inline-block leading-snug">
               But before you sign up, there&apos;s something you should know (not exactly rules), but…
@@ -376,12 +334,9 @@ export const CommunityPage: React.FC<CommunityPageProps> = ({ onNavigate }) => {
             What this place isn&apos;t
           </h2>
 
-          {/* 3 Scrapbook Note Cards matching WhatWeDo design */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 mb-16">
             
-            {/* 1. Not an engagement pod */}
             <div className="group relative transition-all duration-300">
-              {/* Top Washi Tape in #FF7A5C */}
               <div 
                 className="absolute pointer-events-none z-20 backdrop-blur-xs shadow-xs -rotate-2 w-28 h-5 -top-2.5 left-1/2 -translate-x-1/2 bg-[rgba(255,122,92,0.8)]"
                 style={{
@@ -389,13 +344,11 @@ export const CommunityPage: React.FC<CommunityPageProps> = ({ onNavigate }) => {
                 }}
               />
 
-              {/* Hand-Drawn Offset Shadow */}
               <div 
                 className="absolute inset-0 translate-x-1.5 translate-y-2 bg-[#093624]/15 transition-all duration-300 group-hover:translate-x-2.5 group-hover:translate-y-3 group-hover:rotate-[-0.5deg]"
                 style={{ borderRadius: '255px 18px 225px 18px/18px 225px 18px 255px' }}
               />
 
-              {/* Main Note Card */}
               <div 
                 className="relative z-10 p-7 sm:p-8 bg-white/95 text-[#093624] border-2 border-[#093624] transition-all duration-300 group-hover:-translate-y-1.5 group-hover:bg-[#FFFDF6] flex flex-col justify-start h-full"
                 style={{ borderRadius: '255px 22px 225px 22px/22px 225px 22px 255px' }}
@@ -412,25 +365,20 @@ export const CommunityPage: React.FC<CommunityPageProps> = ({ onNavigate }) => {
               </div>
             </div>
 
-            {/* 2. Not a pitching house */}
             <div className="group relative transition-all duration-300">
-              {/* Paper Clip Top Left */}
               <div className="absolute -top-4 left-6 z-20 pointer-events-none transition-transform duration-300 group-hover:-translate-y-1">
                 <PaperClip className="w-6 h-10 text-[#093624]" color="#093624" />
               </div>
 
-              {/* Hand-Drawn Offset Shadow */}
               <div 
                 className="absolute inset-0 translate-x-1.5 translate-y-2 bg-[#093624]/15 transition-all duration-300 group-hover:translate-x-2.5 group-hover:translate-y-3 group-hover:rotate-[-0.5deg]"
                 style={{ borderRadius: '255px 18px 225px 18px/18px 225px 18px 255px' }}
               />
 
-              {/* Main Note Card */}
               <div 
                 className="relative z-10 p-7 sm:p-8 bg-white/95 text-[#093624] border-2 border-[#093624] transition-all duration-300 group-hover:-translate-y-1.5 group-hover:bg-[#FFFDF6] flex flex-col justify-start h-full"
                 style={{ borderRadius: '255px 22px 225px 22px/22px 225px 22px 255px' }}
               >
-                {/* Corner Notebook Peeling Shadow */}
                 <div className="absolute bottom-0 right-0 w-10 h-10 overflow-hidden pointer-events-none">
                   <div className="absolute bottom-0 right-0 w-8 h-8 bg-[#093624]/5 border-t border-l border-[#093624]/20 transform -rotate-45 translate-x-4 translate-y-4 transition-transform group-hover:scale-125" />
                 </div>
@@ -452,9 +400,7 @@ export const CommunityPage: React.FC<CommunityPageProps> = ({ onNavigate }) => {
               </div>
             </div>
 
-            {/* 3. Not a place for inappropriate behaviour */}
             <div className="group relative transition-all duration-300">
-              {/* Corner Washi Tape Top Right in #F5A621 */}
               <div 
                 className="absolute pointer-events-none z-20 backdrop-blur-xs shadow-xs rotate-2 w-24 h-5 -top-2.5 right-6 bg-[rgba(245,166,33,0.8)]"
                 style={{
@@ -462,13 +408,11 @@ export const CommunityPage: React.FC<CommunityPageProps> = ({ onNavigate }) => {
                 }}
               />
 
-              {/* Hand-Drawn Offset Shadow */}
               <div 
                 className="absolute inset-0 translate-x-1.5 translate-y-2 bg-[#093624]/15 transition-all duration-300 group-hover:translate-x-2.5 group-hover:translate-y-3 group-hover:rotate-[0.5deg]"
                 style={{ borderRadius: '255px 18px 225px 18px/18px 225px 18px 255px' }}
               />
 
-              {/* Main Note Card */}
               <div 
                 className="relative z-10 p-7 sm:p-8 bg-white/95 text-[#093624] border-2 border-[#093624] transition-all duration-300 group-hover:-translate-y-1.5 group-hover:bg-[#FFFDF6] flex flex-col justify-start h-full"
                 style={{ borderRadius: '255px 22px 225px 22px/22px 225px 22px 255px' }}
@@ -492,14 +436,10 @@ export const CommunityPage: React.FC<CommunityPageProps> = ({ onNavigate }) => {
         </div>
       </section>
 
-      {/* ========================================================================= */}
-      {/* 3.5. THIS COULD BE US — FULL-SCREEN 80VH VIDEO WITH HOVER OVERLAY         */}
-      {/* ========================================================================= */}
       <section 
         id="this-could-be-us"
         className="relative w-full aspect-video sm:aspect-video md:aspect-auto md:h-[80vh] md:min-h-[520px] md:max-h-[920px] bg-[#0A1A12] overflow-hidden select-none group"
       >
-        {/* Video: 16:9 on mobile without cutting, 80vh cinematic on desktop */}
         <video
           ref={videoRef}
           src={thisCouldBeUsWebm}
@@ -511,7 +451,6 @@ export const CommunityPage: React.FC<CommunityPageProps> = ({ onNavigate }) => {
           onClick={toggleVideoPlayback}
         />
 
-        {/* Text Overlay: Visible on mobile, elegant hover reveal on desktop */}
         <div 
           className="absolute inset-0 bg-black/35 md:bg-black/45 md:backdrop-blur-[2px] opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-all duration-300 flex flex-col items-center justify-center pointer-events-none z-20 px-4 text-center"
         >
@@ -523,7 +462,6 @@ export const CommunityPage: React.FC<CommunityPageProps> = ({ onNavigate }) => {
           </span>
         </div>
 
-        {/* Audio & Fullscreen Quick Action Overlays */}
         <div className="absolute bottom-2.5 right-2.5 sm:bottom-4 sm:right-4 md:bottom-6 md:right-6 flex items-center gap-1.5 sm:gap-2.5 z-30">
           <button
             type="button"
@@ -543,7 +481,6 @@ export const CommunityPage: React.FC<CommunityPageProps> = ({ onNavigate }) => {
           </button>
         </div>
 
-        {/* Play Indicator on Pause */}
         {!isVideoPlaying && (
           <div 
             onClick={toggleVideoPlayback}
@@ -556,9 +493,6 @@ export const CommunityPage: React.FC<CommunityPageProps> = ({ onNavigate }) => {
         )}
       </section>
 
-      {/* ========================================================================= */}
-      {/* 4. A BIT OF WHAT WE HAVE (AND WHAT YOU CAN DO HERE)                      */}
-      {/* ========================================================================= */}
       <section id="what-we-have" className="relative py-16 sm:py-24 px-4 sm:px-6 lg:px-8 border-b border-[#093624]/10 bg-[#F7F4E9]">
         <div className="max-w-6xl lg:max-w-7xl mx-auto">
           
@@ -576,14 +510,11 @@ export const CommunityPage: React.FC<CommunityPageProps> = ({ onNavigate }) => {
             Here's a little bit of what's waiting for you:
           </p>
 
-          {/* Slack-ish two-pane channel explorer */}
           <div className="mb-10 w-full">
             <WrenCommunitySlack />
           </div>
 
-          {/* Nope, there's more... Irregular Scrapbook Paper Note */}
           <div className="relative group transition-all duration-300 w-full">
-            {/* Top Washi Tape strip */}
             <div 
               className="absolute pointer-events-none z-20 backdrop-blur-xs shadow-xs -rotate-2 w-28 sm:w-36 h-5 sm:h-6 -top-2.5 sm:-top-3 left-8 sm:left-14 bg-[rgba(203,218,70,0.7)]"
               style={{
@@ -591,18 +522,15 @@ export const CommunityPage: React.FC<CommunityPageProps> = ({ onNavigate }) => {
               }}
             />
 
-            {/* Hand-Drawn Offset Shadow */}
             <div 
               className="absolute inset-0 translate-x-1.5 translate-y-2 sm:translate-x-2 sm:translate-y-2.5 bg-[#093624]/15 transition-all duration-300 group-hover:translate-x-2.5 group-hover:translate-y-3"
               style={{ borderRadius: '255px 18px 225px 18px/18px 225px 18px 255px' }}
             />
 
-            {/* Main Irregular Note Paper */}
             <div 
               className="relative z-10 p-6 sm:p-8 bg-[#BAE6FD] text-[#093624] border-2 border-[#093624] transition-all duration-300 group-hover:-translate-y-0.5"
               style={{ borderRadius: '255px 22px 225px 22px/22px 225px 22px 255px' }}
             >
-              {/* Corner Notebook Peeling Shadow */}
               <div className="absolute bottom-0 right-0 w-8 h-8 overflow-hidden pointer-events-none">
                 <div className="absolute bottom-0 right-0 w-6 h-6 bg-[#093624]/10 border-t border-l border-[#093624]/30 transform -rotate-45 translate-x-3 translate-y-3" />
               </div>
@@ -619,12 +547,8 @@ export const CommunityPage: React.FC<CommunityPageProps> = ({ onNavigate }) => {
         </div>
       </section>
 
-      {/* ========================================================================= */}
-      {/* 5. FORM FILLING & CTA                                                     */}
-      {/* ========================================================================= */}
       <section id="community-form" className="relative py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-[#093624] text-[#F7F4E9] overflow-hidden">
         
-        {/* Subtle grid pattern in dark section */}
         <div 
           className="absolute inset-0 pointer-events-none"
           style={{
@@ -650,16 +574,14 @@ export const CommunityPage: React.FC<CommunityPageProps> = ({ onNavigate }) => {
             Promise, it won't take long.
           </p>
 
-          {/* Embedded Third-Party Form Window */}
           <div className="bg-[#051F14] border-2 border-[#CBDA46]/25 rounded-2xl sm:rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.5),0_0_0_1px_rgba(203,218,70,0.15)] overflow-hidden text-left mb-6">
-            {/* Window Top Bar */}
             <div className="bg-[#08281B] px-4 sm:px-6 py-3.5 border-b border-[#CBDA46]/20 flex items-center justify-between gap-3 flex-wrap">
               <div className="flex items-center gap-2">
                 <span className="w-3 h-3 rounded-full bg-[#FF5F56]/80 inline-block" />
                 <span className="w-3 h-3 rounded-full bg-[#FFBD2E]/80 inline-block" />
                 <span className="w-3 h-3 rounded-full bg-[#27C93F]/80 inline-block" />
                 <span className="ml-2 font-mono text-xs text-[#F7F4E9]/60 truncate max-w-[200px] sm:max-w-xs md:max-w-md">
-                  https://wren.fillout.com/community
+                  https:
                 </span>
               </div>
 
@@ -680,7 +602,6 @@ export const CommunityPage: React.FC<CommunityPageProps> = ({ onNavigate }) => {
               </div>
             </div>
 
-            {/* Embedded iFrame for third-party form */}
             <div className="relative w-full h-[650px] sm:h-[720px] bg-white">
               <iframe
                 id="community-fillout-iframe"

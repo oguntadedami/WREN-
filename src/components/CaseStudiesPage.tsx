@@ -22,7 +22,6 @@ export const CaseStudiesPage: React.FC<CaseStudiesPageProps> = ({
 }) => {
   const caseStudies: CaseStudy[] = getCaseStudies();
 
-  // Scroll to top or target hash on mount
   useEffect(() => {
     const hash = window.location.hash;
     if (hash && hash.length > 1 && hash !== '#case-studies') {
@@ -87,34 +86,26 @@ export const CaseStudiesPage: React.FC<CaseStudiesPageProps> = ({
   };
 
   const washiTapeStyles = [
-    { color: 'rgba(245, 166, 33, 0.88)', rotation: 'rotate-2' },   // Warm Amber
-    { color: 'rgba(203, 218, 70, 0.88)', rotation: '-rotate-2' },  // Wattle Lime
-    { color: 'rgba(255, 122, 92, 0.88)', rotation: 'rotate-1.5' },  // Coral Pop
-    { color: 'rgba(56, 189, 248, 0.88)', rotation: '-rotate-1.5' }, // Sky Blue
+    { color: 'rgba(245, 166, 33, 0.88)', rotation: 'rotate-2' },
+    { color: 'rgba(203, 218, 70, 0.88)', rotation: '-rotate-2' },
+    { color: 'rgba(255, 122, 92, 0.88)', rotation: 'rotate-1.5' },
+    { color: 'rgba(56, 189, 248, 0.88)', rotation: '-rotate-1.5' },
   ];
 
   return (
     <div className="min-h-screen bg-[#F7F4E9] notebook-grid-bg text-[#0E1A15]">
-      {/* ========================================================================= */}
-      {/* HEADER SECTION                                                            */}
-      {/* ========================================================================= */}
       <section id="case-studies-header" className="pt-32 sm:pt-40 pb-14 sm:pb-18 px-4 sm:px-6 lg:px-8 text-center">
         <div className="max-w-5xl mx-auto text-center">
-          {/* Headline: bold IBM Plex Serif, Bottle green - single line on desktop, breaks naturally on mobile */}
           <h1 className="font-display font-serif font-bold text-3xl sm:text-4xl md:text-5xl lg:text-[46px] xl:text-[52px] text-[#093624] tracking-tight leading-[1.18] mb-5 text-center whitespace-normal lg:whitespace-nowrap mx-auto">
             A look at some of our work so far
           </h1>
 
-          {/* Subheading */}
           <p className="max-w-2xl mx-auto text-base sm:text-lg text-[#2C3830]/80 font-sans leading-relaxed">
             Real clients, real results. See what we worked on, what changed, and what came out of it.
           </p>
         </div>
       </section>
 
-      {/* ========================================================================= */}
-      {/* SUMMARY CARD GRID (Call getCaseStudies(), 1 card per entry)                 */}
-      {/* ========================================================================= */}
       <section id="case-studies-grid-section" className="pb-24 sm:pb-32 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10 items-stretch">
@@ -128,7 +119,6 @@ export const CaseStudiesPage: React.FC<CaseStudiesPageProps> = ({
                   id={`case-study-${item.slug}`}
                   className="group relative transition-all duration-300 flex flex-col h-full"
                 >
-                  {/* Corner Washi Tape Top Right in distinct brand colors */}
                   <div
                     className={`absolute pointer-events-none z-20 backdrop-blur-xs shadow-xs ${tape.rotation} w-24 h-5.5 -top-2.5 right-6`}
                     style={{
@@ -137,13 +127,11 @@ export const CaseStudiesPage: React.FC<CaseStudiesPageProps> = ({
                     }}
                   />
 
-                  {/* Hand-Drawn Offset Shadow */}
                   <div
                     className="absolute inset-0 translate-x-1.5 translate-y-2 bg-[#093624]/15 transition-all duration-300 group-hover:translate-x-2.5 group-hover:translate-y-3 group-hover:rotate-[0.5deg] pointer-events-none"
                     style={{ borderRadius: '255px 18px 225px 18px/18px 225px 18px 255px' }}
                   />
 
-                  {/* Main Note Card: Entire Card Links to /case-studies/{slug} */}
                   <a
                     href={`/case-studies/${item.slug}`}
                     onClick={(e) => {
@@ -157,14 +145,12 @@ export const CaseStudiesPage: React.FC<CaseStudiesPageProps> = ({
                     style={{ borderRadius: '255px 22px 225px 22px/22px 225px 22px 255px' }}
                   >
                     <div>
-                      {/* Top Bar: Brand Logo or Name */}
                       <div className="flex items-center min-h-[44px] mb-6">
                         <div className="h-10 sm:h-12 flex items-center">
                           {renderBrandLogo(item)}
                         </div>
                       </div>
 
-                      {/* Headline Stat: first topStat as the card's headline stat */}
                       {headlineStat && (
                         <div className="mb-5 pb-5 border-b border-[#093624]/10">
                           <div className="font-display font-serif font-bold text-5xl sm:text-6xl text-[#093624] tracking-tight leading-none mb-2">
@@ -176,13 +162,11 @@ export const CaseStudiesPage: React.FC<CaseStudiesPageProps> = ({
                         </div>
                       )}
 
-                      {/* Card description: summary */}
                       <p className="text-sm sm:text-[0.97rem] font-sans text-[#2C3830] leading-relaxed mb-6">
                         {item.summary}
                       </p>
                     </div>
 
-                    {/* "Read the case study →" visual CTA indicator */}
                     <div className="pt-4 border-t border-[#093624]/12 flex items-center justify-between">
                       <span className="inline-flex items-center gap-1.5 font-sans font-semibold text-sm sm:text-base text-[#093624] group-hover:text-[#186043] transition-colors">
                         <span>Read the case study</span>
@@ -200,14 +184,10 @@ export const CaseStudiesPage: React.FC<CaseStudiesPageProps> = ({
         </div>
       </section>
 
-      {/* ========================================================================= */}
-      {/* CLOSING CTA (dark section)                                                */}
-      {/* ========================================================================= */}
       <section
         id="case-studies-cta"
         className="bg-[#093624] text-[#F7F4E9] py-20 sm:py-28 px-4 sm:px-6 lg:px-8 text-center relative overflow-hidden"
       >
-        {/* Visible Notebook Grid Background */}
         <div
           className="absolute inset-0 pointer-events-none"
           style={{

@@ -28,16 +28,13 @@ export const WrenMembershipCard: React.FC<WrenMembershipCardProps> = ({ classNam
 
   return (
     <div className={`flex flex-col items-center select-none ${className}`}>
-      {/* 3D Perspective Card Wrapper with Resting -2deg Rotation */}
       <div className="relative w-full max-w-[360px] sm:w-[380px] h-[224px] sm:h-[236px] -rotate-2 group">
         
-        {/* Offset Hard-Shadow (no soft blur) */}
         <div 
           className="absolute inset-0 rounded-[20px] bg-[#093624] translate-x-2.5 translate-y-2.5 pointer-events-none"
           aria-hidden="true" 
         />
 
-        {/* Flipping Card Container */}
         <div
           role="button"
           tabIndex={0}
@@ -61,20 +58,15 @@ export const WrenMembershipCard: React.FC<WrenMembershipCardProps> = ({ classNam
             }}
             className="w-full h-full relative rounded-[20px]"
           >
-            {/* ========================================================= */}
-            {/* FRONT FACE: Solid Wattle Fill with WREN Wordmark          */}
-            {/* ========================================================= */}
             <div
               style={{ backfaceVisibility: 'hidden' }}
               className="absolute inset-0 w-full h-full rounded-[20px] border-[2.5px] border-[#093624] bg-[#CBDA46] p-5 sm:p-6 flex flex-col justify-between overflow-hidden shadow-xs"
             >
-              {/* Corner Star Doodle */}
               <div className="flex items-center justify-between pointer-events-none">
                 <div className="w-2 h-2 rounded-full bg-[#093624]/20" />
                 <HandDrawnStarDoodle className="w-5 h-5 text-[#093624]/40" color="#093624" />
               </div>
 
-              {/* Center: WREN Wordmark & COMMUNITY */}
               <div className="flex flex-col items-center justify-center my-auto pointer-events-none">
                 <div className="flex items-center gap-2.5 sm:gap-3">
                   <WrenLogo className="w-8 h-8 sm:w-9 sm:h-9 text-[#093624]" color="#093624" />
@@ -87,16 +79,12 @@ export const WrenMembershipCard: React.FC<WrenMembershipCardProps> = ({ classNam
                 </span>
               </div>
 
-              {/* Bottom decorative bar */}
               <div className="flex items-center justify-between pointer-events-none">
                 <div className="w-2 h-2 rounded-full bg-[#093624]/20" />
                 <div className="w-2 h-2 rounded-full bg-[#093624]/20" />
               </div>
             </div>
 
-            {/* ========================================================= */}
-            {/* BACK FACE: Cream Card with Member Copy & Decorative Mark */}
-            {/* ========================================================= */}
             <div
               style={{ 
                 backfaceVisibility: 'hidden',
@@ -104,7 +92,6 @@ export const WrenMembershipCard: React.FC<WrenMembershipCardProps> = ({ classNam
               }}
               className="absolute inset-0 w-full h-full rounded-[20px] border-[2.5px] border-[#093624] bg-[#FAF5EC] p-4.5 sm:p-5 flex flex-col justify-between overflow-hidden shadow-xs"
             >
-              {/* Top: Structural Member Heading & Handwritten Community confirmation */}
               <div className="flex items-start justify-between">
                 <div>
                   <p className="font-mono text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-[#093624]/70 leading-none">
@@ -115,7 +102,6 @@ export const WrenMembershipCard: React.FC<WrenMembershipCardProps> = ({ classNam
                   </p>
                 </div>
 
-                {/* Founder Avatar as circular mark (~48px) */}
                 <div className="relative shrink-0 ml-2">
                   <img
                     src={founderAvatar}
@@ -126,7 +112,6 @@ export const WrenMembershipCard: React.FC<WrenMembershipCardProps> = ({ classNam
                 </div>
               </div>
 
-              {/* Decorative row of irregular-height vertical bars in --color-bottle/20 (pure visual texture, no numbers) */}
               <div 
                 className="flex items-end justify-center gap-[2px] sm:gap-[3px] h-6 sm:h-7 opacity-35 select-none overflow-hidden my-auto" 
                 aria-hidden="true"
@@ -140,7 +125,6 @@ export const WrenMembershipCard: React.FC<WrenMembershipCardProps> = ({ classNam
                 ))}
               </div>
 
-              {/* Bottom Row: Founder Credit Left, Real URL Right */}
               <div className="flex items-center justify-between text-[10px] sm:text-[11px] font-mono text-[#093624]/70 pt-1 border-t border-[#093624]/10">
                 <span>Judith · Founder, WREN</span>
                 <span className="font-medium text-right">wren.fillout.com/community</span>
@@ -151,7 +135,6 @@ export const WrenMembershipCard: React.FC<WrenMembershipCardProps> = ({ classNam
         </div>
       </div>
 
-      {/* Subtle "tap to flip" hint using only those three words */}
       <p className="font-mono text-[11px] tracking-wider uppercase text-[#093624]/50 text-center select-none mt-3.5">
         tap to flip
       </p>

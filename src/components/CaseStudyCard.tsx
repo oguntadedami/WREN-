@@ -34,7 +34,6 @@ export const CaseStudyCard: React.FC<CaseStudyCardProps> = ({
   ];
   const paperClipPos = paperClipPositions[index % paperClipPositions.length];
 
-  // Render client brand logo based on slug
   const renderBrandLogo = () => {
     switch (caseStudy.slug) {
       case 'mischief-makers':
@@ -100,7 +99,6 @@ export const CaseStudyCard: React.FC<CaseStudyCardProps> = ({
           : 'shadow-[6px_6px_0px_#093624] hover:shadow-[8px_8px_0px_#093624] hover:-translate-y-1.5'
       }`}
     >
-      {/* Tactile Metal Paperclip Asset */}
       <div
         className={`absolute ${paperClipPos} z-20 pointer-events-none opacity-85 group-hover:opacity-100 transition-opacity`}
       >
@@ -108,12 +106,10 @@ export const CaseStudyCard: React.FC<CaseStudyCardProps> = ({
       </div>
 
       <div>
-        {/* Top Header Row: Client Brand Logo */}
         <div className="flex items-center min-h-[50px] mb-6 pb-5 border-b border-[#093624]/15 min-w-0">
           {renderBrandLogo()}
         </div>
 
-        {/* Large Stat + Result Label */}
         <div className="mb-4">
           <div className="flex flex-col sm:flex-row sm:items-baseline gap-2">
             <span className="font-display font-serif font-bold text-4xl sm:text-5xl lg:text-6xl text-[#093624] tracking-tight leading-none">
@@ -124,20 +120,17 @@ export const CaseStudyCard: React.FC<CaseStudyCardProps> = ({
             </span>
           </div>
 
-          {/* Sub-stat Line */}
           <div className="mt-2.5 inline-flex items-center px-3 py-1 rounded bg-[#F7F4E9] border border-[#093624]/20 text-xs sm:text-[13px] font-mono font-semibold text-[#15543D]">
             <span>{caseStudy.subStat}</span>
           </div>
         </div>
 
-        {/* Body Copy: Paragraphs 1 & 2 */}
         <div className="mt-5 space-y-3 text-sm sm:text-base text-[#334155] leading-relaxed">
           <p className="font-normal">{caseStudy.bodyParagraph1}</p>
           <p className="font-normal text-[#475569]">{caseStudy.bodyParagraph2}</p>
         </div>
       </div>
 
-      {/* CTA Link indicator */}
       <div className="mt-8 pt-5 border-t border-[#093624]/10">
         <span
           className="inline-flex items-center gap-2 font-display font-bold text-sm sm:text-base text-[#093624] group-hover:text-[#15543D] transition-colors"

@@ -5,7 +5,6 @@ interface PodcastWhereToListenProps {
   onPressPlay?: () => void;
 }
 
-// Washi Tape Component with ripped ends matching the brand scrapbook aesthetic
 const WashiTape: React.FC<{
   className?: string;
   color?: string;
@@ -25,13 +24,12 @@ const WashiTape: React.FC<{
 );
 
 export const PodcastWhereToListen: React.FC<PodcastWhereToListenProps> = () => {
-  const [activeIndex, setActiveIndex] = useState(0); // 0: Spotify, 1: Amazon Music, 2: YouTube
+  const [activeIndex, setActiveIndex] = useState(0);
   const [touchStartX, setTouchStartX] = useState<number | null>(null);
   const [touchCurrentX, setTouchCurrentX] = useState<number | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // The 3 official platforms with organic irregular card styling
   const platforms = [
     {
       id: 'spotify',
@@ -69,12 +67,10 @@ export const PodcastWhereToListen: React.FC<PodcastWhereToListenProps> = () => {
           viewBox="0 0 64 64"
           className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 text-white fill-current filter drop-shadow-[0_4px_12px_rgba(0,0,0,0.25)]"
         >
-          {/* Sound wave equalizer bars */}
           <rect x="18" y="17" width="5" height="18" rx="2.5" fill="currentColor" />
           <rect x="26.5" y="11" width="5" height="24" rx="2.5" fill="currentColor" />
           <rect x="35" y="14" width="5" height="21" rx="2.5" fill="currentColor" />
           <rect x="43.5" y="20" width="5" height="15" rx="2.5" fill="currentColor" />
-          {/* Authentic Amazon Smile Arrow */}
           <path
             d="M13.5 44c11.5 7.6 26.2 7 36.8-2.1.8-.7 2 0 1.5 1-9.9 9.3-26.2 10.3-38.5 2-.9-.6-.4-1.7.6-.9l-.4z"
             fill="currentColor"
@@ -102,12 +98,10 @@ export const PodcastWhereToListen: React.FC<PodcastWhereToListenProps> = () => {
           viewBox="0 0 64 64"
           className="w-22 h-22 sm:w-28 sm:h-28 md:w-32 md:h-32 filter drop-shadow-[0_4px_12px_rgba(0,0,0,0.25)]"
         >
-          {/* White YouTube pill screen badge */}
           <path
             d="M55.8 22.4c-.6-2.5-2.6-4.5-5.1-5.1C46.2 16 32 16 32 16s-14.2 0-18.7 1.3c-2.5.6-4.5 2.6-5.1 5.1C7 26.9 7 32 7 32s0 5.1 1.2 9.6c.6 2.5 2.6 4.5 5.1 5.1 4.5 1.3 18.7 1.3 18.7 1.3s14.2 0 18.7-1.3c2.5-.6 4.5-2.6 5.1-5.1C57 37.1 57 32 57 32s0-5.1-1.2-9.6z"
             fill="#FFFFFF"
           />
-          {/* Red YouTube play triangle */}
           <polygon points="27,39 40,32 27,25" fill="#E60000" />
         </svg>
       ),
@@ -124,7 +118,6 @@ export const PodcastWhereToListen: React.FC<PodcastWhereToListenProps> = () => {
     setActiveIndex((prev) => (prev + 1) % total);
   };
 
-  // Touch Handlers
   const handleTouchStart = (e: React.TouchEvent) => {
     setTouchStartX(e.touches[0].clientX);
     setTouchCurrentX(e.touches[0].clientX);
@@ -154,7 +147,6 @@ export const PodcastWhereToListen: React.FC<PodcastWhereToListenProps> = () => {
     setTimeout(() => setIsDragging(false), 120);
   };
 
-  // Mouse Handlers
   const handleMouseDown = (e: React.MouseEvent) => {
     setTouchStartX(e.clientX);
     setTouchCurrentX(e.clientX);
@@ -201,24 +193,20 @@ export const PodcastWhereToListen: React.FC<PodcastWhereToListenProps> = () => {
         backgroundColor: 'var(--color-bottle, #093624)',
       }}
     >
-      {/* Ambient soft glow */}
       <div className="absolute inset-0 pointer-events-none opacity-20">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] rounded-full bg-[#CBDA46]/20 blur-[160px]" />
       </div>
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
         
-        {/* Eyebrow Label */}
         <span className="font-mono text-xs sm:text-sm font-bold tracking-widest text-[#D5E3D5] opacity-80 uppercase block mb-3 sm:mb-4">
           WHERE TO LISTEN
         </span>
 
-        {/* Section Headline */}
         <h2 className="font-display font-extrabold text-3xl sm:text-5xl md:text-6xl text-[#F7F4E9] tracking-tight mb-14 sm:mb-20">
           Listen wherever you press play
         </h2>
 
-        {/* 3D Coverflow Swipable Irregular Cards Carousel */}
         <div
           ref={containerRef}
           onTouchStart={handleTouchStart}
@@ -231,7 +219,6 @@ export const PodcastWhereToListen: React.FC<PodcastWhereToListenProps> = () => {
           className="relative h-[420px] sm:h-[480px] md:h-[510px] flex items-center justify-center cursor-grab active:cursor-grabbing touch-pan-y"
         >
           {platforms.map((platform, index) => {
-            // Relative position (-1: left, 0: center, 1: right)
             const diff = (index - activeIndex + total) % total;
             const position = diff === 0 ? 0 : diff === 1 ? 1 : -1;
 
@@ -250,7 +237,6 @@ export const PodcastWhereToListen: React.FC<PodcastWhereToListenProps> = () => {
                     : 'z-10 w-[170px] h-[280px] sm:w-[210px] sm:h-[340px] md:w-[230px] md:h-[370px] scale-[0.88] opacity-75 sm:opacity-85 translate-x-[110px] sm:translate-x-[190px] md:translate-x-[250px] hover:opacity-100'
                 }`}
               >
-                {/* Hand-Drawn Offset Paper Shadow Layer */}
                 <div
                   className="absolute inset-0 translate-x-2 translate-y-3 sm:translate-x-3 sm:translate-y-4 bg-[#05281A]/60 transition-transform duration-300 pointer-events-none"
                   style={{
@@ -258,7 +244,6 @@ export const PodcastWhereToListen: React.FC<PodcastWhereToListenProps> = () => {
                   }}
                 />
 
-                {/* Main Irregular Card Body */}
                 <div
                   style={{
                     background: platform.cardGradient,
@@ -269,13 +254,11 @@ export const PodcastWhereToListen: React.FC<PodcastWhereToListenProps> = () => {
                   }}
                   className="relative z-20 w-full h-full flex items-center justify-center border-2 sm:border-[2.5px] border-[#093624] overflow-hidden transition-transform duration-300 group-hover:-translate-y-1"
                 >
-                  {/* Subtle top specular sheen */}
                   <div
                     className="absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/20 to-transparent pointer-events-none"
                     style={{ borderRadius: platform.borderRadius }}
                   />
 
-                  {/* Centered Platform Logo (pure logo, zero text) */}
                   <div
                     className={`relative z-10 transform transition-transform duration-300 ${
                       isCenter ? 'scale-100 group-hover:scale-110' : 'scale-90'
@@ -284,7 +267,6 @@ export const PodcastWhereToListen: React.FC<PodcastWhereToListenProps> = () => {
                     {platform.logo}
                   </div>
 
-                  {/* Hover Hint on Active Card */}
                   {isCenter && (
                     <div className="absolute bottom-4 sm:bottom-5 px-3 py-1 rounded-full bg-black/25 text-white/95 text-[10px] sm:text-xs font-mono font-semibold flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200 backdrop-blur-xs">
                       <span>Open</span>
@@ -297,10 +279,8 @@ export const PodcastWhereToListen: React.FC<PodcastWhereToListenProps> = () => {
           })}
         </div>
 
-        {/* Carousel Navigation Controls & Indicators */}
         <div className="mt-8 flex flex-col items-center gap-4">
           
-          {/* Chevrons & Pagination */}
           <div className="flex items-center gap-4">
             <button
               onClick={handlePrev}
@@ -310,7 +290,6 @@ export const PodcastWhereToListen: React.FC<PodcastWhereToListenProps> = () => {
               <ChevronLeft className="w-5 h-5" />
             </button>
 
-            {/* Dots */}
             <div className="flex items-center gap-2">
               {platforms.map((p, idx) => (
                 <button
@@ -335,7 +314,6 @@ export const PodcastWhereToListen: React.FC<PodcastWhereToListenProps> = () => {
             </button>
           </div>
 
-          {/* User Hint */}
           <p className="text-xs font-mono text-[#D5E3D5]/70 tracking-wide">
             Swipe or click to browse • Tap card to open
           </p>

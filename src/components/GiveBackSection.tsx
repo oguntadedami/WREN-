@@ -4,7 +4,6 @@ import { X, Heart, Sparkles, BookOpen, Laptop, ExternalLink } from 'lucide-react
 import { Button } from './Button';
 import { HandDrawnHeartDoodle } from './ScrapbookAssets';
 
-// Exactly the 8 required images from src/assets/images/giveback/
 import imgChildrenClassStand from '../assets/images/giveback/giveback-children-class-stand.webp';
 import imgGirlReadingClass from '../assets/images/giveback/giveback-girl-reading-clas.webp';
 import imgTwoSmallGirls from '../assets/images/giveback/giveback-two-small-girls.webp';
@@ -21,7 +20,6 @@ interface GiveBackSectionProps {
 export const GiveBackSection: React.FC<GiveBackSectionProps> = ({ onOpenBooking }) => {
   const [modalOpen, setModalOpen] = useState(false);
 
-  // Close modal on Escape key
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') setModalOpen(false);
@@ -43,30 +41,18 @@ export const GiveBackSection: React.FC<GiveBackSectionProps> = ({ onOpenBooking 
       id="we-dont-hold-back"
       className="relative w-full overflow-hidden border-b border-[#0E1A15]/40"
       style={{
-        backgroundColor: 'var(--color-bottle)', // #093624
-        color: 'var(--color-cream)',           // #F7F4E9
+        backgroundColor: 'var(--color-bottle)',
+        color: 'var(--color-cream)',
       }}
     >
-      {/* Background dark notebook grid pattern */}
       <div className="absolute inset-0 notebook-grid-dark opacity-35 pointer-events-none" />
 
-      {/* Subtle radial ambient gradient in the backdrop */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] bg-[#15543D]/25 rounded-full blur-3xl pointer-events-none" />
 
-      {/* ========================================================================= */}
-      {/* DESKTOP COLLAGE VIEWPORT (lg+)                                            */}
-      {/* Strict Protected Text Column (max-w-[680px], z-20)                        */}
-      {/* Photos strictly restricted to Left (0-18%) and Right (82-100%) zones      */}
-      {/* Only the two lower photos sit near center, below the CTA button           */}
-      {/* ========================================================================= */}
       <div className="hidden lg:block relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 xl:py-24 min-h-[820px] xl:min-h-[860px]">
 
-        {/* ----------------------------------------------------------------------- */}
-        {/* 1. STRICT PROTECTED TEXT COLUMN (max-w-[680px], z-20)                   */}
-        {/* ----------------------------------------------------------------------- */}
         <div className="relative z-20 max-w-[680px] w-full mx-auto text-center flex flex-col items-center">
           
-          {/* Headline: "We don't hold back" (IBM Plex Serif 700-800, with "hold" in italic) */}
           <motion.h2
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -78,7 +64,6 @@ export const GiveBackSection: React.FC<GiveBackSectionProps> = ({ onOpenBooking 
             We don't <em className="italic font-normal font-display" style={{ color: 'var(--color-wattle)' }}>hold</em> back
           </motion.h2>
 
-          {/* Protected Body Copy: No photos can overlap this text block */}
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -107,10 +92,8 @@ export const GiveBackSection: React.FC<GiveBackSectionProps> = ({ onOpenBooking 
             </p>
           </motion.div>
 
-          {/* CTA Button Wrapper with layered overlap for the 2 lower photos */}
           <div className="relative z-30 pt-8 pb-28 sm:pb-32 flex justify-center w-full">
             
-            {/* The Reusable CTA Button */}
             <motion.div
               initial={{ opacity: 0, y: 14 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -129,8 +112,6 @@ export const GiveBackSection: React.FC<GiveBackSectionProps> = ({ onOpenBooking 
               </Button>
             </motion.div>
 
-            {/* LOWER PHOTO 1: giveback-youth-tech-workshop.webp */}
-            {/* ONLY below the CTA button, overlapping its bottom-left edge slightly */}
             <motion.div
               initial={{ opacity: 0, scale: 0.92, y: 16 }}
               whileInView={{ opacity: 1, scale: 1, y: 0 }}
@@ -151,8 +132,6 @@ export const GiveBackSection: React.FC<GiveBackSectionProps> = ({ onOpenBooking 
               </div>
             </motion.div>
 
-            {/* LOWER PHOTO 2: giveback-three-girls-sanitarypad.webp */}
-            {/* ONLY below the CTA button, overlapping its bottom-right edge slightly */}
             <motion.div
               initial={{ opacity: 0, scale: 0.92, y: 16 }}
               whileInView={{ opacity: 1, scale: 1, y: 0 }}
@@ -177,12 +156,6 @@ export const GiveBackSection: React.FC<GiveBackSectionProps> = ({ onOpenBooking 
 
         </div>
 
-        {/* ----------------------------------------------------------------------- */}
-        {/* 2. LEFT ZONE (0% to ~18-20% horizontal bounds)                          */}
-        {/* All photos stay strictly within this outer lane                         */}
-        {/* ----------------------------------------------------------------------- */}
-
-        {/* Photo 1: giveback-children-class-stand.webp (Smallest, top-left) */}
         <motion.div
           initial={{ opacity: 0, scale: 0.9, rotate: -7 }}
           whileInView={{ opacity: 1, scale: 1, rotate: -5.4 }}
@@ -203,12 +176,10 @@ export const GiveBackSection: React.FC<GiveBackSectionProps> = ({ onOpenBooking 
           </div>
         </motion.div>
 
-        {/* DOODLE 1: Hand-drawn heart doodle in --color-wattle near photo 1 & 2 */}
         <div className="absolute top-[21%] left-[10%] xl:left-[11%] z-15 rotate-[-12deg]">
           <HandDrawnHeartDoodle className="w-9 h-9 xl:w-10 xl:h-10" color="var(--color-wattle)" />
         </div>
 
-        {/* Photo 2: giveback-girl-reading-clas.webp (Medium, upper-left below small photo) */}
         <motion.div
           initial={{ opacity: 0, scale: 0.9, rotate: 2 }}
           whileInView={{ opacity: 1, scale: 1, rotate: 4.6 }}
@@ -229,12 +200,10 @@ export const GiveBackSection: React.FC<GiveBackSectionProps> = ({ onOpenBooking 
           </div>
         </motion.div>
 
-        {/* DOODLE 2: Hand-drawn heart doodle in --color-wattle near lower-left photo */}
         <div className="absolute bottom-[28%] left-[9%] xl:left-[10%] z-15 rotate-[15deg]">
           <HandDrawnHeartDoodle className="w-10 h-10" color="var(--color-wattle)" />
         </div>
 
-        {/* Photo 3: giveback-two-small-girls.webp (LARGEST photo on left side, lower-left) */}
         <motion.div
           initial={{ opacity: 0, scale: 0.9, rotate: -5 }}
           whileInView={{ opacity: 1, scale: 1, rotate: -3.2 }}
@@ -255,12 +224,6 @@ export const GiveBackSection: React.FC<GiveBackSectionProps> = ({ onOpenBooking 
           </div>
         </motion.div>
 
-        {/* ----------------------------------------------------------------------- */}
-        {/* 3. RIGHT ZONE (82% to 100% horizontal bounds)                           */}
-        {/* All photos stay strictly within this outer lane                         */}
-        {/* ----------------------------------------------------------------------- */}
-
-        {/* Photo 7: giveback-three-small-girls.webp (LARGEST photo on right side, upper-right) */}
         <motion.div
           initial={{ opacity: 0, scale: 0.9, rotate: -8 }}
           whileInView={{ opacity: 1, scale: 1, rotate: -6.5 }}
@@ -281,12 +244,10 @@ export const GiveBackSection: React.FC<GiveBackSectionProps> = ({ onOpenBooking 
           </div>
         </motion.div>
 
-        {/* DOODLE 3: Hand-drawn heart doodle in --color-wattle near upper-right photo */}
         <div className="absolute top-[22%] right-[11%] xl:right-[12%] z-15 rotate-[18deg]">
           <HandDrawnHeartDoodle className="w-9 h-9 xl:w-10 xl:h-10" color="var(--color-wattle)" />
         </div>
 
-        {/* Photo 8: giveback-girls-sanitary-pads.webp (SMALLEST photo on right, middle-right) */}
         <motion.div
           initial={{ opacity: 0, scale: 0.9, rotate: 1 }}
           whileInView={{ opacity: 1, scale: 1, rotate: 3.4 }}
@@ -307,12 +268,10 @@ export const GiveBackSection: React.FC<GiveBackSectionProps> = ({ onOpenBooking 
           </div>
         </motion.div>
 
-        {/* DOODLE 4: Hand-drawn heart doodle in --color-wattle near lower-right photo */}
         <div className="absolute bottom-[28%] right-[10%] xl:right-[11%] z-15 rotate-[-10deg]">
           <HandDrawnHeartDoodle className="w-9 h-9 xl:w-10 xl:h-10" color="var(--color-wattle)" />
         </div>
 
-        {/* Photo 6: giveback-two-girls-laptop.webp (Medium, lower-right) */}
         <motion.div
           initial={{ opacity: 0, scale: 0.9, rotate: 4 }}
           whileInView={{ opacity: 1, scale: 1, rotate: 5.8 }}
@@ -335,13 +294,8 @@ export const GiveBackSection: React.FC<GiveBackSectionProps> = ({ onOpenBooking 
 
       </div>
 
-      {/* ========================================================================= */}
-      {/* MOBILE & TABLET RESPONSIVE VIEW (< lg)                                    */}
-      {/* Clean Stacked Layout: Text & CTA on top, organic polaroid collage below   */}
-      {/* ========================================================================= */}
       <div className="block lg:hidden px-4 sm:px-6 py-16 max-w-xl mx-auto">
         
-        {/* Text column */}
         <div className="text-center space-y-4 mb-10">
           <h2 
             className="font-display font-extrabold text-3xl sm:text-4xl tracking-tight leading-tight"
@@ -374,7 +328,6 @@ export const GiveBackSection: React.FC<GiveBackSectionProps> = ({ onOpenBooking 
             </p>
           </div>
 
-          {/* CTA Button */}
           <div className="pt-4 flex justify-center">
             <Button
               variant="primary-lime"
@@ -387,10 +340,8 @@ export const GiveBackSection: React.FC<GiveBackSectionProps> = ({ onOpenBooking 
           </div>
         </div>
 
-        {/* 2-Column Polaroid Scrapbook Grid with Rotations & Heart Doodles */}
         <div className="relative grid grid-cols-2 gap-4 sm:gap-6 pt-4">
           
-          {/* Photo 1 (children-class-stand) */}
           <div 
             className="p-2 pb-3 rounded-xl shadow-lg border border-[#0E1A15]/20"
             style={{ backgroundColor: 'var(--color-cream)', transform: 'rotate(-4deg)' }}
@@ -402,7 +353,6 @@ export const GiveBackSection: React.FC<GiveBackSectionProps> = ({ onOpenBooking 
             />
           </div>
 
-          {/* Photo 7 (three-small-girls) with doodle */}
           <div 
             className="relative p-2.5 pb-4 rounded-xl shadow-lg border border-[#0E1A15]/20"
             style={{ backgroundColor: 'var(--color-cream)', transform: 'rotate(5deg)' }}
@@ -417,7 +367,6 @@ export const GiveBackSection: React.FC<GiveBackSectionProps> = ({ onOpenBooking 
             />
           </div>
 
-          {/* Photo 2 (girl-reading-clas) */}
           <div 
             className="p-2.5 pb-4 rounded-xl shadow-lg border border-[#0E1A15]/20"
             style={{ backgroundColor: 'var(--color-cream)', transform: 'rotate(3deg)' }}
@@ -429,7 +378,6 @@ export const GiveBackSection: React.FC<GiveBackSectionProps> = ({ onOpenBooking 
             />
           </div>
 
-          {/* Photo 3 (two-small-girls) with doodle */}
           <div 
             className="relative p-2.5 pb-4 rounded-xl shadow-lg border border-[#0E1A15]/20"
             style={{ backgroundColor: 'var(--color-cream)', transform: 'rotate(-3deg)' }}
@@ -444,7 +392,6 @@ export const GiveBackSection: React.FC<GiveBackSectionProps> = ({ onOpenBooking 
             />
           </div>
 
-          {/* Photo 4 (youth-tech-workshop) */}
           <div 
             className="p-2 pb-3 rounded-xl shadow-lg border border-[#0E1A15]/20"
             style={{ backgroundColor: 'var(--color-cream)', transform: 'rotate(-2deg)' }}
@@ -456,7 +403,6 @@ export const GiveBackSection: React.FC<GiveBackSectionProps> = ({ onOpenBooking 
             />
           </div>
 
-          {/* Photo 5 (three-girls-sanitarypad) with doodle */}
           <div 
             className="relative p-2 pb-3 rounded-xl shadow-lg border border-[#0E1A15]/20"
             style={{ backgroundColor: 'var(--color-cream)', transform: 'rotate(4deg)' }}
@@ -471,7 +417,6 @@ export const GiveBackSection: React.FC<GiveBackSectionProps> = ({ onOpenBooking 
             />
           </div>
 
-          {/* Photo 8 (girls-sanitary-pads) */}
           <div 
             className="p-2 pb-3 rounded-xl shadow-lg border border-[#0E1A15]/20"
             style={{ backgroundColor: 'var(--color-cream)', transform: 'rotate(2deg)' }}
@@ -483,7 +428,6 @@ export const GiveBackSection: React.FC<GiveBackSectionProps> = ({ onOpenBooking 
             />
           </div>
 
-          {/* Photo 6 (two-girls-laptop) */}
           <div 
             className="p-2.5 pb-4 rounded-xl shadow-lg border border-[#0E1A15]/20"
             style={{ backgroundColor: 'var(--color-cream)', transform: 'rotate(-4deg)' }}
@@ -499,9 +443,6 @@ export const GiveBackSection: React.FC<GiveBackSectionProps> = ({ onOpenBooking 
 
       </div>
 
-      {/* ========================================================================= */}
-      {/* IMPACT DETAILS MODAL ("Find out more" Dialog)                            */}
-      {/* ========================================================================= */}
       <AnimatePresence>
         {modalOpen && (
           <div 
@@ -510,7 +451,6 @@ export const GiveBackSection: React.FC<GiveBackSectionProps> = ({ onOpenBooking 
             aria-modal="true"
             aria-labelledby="giveback-modal-title"
           >
-            {/* Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -520,7 +460,6 @@ export const GiveBackSection: React.FC<GiveBackSectionProps> = ({ onOpenBooking 
               className="absolute inset-0 bg-[#093624]/85 backdrop-blur-sm"
             />
 
-            {/* Modal Card */}
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 16 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -528,11 +467,10 @@ export const GiveBackSection: React.FC<GiveBackSectionProps> = ({ onOpenBooking 
               transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
               className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl border-2 border-[#CBDA46]/40 shadow-2xl p-6 sm:p-8 z-10 wren-story-scrollbar"
               style={{
-                backgroundColor: 'var(--color-cream)', // #F7F4E9
-                color: 'var(--color-ink)',            // #0E1A15
+                backgroundColor: 'var(--color-cream)',
+                color: 'var(--color-ink)',
               }}
             >
-              {/* Close button */}
               <button
                 type="button"
                 onClick={() => setModalOpen(false)}
@@ -542,7 +480,6 @@ export const GiveBackSection: React.FC<GiveBackSectionProps> = ({ onOpenBooking 
                 <X className="w-5 h-5" />
               </button>
 
-              {/* Tag & Title */}
               <div className="mb-6 pr-8">
                 <span 
                   className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-bold uppercase tracking-wider mb-2"
@@ -556,10 +493,8 @@ export const GiveBackSection: React.FC<GiveBackSectionProps> = ({ onOpenBooking 
                 </h3>
               </div>
 
-              {/* 3 Pillars of Impact */}
               <div className="space-y-6 text-left">
                 
-                {/* 1. Pad a Girl */}
                 <div className="p-4 sm:p-5 rounded-xl bg-white border border-[#0E1A15]/10 shadow-sm flex flex-col sm:flex-row gap-4 items-start">
                   <div className="w-10 h-10 rounded-lg bg-[#CBDA46]/20 border border-[#CBDA46]/40 flex items-center justify-center shrink-0">
                     <Heart className="w-5 h-5 text-[#093624]" />
@@ -574,7 +509,6 @@ export const GiveBackSection: React.FC<GiveBackSectionProps> = ({ onOpenBooking 
                   </div>
                 </div>
 
-                {/* 2. iSoar NGO */}
                 <div className="p-4 sm:p-5 rounded-xl bg-white border border-[#0E1A15]/10 shadow-sm flex flex-col sm:flex-row gap-4 items-start">
                   <div className="w-10 h-10 rounded-lg bg-[#CBDA46]/20 border border-[#CBDA46]/40 flex items-center justify-center shrink-0">
                     <Laptop className="w-5 h-5 text-[#093624]" />
@@ -589,7 +523,6 @@ export const GiveBackSection: React.FC<GiveBackSectionProps> = ({ onOpenBooking 
                   </div>
                 </div>
 
-                {/* 3. Orphanage Education Sponsorships */}
                 <div className="p-4 sm:p-5 rounded-xl bg-white border border-[#0E1A15]/10 shadow-sm flex flex-col sm:flex-row gap-4 items-start">
                   <div className="w-10 h-10 rounded-lg bg-[#CBDA46]/20 border border-[#CBDA46]/40 flex items-center justify-center shrink-0">
                     <BookOpen className="w-5 h-5 text-[#093624]" />
@@ -606,7 +539,6 @@ export const GiveBackSection: React.FC<GiveBackSectionProps> = ({ onOpenBooking 
 
               </div>
 
-              {/* Closing Creed in modal */}
               <div className="mt-8 p-5 rounded-xl bg-[#093624] text-[#F7F4E9] text-center">
                 <p className="font-display font-bold text-lg sm:text-xl text-[#CBDA46] mb-1">
                   Make money. Build good things. Give some of it away.
@@ -616,7 +548,6 @@ export const GiveBackSection: React.FC<GiveBackSectionProps> = ({ onOpenBooking 
                 </p>
               </div>
 
-              {/* Action Buttons */}
               <div className="mt-6 flex flex-col sm:flex-row items-center justify-end gap-3">
                 <button
                   type="button"

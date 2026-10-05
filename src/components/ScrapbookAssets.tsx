@@ -1,6 +1,5 @@
 import React from 'react';
 
-// Hand-drawn marker circle around words (like "B2B" in the hero)
 export const HandDrawnCircle: React.FC<{ className?: string; color?: string }> = ({
   className = "w-[120%] h-[150%] -left-[10%] -top-[25%]",
   color = "#CBDA46"
@@ -26,7 +25,6 @@ export const HandDrawnCircle: React.FC<{ className?: string; color?: string }> =
   </svg>
 );
 
-// Hand-drawn scribble / underline
 export const MarkerUnderline: React.FC<{ className?: string; color?: string }> = ({
   className = "w-full h-3 -bottom-2 left-0",
   color = "#CBDA46"
@@ -47,7 +45,6 @@ export const MarkerUnderline: React.FC<{ className?: string; color?: string }> =
   </svg>
 );
 
-// Washi Tape component
 export const Tape: React.FC<{ className?: string; color?: string }> = ({
   className = "w-24 h-7",
   color = "#CBDA46"
@@ -61,7 +58,6 @@ export const Tape: React.FC<{ className?: string; color?: string }> = ({
   />
 );
 
-// Metal clothesline / paper clip
 export const MetalClip: React.FC<{ className?: string }> = ({ className = "w-4 h-9" }) => (
   <svg viewBox="0 0 16 36" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
     <rect x="5.5" y="2" width="5" height="24" rx="2.5" stroke="#94A3B8" strokeWidth="1.8" fill="rgba(241, 245, 249, 0.9)" />
@@ -69,7 +65,6 @@ export const MetalClip: React.FC<{ className?: string }> = ({ className = "w-4 h
   </svg>
 );
 
-// Wooden clothes pin
 export const WoodenPin: React.FC<{ className?: string }> = ({ className = "w-4 h-10" }) => (
   <svg viewBox="0 0 14 36" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
     <path d="M4 2H10L9 16H5L4 2Z" fill="#C29B38" stroke="#8C6D1F" strokeWidth="1" />
@@ -78,7 +73,6 @@ export const WoodenPin: React.FC<{ className?: string }> = ({ className = "w-4 h
   </svg>
 );
 
-// Paperclip for testimonial cards
 export const PaperClip: React.FC<{ className?: string; color?: string }> = ({ 
   className = "w-5 h-10",
   color = "#64748B"
@@ -93,7 +87,6 @@ export const PaperClip: React.FC<{ className?: string; color?: string }> = ({
   </svg>
 );
 
-// Rubber stamp badge component
 export const StampBadge: React.FC<{ text?: string; className?: string; color?: string }> = ({
   text = "AUTHENTIC VOICE",
   className = "w-24 h-24",
@@ -136,14 +129,13 @@ export const WrenLogo: React.FC<{ className?: string; color?: string }> = ({
   </svg>
 );
 
-// Hand-drawn heart outline doodle in the site's authentic sketchbook style
 export const HandDrawnHeartDoodle: React.FC<{ 
   className?: string; 
   color?: string; 
   style?: React.CSSProperties 
 }> = ({ 
   className = "w-9 h-9", 
-  color = "#CBDA46", // --color-wattle
+  color = "#CBDA46",
   style 
 }) => (
   <svg 
@@ -153,7 +145,6 @@ export const HandDrawnHeartDoodle: React.FC<{
     className={`pointer-events-none drop-shadow-sm select-none overflow-visible ${className}`}
     style={style}
   >
-    {/* Primary hand-sketched heart contour */}
     <path 
       d="M32 52 C29 48.5, 6 36, 3 23 C0.5 12.5, 8 4, 18 4.5 C24.5 4.8, 29.5 9.5, 32 14.5 C34.5 9.5, 39.5 4.8, 46 4.5 C56 4, 63.5 12.5, 61 23 C58 36, 35 48.5, 32 52 Z" 
       stroke={color} 
@@ -161,7 +152,6 @@ export const HandDrawnHeartDoodle: React.FC<{
       strokeLinecap="round" 
       strokeLinejoin="round" 
     />
-    {/* Secondary loose sketchy pen contour for handcrafted texture */}
     <path 
       d="M31.5 50.5 C28.5 47, 8 35, 5.5 23.5 C3 14, 9.5 6, 17.5 6.5 C23 7, 28 11, 30.5 15" 
       stroke={color} 
@@ -172,7 +162,6 @@ export const HandDrawnHeartDoodle: React.FC<{
   </svg>
 );
 
-// Hand-drawn oversized decorative quote mark illustration (ink style)
 export const HandDrawnQuotes: React.FC<{
   className?: string;
   color?: string;
@@ -193,7 +182,6 @@ export const HandDrawnQuotes: React.FC<{
   >
     {type === 'open' ? (
       <g stroke={color} strokeLinecap="round" strokeLinejoin="round">
-        {/* Left quote mark */}
         <path
           d="M38 22 C22 22 10 34 10 52 C10 70 24 82 38 82 C48 82 56 74 56 62 C56 48 44 42 34 42 C32 42 28 43 26 44 C26 30 38 24 50 20"
           strokeWidth="6.5"
@@ -203,7 +191,6 @@ export const HandDrawnQuotes: React.FC<{
           strokeWidth="2.5"
           opacity="0.7"
         />
-        {/* Right quote mark */}
         <path
           d="M92 22 C76 22 64 34 64 52 C64 70 78 82 92 82 C102 82 110 74 110 62 C110 48 98 42 88 42 C86 42 82 43 80 44 C80 30 92 24 104 20"
           strokeWidth="6.5"
@@ -216,7 +203,6 @@ export const HandDrawnQuotes: React.FC<{
       </g>
     ) : (
       <g stroke={color} strokeLinecap="round" strokeLinejoin="round" transform="rotate(180 60 50)">
-        {/* Closing quotes */}
         <path
           d="M38 22 C22 22 10 34 10 52 C10 70 24 82 38 82 C48 82 56 74 56 62 C56 48 44 42 34 42 C32 42 28 43 26 44 C26 30 38 24 50 20"
           strokeWidth="6.5"
@@ -230,7 +216,6 @@ export const HandDrawnQuotes: React.FC<{
   </svg>
 );
 
-// Hand-drawn spark / asterisk doodle
 export const HandDrawnStarDoodle: React.FC<{ className?: string; color?: string }> = ({
   className = "w-5 h-5",
   color = "#CBDA46"
@@ -240,7 +225,6 @@ export const HandDrawnStarDoodle: React.FC<{ className?: string; color?: string 
   </svg>
 );
 
-// Hand-Drawn Realistic Chisel Marker Swipe Highlight Component
 export const Highlight: React.FC<{ 
   color?: 'wattle' | 'coral' | string; 
   rotation?: 'left' | 'right' | 'none';
@@ -265,7 +249,6 @@ export const Highlight: React.FC<{
 
   return (
     <span className={`relative inline-block isolate px-1.5 py-0.5 mx-0.5 align-baseline ${rotClass} ${className}`}>
-      {/* Hand-dragged Marker Wash with Organic Ink Streaks & Wobbly Chisel Edge */}
       <svg
         className="absolute -inset-x-2.5 -inset-y-1 w-[calc(100%+20px)] h-[calc(100%+8px)] -z-10 overflow-visible pointer-events-none"
         viewBox="0 0 100 24"
@@ -284,13 +267,11 @@ export const Highlight: React.FC<{
           </linearGradient>
         </defs>
 
-        {/* Main Irregular Marker Swipe (Heavy chisel start, organic path wobble, slight end flick) */}
         <path
           d="M 1.5 4 C 16 2.2, 44 4.8, 76 3 C 88 2.2, 95.5 3.8, 99 5.5 C 99.8 11.5, 98.2 17, 96.5 21 C 81 22.8, 50 20.2, 21 22 C 8 22.8, 2.5 19.5, 0.8 14.5 C -0.2 9.5, 0.5 5.8, 1.5 4 Z"
           fill={`url(#markerGrad-${isCoral ? 'coral' : 'wattle'})`}
         />
 
-        {/* Faint Internal Streak / Marker Pressure Line 1 (Upper drag channel) */}
         <path
           d="M 2.5 7.5 C 24 5.8, 56 7.2, 86 5.8 C 93 5.2, 97.5 7, 98 8"
           stroke={secondaryStreak}
@@ -299,7 +280,6 @@ export const Highlight: React.FC<{
           opacity="0.4"
         />
 
-        {/* Faint Internal Streak / Marker Pressure Line 2 (Lower wet ink drag) */}
         <path
           d="M 3.5 16.5 C 29 18.2, 63 16.2, 88 17.8 C 93.5 18.2, 95.8 17.2, 97 15.8"
           stroke={deepStreak}
@@ -308,7 +288,6 @@ export const Highlight: React.FC<{
           opacity="0.28"
         />
 
-        {/* Marker Ink pooling at start (left chisel edge press mark) */}
         <path
           d="M 1 5.5 C 1.6 9.5, 1.4 14.5, 1.1 18.5"
           stroke={deepStreak}
@@ -317,7 +296,6 @@ export const Highlight: React.FC<{
           opacity="0.35"
         />
 
-        {/* Marker Ink release trail at end (right overshoot trail) */}
         <path
           d="M 95.5 6.5 C 97.5 9.5, 98.8 13.5, 97.2 19"
           stroke={baseColor}
@@ -330,4 +308,3 @@ export const Highlight: React.FC<{
     </span>
   );
 };
-

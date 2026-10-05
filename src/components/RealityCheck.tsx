@@ -16,21 +16,12 @@ const WORDS_DATA = [
   ...PART_2.split(' ').map((word) => ({ text: word, isHighlight: true })),
 ];
 
-/**
- * Animated Wren Bird illustration that flies back and forth above the "REALITY CHECK" pill:
- * - Dynamic back-and-forth patrol flight pattern with smooth turns and swoops
- * - Active wing fluttering strokes
- * - Scaled to a refined, natural size
- * - Periodic musical chirp bubble
- * Runs completely independent of scroll progress.
- */
 const RealityCheckBird: React.FC<{ reducedMotion: boolean; isMobile: boolean }> = ({ reducedMotion, isMobile }) => {
   const [wingFlap, setWingFlap] = useState(true);
   const [headTilt, setHeadTilt] = useState(0);
   const [tailBob, setTailBob] = useState(false);
   const [chirp, setChirp] = useState(false);
 
-  // Active flight wing fluttering (disabled on mobile / reduced motion to reduce CPU/GPU lag)
   useEffect(() => {
     if (reducedMotion || isMobile) return;
     const flapTimer = setInterval(() => {
@@ -39,7 +30,6 @@ const RealityCheckBird: React.FC<{ reducedMotion: boolean; isMobile: boolean }> 
     return () => clearInterval(flapTimer);
   }, [reducedMotion, isMobile]);
 
-  // Subtle natural head & chirp actions
   useEffect(() => {
     if (reducedMotion || isMobile) return;
     const idleTimer = setInterval(() => {
@@ -63,7 +53,6 @@ const RealityCheckBird: React.FC<{ reducedMotion: boolean; isMobile: boolean }> 
           reducedMotion || isMobile ? '' : 'animate-bird-patrol'
         }`}
       >
-        {/* Floating musical chirp note */}
         {chirp && !reducedMotion && !isMobile && (
           <div
             className="absolute -top-6 -right-2 px-2 py-0.5 rounded-full bg-[#CBDA46] border border-[#093624] text-[#093624] font-bold text-[10px] sm:text-xs shadow-md animate-bounce select-none whitespace-nowrap"
@@ -73,14 +62,12 @@ const RealityCheckBird: React.FC<{ reducedMotion: boolean; isMobile: boolean }> 
           </div>
         )}
 
-        {/* Refined, scaled-down Wren Bird SVG Illustration */}
         <svg
           viewBox="0 0 72 56"
           className="w-14 h-11 sm:w-16 sm:h-12 md:w-18 md:h-14 drop-shadow-[0_6px_12px_rgba(0,0,0,0.5)] overflow-visible"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
-          {/* Subtle under-glow effect */}
           <ellipse
             cx="36"
             cy="46"
@@ -91,7 +78,6 @@ const RealityCheckBird: React.FC<{ reducedMotion: boolean; isMobile: boolean }> 
             filter="blur(3px)"
           />
 
-          {/* Upright Wren Cocked Tail */}
           <g
             className="transition-transform duration-200 origin-[22px_36px]"
             style={{
@@ -114,7 +100,6 @@ const RealityCheckBird: React.FC<{ reducedMotion: boolean; isMobile: boolean }> 
               stroke="#05281A"
               strokeWidth="1.2"
             />
-            {/* Tail feather bars */}
             <line
               x1="10"
               y1="19"
@@ -135,7 +120,6 @@ const RealityCheckBird: React.FC<{ reducedMotion: boolean; isMobile: boolean }> 
             />
           </g>
 
-          {/* Plump Bird Body */}
           <ellipse
             cx="36"
             cy="36"
@@ -147,13 +131,11 @@ const RealityCheckBird: React.FC<{ reducedMotion: boolean; isMobile: boolean }> 
             transform="rotate(-4 36 36)"
           />
 
-          {/* Warm Cream / Buff Underbelly */}
           <path
             d="M32 47 C40 47 48 43 49 35 C46 36 38 40 30 38 C28 43 29 47 32 47 Z"
             fill="#FEE2C5"
           />
 
-          {/* Wings */}
           {reducedMotion ? (
             <g>
               <path
@@ -181,7 +163,6 @@ const RealityCheckBird: React.FC<{ reducedMotion: boolean; isMobile: boolean }> 
                 stroke="#05281A"
                 strokeWidth="1.2"
               />
-              {/* Distinctive Wren wing barring / chartreuse flecks */}
               <circle cx="31" cy="31" r="1.2" fill="#CBDA46" />
               <circle cx="35" cy="32" r="1.2" fill="#CBDA46" />
               <circle cx="38" cy="34" r="1.2" fill="#CBDA46" />
@@ -197,7 +178,6 @@ const RealityCheckBird: React.FC<{ reducedMotion: boolean; isMobile: boolean }> 
             </g>
           )}
 
-          {/* Bird Head with Supercilium Eyebrow */}
           <g
             className="transition-transform duration-200 origin-[48px_27px]"
             style={{
@@ -215,7 +195,6 @@ const RealityCheckBird: React.FC<{ reducedMotion: boolean; isMobile: boolean }> 
               strokeWidth="1"
             />
 
-            {/* Wren signature pale cream/lime Eyebrow (Supercilium) */}
             <path
               d="M43 22 Q50 21 55 25"
               stroke="#CBDA46"
@@ -224,11 +203,9 @@ const RealityCheckBird: React.FC<{ reducedMotion: boolean; isMobile: boolean }> 
               fill="none"
             />
 
-            {/* Eye */}
             <circle cx="49" cy="26" r="2.2" fill="#000000" />
             <circle cx="49.8" cy="25.2" r="0.8" fill="#FFFFFF" />
 
-            {/* Slender Beak */}
             <path
               d="M55 25.5 L67 28 L55 30.5 Z"
               fill="#D97706"
@@ -237,7 +214,6 @@ const RealityCheckBird: React.FC<{ reducedMotion: boolean; isMobile: boolean }> 
             />
           </g>
 
-          {/* Little Feet tucked in flight */}
           <g stroke="#15543D" strokeWidth="1.6" strokeLinecap="round">
             <path d="M33 46 L33 49 M31 49 L35 49" />
             <path d="M39 46 L39 49 M37 49 L41 49" />
@@ -259,7 +235,6 @@ export const RealityCheck: React.FC<RealityCheckProps> = ({ onNavigate }) => {
   const [reducedMotion, setReducedMotion] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
-  // Check screen size to eliminate scroll-hijacking pinning on mobile
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
@@ -269,7 +244,6 @@ export const RealityCheck: React.FC<RealityCheckProps> = ({ onNavigate }) => {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  // Check for prefers-reduced-motion
   useEffect(() => {
     const mql = window.matchMedia('(prefers-reduced-motion: reduce)');
     setReducedMotion(mql.matches);
@@ -282,8 +256,6 @@ export const RealityCheck: React.FC<RealityCheckProps> = ({ onNavigate }) => {
     return () => mql.removeEventListener('change', handleChange);
   }, []);
 
-  // GSAP ScrollTrigger setup for word-by-word opacity reveal
-  // Uses CSS sticky positioning for the viewport lock, avoiding any GSAP pin DOM mutation or unmount issues
   useEffect(() => {
     if (reducedMotion || !sectionRef.current || !wordsContainerRef.current) {
       setCtaVisible(true);
@@ -302,7 +274,6 @@ export const RealityCheck: React.FC<RealityCheckProps> = ({ onNavigate }) => {
           end: 'bottom bottom',
           scrub: isSmallScreen ? 0.35 : 0.5,
           onUpdate: (self) => {
-            // Reveal CTA button as the text finishes illuminating
             if (self.progress >= (isSmallScreen ? 0.82 : 0.88)) {
               setCtaVisible(true);
             } else {
@@ -312,7 +283,6 @@ export const RealityCheck: React.FC<RealityCheckProps> = ({ onNavigate }) => {
         },
       });
 
-      // Animate words opacity from ~18% to 100%
       tl.fromTo(
         wordElements,
         {
@@ -346,7 +316,6 @@ export const RealityCheck: React.FC<RealityCheckProps> = ({ onNavigate }) => {
       try {
         window.location.hash = '#podcast';
       } catch {
-        // fallback
       }
     }
   };
@@ -361,16 +330,13 @@ export const RealityCheck: React.FC<RealityCheckProps> = ({ onNavigate }) => {
         backgroundColor: 'var(--color-bottle, #093624)',
       }}
     >
-      {/* Fallback anchor for existing links */}
       <span id="breather-section" className="absolute top-0 opacity-0 pointer-events-none" />
 
-      {/* Atmospheric ambient lighting & subtle glows */}
       <div className="absolute inset-0 pointer-events-none opacity-25 overflow-hidden">
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[550px] rounded-full bg-[#CBDA46]/15 blur-[120px]" />
         <div className="absolute -bottom-20 -right-20 w-80 h-80 rounded-full bg-[#15543D]/40 blur-[80px]" />
       </div>
 
-      {/* Pure CSS Sticky Viewport Frame - locks content in place as outer section scrolls without modifying DOM */}
       <div
         className={`w-full flex flex-col items-center justify-center overflow-hidden py-12 sm:py-20 px-5 sm:px-10 lg:px-16 ${
           reducedMotion ? 'relative min-h-[80vh]' : 'sticky top-0 h-[100dvh] sm:h-screen'
@@ -378,10 +344,8 @@ export const RealityCheck: React.FC<RealityCheckProps> = ({ onNavigate }) => {
       >
         <div className="max-w-4xl mx-auto w-full flex flex-col items-center text-center relative z-10">
           
-          {/* Animated Wren Bird with independent idle animation */}
           <RealityCheckBird reducedMotion={reducedMotion} isMobile={isMobile} />
 
-          {/* Section Pill Stamp */}
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/20 backdrop-blur-xs mb-6 sm:mb-10">
             <span className="w-2 h-2 rounded-full bg-[#CBDA46] animate-pulse" />
             <span className="text-xs font-mono font-bold tracking-widest text-[#F7F4E9] uppercase">
@@ -389,7 +353,6 @@ export const RealityCheck: React.FC<RealityCheckProps> = ({ onNavigate }) => {
             </span>
           </div>
 
-          {/* Main Word-by-Word Revealed Copy */}
           <h2
             ref={wordsContainerRef}
             className="font-display font-bold text-xl sm:text-3xl md:text-4.5xl lg:text-[42px] leading-[1.35] sm:leading-[1.3] text-[#F7F4E9] tracking-tight max-w-3.5xl mx-auto text-center mb-8 sm:mb-14"
@@ -415,7 +378,6 @@ export const RealityCheck: React.FC<RealityCheckProps> = ({ onNavigate }) => {
             ))}
           </h2>
 
-          {/* CTA Button Wrapper */}
           <div
             id="reality-check-cta-container"
             className={`relative transition-all duration-500 ease-out transform ${

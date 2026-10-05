@@ -15,7 +15,6 @@ export const CuriousWrenPet: React.FC<CuriousWrenPetProps> = ({ ctaRef }) => {
   const [musicNoteKey, setMusicNoteKey] = useState(0);
   const [isLandedOnCta, setIsLandedOnCta] = useState(false);
 
-  // Position physics refs (direct viewport coordinates)
   const currentPosRef = useRef({ x: 0, y: 0 });
   const targetPosRef = useRef({ x: 0, y: 0 });
   const hasInitializedRef = useRef(false);
@@ -23,7 +22,6 @@ export const CuriousWrenPet: React.FC<CuriousWrenPetProps> = ({ ctaRef }) => {
   const rafRef = useRef<number | null>(null);
   const prevXRef = useRef(0);
 
-  // Helper to get coordinates on top-right rim of the CTA button
   const getCtaPerchCoords = () => {
     if (!ctaRef.current) return null;
     const rect = ctaRef.current.getBoundingClientRect();
@@ -34,11 +32,10 @@ export const CuriousWrenPet: React.FC<CuriousWrenPetProps> = ({ ctaRef }) => {
     };
   };
 
-  // Periodic tail bob & cheerful musical notes
   useEffect(() => {
     const idleTimer = setInterval(() => {
       setTailBob(b => !b);
-      setHeadTilt(Math.floor(Math.random() * 3) - 1); // -1, 0, 1
+      setHeadTilt(Math.floor(Math.random() * 3) - 1);
     }, 1100);
 
     const chirpTimer = setInterval(() => {
@@ -53,7 +50,6 @@ export const CuriousWrenPet: React.FC<CuriousWrenPetProps> = ({ ctaRef }) => {
     };
   }, []);
 
-  // Wing flap animation when bird is in flight
   useEffect(() => {
     if (!isFlying) return;
     const flapTimer = setInterval(() => {
@@ -62,9 +58,7 @@ export const CuriousWrenPet: React.FC<CuriousWrenPetProps> = ({ ctaRef }) => {
     return () => clearInterval(flapTimer);
   }, [isFlying]);
 
-  // Main Tracking Loop & Event Handling
   useEffect(() => {
-    // Initial placement on mount: sit on top of the CTA button
     const initPlacement = () => {
       const ctaPos = getCtaPerchCoords();
       if (ctaPos) {
@@ -79,12 +73,10 @@ export const CuriousWrenPet: React.FC<CuriousWrenPetProps> = ({ ctaRef }) => {
     };
 
     if (!initPlacement()) {
-      // Fallback: place in lower center if button rect not ready yet
       const fallbackPos = { x: window.innerWidth / 2 + 100, y: window.innerHeight * 0.7 };
       currentPosRef.current = { ...fallbackPos };
       targetPosRef.current = { ...fallbackPos };
       setPos({ ...fallbackPos });
-      // Retry after DOM layout
       setTimeout(initPlacement, 150);
     }
 
@@ -93,14 +85,12 @@ export const CuriousWrenPet: React.FC<CuriousWrenPetProps> = ({ ctaRef }) => {
       const mouseX = e.clientX;
       const mouseY = e.clientY;
 
-      // Check distance from cursor to CTA button
       if (ctaRef.current) {
         const rect = ctaRef.current.getBoundingClientRect();
         const ctaCenterX = rect.left + rect.width / 2;
         const ctaCenterY = rect.top + rect.height / 2;
         const distToCta = Math.hypot(mouseX - ctaCenterX, mouseY - ctaCenterY);
 
-        // When mouse gets near the CTA button (within 180px), fly over and land on it!
         if (distToCta < 180) {
           const ctaPos = getCtaPerchCoords();
           if (ctaPos) {
@@ -111,7 +101,6 @@ export const CuriousWrenPet: React.FC<CuriousWrenPetProps> = ({ ctaRef }) => {
         }
       }
 
-      // Curious pet follower: fly near the cursor (offset so it doesn't block clicks)
       setIsLandedOnCta(false);
       targetPosRef.current = {
         x: Math.max(20, Math.min(window.innerWidth - 65, mouseX + 38)),
@@ -121,9 +110,7 @@ export const CuriousWrenPet: React.FC<CuriousWrenPetProps> = ({ ctaRef }) => {
 
     window.addEventListener('mousemove', handleMouseMove, { passive: true });
 
-    // Handle touch tap on mobile to trigger a joyful chirp/flutter
     const handleTouchStart = () => {
-      // Keep on CTA button on mobile
       const ctaPos = getCtaPerchCoords();
       if (ctaPos) {
         currentPosRef.current = { ...ctaPos };
@@ -134,7 +121,6 @@ export const CuriousWrenPet: React.FC<CuriousWrenPetProps> = ({ ctaRef }) => {
     };
     window.addEventListener('touchstart', handleTouchStart, { passive: true });
 
-    // Smooth RAF physics glide
     const updatePhysics = () => {
       const cur = currentPosRef.current;
       const tgt = targetPosRef.current;
@@ -144,12 +130,10 @@ export const CuriousWrenPet: React.FC<CuriousWrenPetProps> = ({ ctaRef }) => {
       const dist = Math.hypot(dx, dy);
 
       if (dist > 1) {
-        // High quality ease interpolation
         const lerpFactor = dist > 90 ? 0.09 : 0.14;
         cur.x += dx * lerpFactor;
         cur.y += dy * lerpFactor;
 
-        // Facing direction
         if (Math.abs(cur.x - prevXRef.current) > 0.6) {
           setFacingLeft(cur.x < prevXRef.current);
           prevXRef.current = cur.x;
@@ -166,7 +150,6 @@ export const CuriousWrenPet: React.FC<CuriousWrenPetProps> = ({ ctaRef }) => {
 
     rafRef.current = requestAnimationFrame(updatePhysics);
 
-    // Reposition on window resize (e.g. if button moves)
     const handleResize = () => {
       if (!isUserMovingMouseRef.current) {
         const ctaPos = getCtaPerchCoords();
@@ -197,7 +180,6 @@ export const CuriousWrenPet: React.FC<CuriousWrenPetProps> = ({ ctaRef }) => {
       aria-hidden="true"
     >
       <div className="relative inline-block overflow-visible">
-        {/* Floating Musical Chirp Note ♪ */}
         {showMusicNote && (
           <span
             key={musicNoteKey}
@@ -207,7 +189,6 @@ export const CuriousWrenPet: React.FC<CuriousWrenPetProps> = ({ ctaRef }) => {
           </span>
         )}
 
-        {/* Bird SVG with Flat Cartoon Style matching Image 2 */}
         <div 
           className={`transition-transform duration-200 ${
             facingLeft ? '-scale-x-100' : 'scale-x-100'
@@ -219,7 +200,6 @@ export const CuriousWrenPet: React.FC<CuriousWrenPetProps> = ({ ctaRef }) => {
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
           >
-            {/* Wren Cocked Upright Tail */}
             <g
               className="origin-[25px_34px] transition-transform duration-150"
               style={{
@@ -244,12 +224,10 @@ export const CuriousWrenPet: React.FC<CuriousWrenPetProps> = ({ ctaRef }) => {
                 strokeWidth="1.6"
                 strokeLinejoin="round"
               />
-              {/* Lime Tail Feather Barbs matching Image 2 */}
               <line x1="11" y1="18" x2="15" y2="21" stroke="#CBDA46" strokeWidth="1.6" strokeLinecap="round" />
               <line x1="15" y1="23" x2="19" y2="26" stroke="#CBDA46" strokeWidth="1.6" strokeLinecap="round" />
             </g>
 
-            {/* Plump Dark Forest Green Body */}
             <ellipse
               cx="35"
               cy="36"
@@ -261,7 +239,6 @@ export const CuriousWrenPet: React.FC<CuriousWrenPetProps> = ({ ctaRef }) => {
               transform="rotate(-4 35 36)"
             />
 
-            {/* Soft Warm Peach/Cream Underbelly matching Image 2 */}
             <path
               d="M33 47 C41 47 49 42 50 35 C46 36 38 39 31 38 C29 43 30 47 33 47 Z"
               fill="#FEE2C5"
@@ -269,7 +246,6 @@ export const CuriousWrenPet: React.FC<CuriousWrenPetProps> = ({ ctaRef }) => {
               strokeWidth="1.4"
             />
 
-            {/* Wings: Flapping in flight vs folded with lime dashes when perched */}
             {isFlying ? (
               <g
                 className="origin-[32px_32px] transition-transform duration-75"
@@ -301,14 +277,12 @@ export const CuriousWrenPet: React.FC<CuriousWrenPetProps> = ({ ctaRef }) => {
                   stroke="#031A10"
                   strokeWidth="1.6"
                 />
-                {/* 3 Signature Lime Wing Dash Markings from Image 2 */}
                 <rect x="29" y="30" width="3.8" height="2" rx="0.8" fill="#CBDA46" />
                 <rect x="34" y="31.2" width="3.8" height="2" rx="0.8" fill="#CBDA46" />
                 <rect x="38.5" y="32.4" width="3.8" height="2" rx="0.8" fill="#CBDA46" />
               </g>
             )}
 
-            {/* Bird Head with Supercilium, Eye, and Sharp Orange Beak */}
             <g
               className="origin-[46px_26px] transition-transform duration-200"
               style={{
@@ -324,7 +298,6 @@ export const CuriousWrenPet: React.FC<CuriousWrenPetProps> = ({ ctaRef }) => {
                 strokeWidth="1.8"
               />
 
-              {/* Lime Eyebrow Stripe (Supercilium) */}
               <path
                 d="M41 21 Q48 20 52 24"
                 stroke="#CBDA46"
@@ -332,11 +305,9 @@ export const CuriousWrenPet: React.FC<CuriousWrenPetProps> = ({ ctaRef }) => {
                 strokeLinecap="round"
               />
 
-              {/* Eye with White Gleam Specular Highlight */}
               <circle cx="48" cy="25" r="2.2" fill="#000000" />
               <circle cx="49" cy="24.2" r="0.75" fill="#FFFFFF" />
 
-              {/* Sharp Warm Orange Beak */}
               <path
                 d="M54 25 L66 27.5 L54 30 Z"
                 fill="#E87A1E"
@@ -346,13 +317,10 @@ export const CuriousWrenPet: React.FC<CuriousWrenPetProps> = ({ ctaRef }) => {
               />
             </g>
 
-            {/* Two Claws / Bird Feet Clutching the Perch (visible when perched) */}
             {!isFlying && (
               <g stroke="#093624" strokeWidth="2.4" strokeLinecap="round">
-                {/* Left foot with 3 toes */}
                 <line x1="33" y1="46" x2="33" y2="52" />
                 <line x1="30" y1="52" x2="36" y2="52" />
-                {/* Right foot with 3 toes */}
                 <line x1="41" y1="46" x2="41" y2="52" />
                 <line x1="38" y1="52" x2="44" y2="52" />
               </g>
