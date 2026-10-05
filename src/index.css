@@ -88,7 +88,6 @@
   font-family: 'IBM Plex Serif', Georgia, Cambria, serif !important;
 }
 
-/* Notebook Grid Pattern */
 .notebook-grid-bg {
   background-size: 24px 24px;
   background-image: 
@@ -96,7 +95,6 @@
     linear-gradient(to bottom, rgba(111, 122, 110, 0.08) 1px, transparent 1px);
 }
 
-/* Executive Notebook Index Card rotation & hover lift */
 .notebook-index-card-neg {
   transform: rotate(-1.2deg);
   transform-origin: center center;
@@ -133,7 +131,6 @@
   background: rgba(9, 54, 36, 0.55);
 }
 
-/* Typewriter animation utilities */
 @keyframes typewriter-cursor-blink {
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
@@ -164,7 +161,6 @@
   will-change: opacity, transform;
 }
 
-/* Reusable Button System */
 .btn-primary {
   display: inline-flex;
   align-items: center;
@@ -274,7 +270,6 @@
   transform: translateX(4px);
 }
 
-/* Reusable Card System */
 .card,
 .wren-card {
   border: 1.5px solid rgba(9, 54, 36, 0.16);
@@ -290,7 +285,6 @@
   box-shadow: 0 8px 24px -6px rgba(9, 54, 36, 0.1);
 }
 
-/* Highlighter Styles */
 .highlight-marker {
   position: relative;
   display: inline;
@@ -332,7 +326,6 @@
   border-radius: 2px;
 }
 
-/* Scrapbook Tape Accents */
 .tape-strip {
   position: absolute;
   height: 20px;
@@ -356,7 +349,6 @@
   border-right: 2px dashed rgba(234, 179, 8, 0.3);
 }
 
-/* Paperclip Accent */
 .paperclip-accent {
   position: absolute;
   top: -12px;
@@ -366,7 +358,6 @@
   z-index: 10;
 }
 
-/* Clothesline Sway Animations */
 @keyframes sway-1 {
   0%, 100% { transform: rotate(-3deg) translateY(0); }
   50% { transform: rotate(-1deg) translateY(-4px); }
@@ -445,7 +436,6 @@
   animation: bird-flight-patrol 6.5s ease-in-out infinite;
 }
 
-/* Marquee Animation */
 @keyframes marquee {
   0% { transform: translateX(0%); }
   100% { transform: translateX(-50%); }
@@ -461,7 +451,6 @@
   animation-play-state: paused;
 }
 
-/* Smooth scrollbar styling */
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -498,10 +487,6 @@
   }
 }
 
-/* ========================================================================= */
-/* Mobile Screen Animation Reduction: Mitigate lagging and scroll hijacking */
-/* Only applies on mobile screens (max-width: 768px) */
-/* ========================================================================= */
 @media (max-width: 768px) {
   /* Stop continuous heavy GPU/CPU keyframe rotations and translations on mobile */
   .animate-sway-1,
@@ -526,9 +511,6 @@
   }
 }
 
-/* ========================================================================= */
-/* Buttery Smooth Inertial Scrolling (Lenis)                                  */
-/* ========================================================================= */
 html.lenis,
 html.lenis body {
   height: auto;
@@ -550,7 +532,6 @@ html.lenis body {
   pointer-events: none;
 }
 
-/* Slow-spinning decorative turntable animation */
 @keyframes slowSpin {
   from {
     transform: rotate(0deg);
@@ -577,7 +558,6 @@ html.lenis body {
   animation: slowSpinReverse 35s linear infinite;
 }
 
-/* Subtle input field shake animation for validation */
 @keyframes subtleShake {
   0%, 100% {
     transform: translateX(0);
@@ -597,62 +577,50 @@ html.lenis body {
 /* Ambient Wren Bird Looping Orbit around Wordmark (24s cycle, ambient, pauses on letter, stays in wordmark area) */
 @keyframes wrenWordmarkOrbit {
   0% {
-    /* Perched gracefully on top of letter 'R' */
     transform: translate3d(78px, 12px, 0) scale(1) scaleX(1) rotate(0deg);
     z-index: 20;
   }
   10% {
-    /* Still perched, slight alert head movement */
     transform: translate3d(78px, 12px, 0) scale(1) scaleX(1) rotate(2deg);
     z-index: 20;
   }
   14% {
-    /* Takes off, dipping slightly and heading right towards 'N' */
     transform: translate3d(115px, 26px, 0) scale(1.02) scaleX(1) rotate(-6deg);
     z-index: 20;
   }
   25% {
-    /* Swooping around the right side of 'N' */
     transform: translate3d(190px, 45px, 0) scale(0.96) scaleX(1) rotate(8deg);
     z-index: 20;
   }
   35% {
-    /* Looping under the wordmark heading left, passes behind letters (z-index: 0) */
     transform: translate3d(130px, 95px, 0) scale(0.88) scaleX(-1) rotate(-4deg);
     z-index: 0;
   }
   48% {
-    /* Gliding behind 'R' and 'W' */
     transform: translate3d(35px, 75px, 0) scale(0.85) scaleX(-1) rotate(5deg);
     z-index: 0;
   }
   58% {
-    /* Sweeping around the left edge of 'W' */
     transform: translate3d(-10px, 35px, 0) scale(0.95) scaleX(-1) rotate(-10deg);
     z-index: 20;
   }
   68% {
-    /* Turning forward above 'W' */
     transform: translate3d(20px, 0px, 0) scale(1) scaleX(1) rotate(-4deg);
     z-index: 20;
   }
   78% {
-    /* Descending softly toward 'E' */
     transform: translate3d(120px, 16px, 0) scale(1) scaleX(1) rotate(4deg);
     z-index: 20;
   }
   86% {
-    /* Brief hover over 'E' */
     transform: translate3d(124px, 14px, 0) scale(1) scaleX(1) rotate(0deg);
     z-index: 20;
   }
   92% {
-    /* Gliding to landing perch on 'R' */
     transform: translate3d(85px, 13px, 0) scale(1) scaleX(1) rotate(-2deg);
     z-index: 20;
   }
   100% {
-    /* Back perched on 'R' */
     transform: translate3d(78px, 12px, 0) scale(1) scaleX(1) rotate(0deg);
     z-index: 20;
   }
@@ -671,9 +639,6 @@ html.lenis body {
   }
 }
 
-/* ========================================================================= */
-/* LUXURIOUS SMOOTH ENTRANCES & ALIVE MICRO-MOTIONS                          */
-/* ========================================================================= */
 @keyframes smoothEnterHero {
   0% {
     opacity: 0;
@@ -720,7 +685,6 @@ html.lenis body {
   will-change: transform, opacity;
 }
 
-/* Smooth clickable tactile buttons with luxurious feedback */
 .interactive-tactile-btn {
   transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.22s cubic-bezier(0.22, 1, 0.36, 1);
   will-change: transform;
